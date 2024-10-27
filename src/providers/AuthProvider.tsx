@@ -16,6 +16,7 @@ type AuthData = {
     isLoading: boolean;
     profile: Profile | null;
     signOut: () => Promise<void>;
+    signIn: (email: string, password: string) => Promise<AuthResponse>;
 };
 
 const AuthContext = createContext<AuthData>({
@@ -23,6 +24,7 @@ const AuthContext = createContext<AuthData>({
     session: null,
     profile: null,
     signOut: async () => { },
+    signIn: async () => ({ data: { user: null, session: null }, error: null }),
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
@@ -72,17 +74,17 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         }
       }, [session, segments, isLoading]);
 
-    const signIn = async (email: string, password: string) => {
+      const signIn = async (email: string, password: string) => {
         try {
             const { data, error }: AuthResponse = await supabase.auth.signInWithPassword({
                 email,
                 password,
             });
-
+    
             if (error) throw error;
-            return { data, error: null };
+            return { data: { user: data.user, session: data.session }, error: null };
         } catch (error) {
-            return { data: null, error: error as AuthError };
+            return { data: { user: null, session: null }, error: error as AuthError };
         }
     };
 
