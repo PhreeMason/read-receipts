@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import AuthHeader from '../../components/auth/AuthHeader';
 import AuthForm from '../../components/auth/AuthForm';
 import { useAuth } from '@/hooks/useAuth';
-import { Link, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import { View, ScrollView, Alert } from 'react-native';
-
+import tw from 'twrnc';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
@@ -30,9 +30,9 @@ export default function LoginScreen() {
     };
 
     return (
-        <ScrollView className="flex-1 bg-white">
+        <ScrollView style={tw`flex-1 bg-white`}>
             <Stack.Screen options={{ headerShown: false }} />
-            <View className="px-4 py-10 space-y-8">
+            <View style={tw`px-4 py-10 space-y-8`}>
                 <AuthHeader
                     title="Welcome Back"
                     subtitle="Sign in to continue reading with your friends"

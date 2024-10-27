@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import tw from 'twrnc';
 
 const Camera = () => <AntDesign name="camera" size={24} color="rgb(59 130 246)" />
 
@@ -90,11 +91,11 @@ export default function AvatarPickerModal({
     onPress: () => void
   ) => (
     <TouchableOpacity
-      className="flex-row items-center px-4 py-3 space-x-3"
+      style={tw`flex-row items-center px-4 py-3 space-x-3`}
       onPress={onPress}
     >
       {icon}
-      <Text className="text-base">{label}</Text>
+      <Text style={tw`text-base`}>{label}</Text>
     </TouchableOpacity>
   );
 
@@ -106,14 +107,14 @@ export default function AvatarPickerModal({
       onRequestClose={onClose}
     >
       <TouchableOpacity
-        className="flex-1 bg-black/50"
+        style={tw`flex-1 bg-black/50`}
         activeOpacity={1}
         onPress={onClose}
       >
-        <View className="mt-auto bg-white rounded-t-3xl">
-          <View className="w-12 h-1 bg-gray-300 rounded-full mx-auto my-3" />
+        <View style={tw`mt-auto bg-white rounded-t-3xl`}>
+          <View style={tw`w-12 h-1 bg-gray-300 rounded-full mx-auto my-3`} />
           
-          <Text className="text-xl font-semibold px-4 mb-2">
+          <Text style={tw`text-xl font-semibold px-4 mb-2`}>
             Profile Photo
           </Text>
           
@@ -131,7 +132,7 @@ export default function AvatarPickerModal({
 
           {hasExistingImage && onRemoveImage && (
             <>
-              <View className="h-px bg-gray-200 mx-4" />
+              <View style={tw`h-px bg-gray-200 mx-4`} />
               {renderOption(
                 <Trash />,
                 'Remove Current Photo',
@@ -141,10 +142,10 @@ export default function AvatarPickerModal({
           )}
 
           <TouchableOpacity
-            className="border-t border-gray-200 py-3 mt-2"
+            style={tw`border-t border-gray-200 py-3 mt-2`}
             onPress={onClose}
           >
-            <Text className="text-blue-500 font-semibold text-center">
+            <Text style={tw`text-blue-500 font-semibold text-center`}>
               Cancel
             </Text>
           </TouchableOpacity>

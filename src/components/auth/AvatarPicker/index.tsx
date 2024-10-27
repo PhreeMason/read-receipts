@@ -2,6 +2,7 @@ import React, { useState, useEffect  } from 'react';
 import { ActivityIndicator, TouchableOpacity, View } from 'react-native';
 import { ImagePickerAsset } from 'expo-image-picker';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import tw from 'twrnc';
 
 import { useAuth } from '@/hooks/useAuth';
 import { uploadImageToSupabase } from '@/utils/image';
@@ -72,25 +73,29 @@ export default function AvatarPicker({
     };
   
     return (
-      <View className="items-center">
+      <View style={tw`items-center`}>
         <TouchableOpacity
           onPress={() => !disabled && !isLoading && setModalVisible(true)}
           disabled={disabled || isLoading}
-          className="relative"
+          style={tw`relative`}
           activeOpacity={0.7}
         >
           <AvatarImage uri={avatarUrl} size={size} />
           
           {isLoading && (
-            <View className="absolute inset-0 bg-black/20 rounded-full 
-              items-center justify-center">
+            <View
+              style={tw`absolute inset-0 bg-black/20 rounded-full 
+              items-center justify-center`}
+              >
               <ActivityIndicator color="#ffffff" />
             </View>
           )}
           
           {showEditButton && !disabled && !isLoading && (
-            <View className="absolute bottom-0 right-0 bg-blue-500 
-              rounded-full p-2 shadow-sm border-2 border-white">
+            <View 
+              style={tw`absolute bottom-0 right-0 bg-blue-500 
+              rounded-full p-2 shadow-sm border-2 border-white`}
+              >
               <Camera />
             </View>
           )}

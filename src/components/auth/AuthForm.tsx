@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text, TextInput } from 'react-native';
 import { Link } from 'expo-router';
 import EmailField from './EmailField';
 import PasswordField from './PasswordField';
+import tw from 'twrnc';
 
 interface FormErrors {
   email?: string;
@@ -70,14 +71,15 @@ export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
   };
 
   return (
-    <View className="space-y-4">
+    <View style={tw`space-y-4`}>
       {type === 'register' && (
-        <View className="space-y-2">
-          <Text className="text-sm font-medium text-gray-700">Username</Text>
+        <View style={tw`space-y-2`}>
+          <Text style={tw`text-sm font-medium text-gray-700`}>Username</Text>
           <TextInput
-            className={`p-4 border rounded-lg bg-white ${
+            style={tw.style(`p-4 border rounded-lg bg-white ${
               errors.username ? 'border-red-500' : 'border-gray-300'
-            }`}
+            }`)
+            }
             placeholder="Choose a username"
             value={username}
             onChangeText={setUsername}
@@ -85,7 +87,7 @@ export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
             maxLength={30}
           />
           {errors.username && (
-            <Text className="text-sm text-red-500">{errors.username}</Text>
+            <Text style={tw`text-sm text-red-500`}>{errors.username}</Text>
           )}
         </View>
       )}
@@ -104,11 +106,11 @@ export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
       />
 
       <TouchableOpacity
-        className="bg-blue-600 p-4 rounded-lg mt-4"
+        style={tw`bg-blue-600 p-4 rounded-lg mt-4`}
         onPress={handleSubmit}
         disabled={isLoading}
       >
-        <Text className="text-white text-center font-semibold">
+        <Text style={tw`text-white text-center font-semibold`}>
           {isLoading
             ? type === 'login' ? 'Signing in...' : 'Creating Account...'
             : type === 'login' ? 'Sign In' : 'Create Account'
@@ -116,13 +118,13 @@ export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
         </Text>
       </TouchableOpacity>
 
-      <View className="flex-row justify-center space-x-1">
-        <Text className="text-gray-500">
+      <View style={tw`flex-row justify-center space-x-1`}>
+        <Text style={tw`text-gray-500`}>
           {type === 'login' ? "Don't have an account?" : "Already have an account?"}
         </Text>
         <Link
-          href={type === 'login' ? '/register' : '/login'}
-          className="text-blue-600 font-semibold"
+          href={type === 'login' ? '/sign-up' : '/login'}
+          style={tw`text-blue-600 font-semibold`}
         >
           {type === 'login' ? 'Sign up' : 'Sign in'}
         </Link>

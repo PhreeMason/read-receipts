@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth';
 import AuthHeader from '../../components/auth/AuthHeader';
 import AuthForm from '../../components/auth/AuthForm';
 import AvatarPicker from '../../components/auth/AvatarPicker';
+import tw from 'twrnc';
 
 export default function SignUp() {
     const { signUp } = useAuth();
@@ -40,15 +41,15 @@ export default function SignUp() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-white">
+    <ScrollView style={tw`flex-1 bg-white`}>
       <Stack.Screen options={{ headerShown: false }} />
-      <View className="px-4 py-10 space-y-8">
+      <View style={tw`px-4 py-10 space-y-8`}>
         <AuthHeader
           title="Create Account"
           subtitle="Join our community of readers"
         />
         
-        <View className="items-center">
+        <View style={tw`items-center`}>
           <AvatarPicker
             onSuccess={setAvatarUrl}
             onError={handleAvatarError}
