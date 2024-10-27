@@ -61,10 +61,10 @@ class LargeSecureStore {
 }
 
 const EXPO_PUBLIC_SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const EXPO_PUBLIC_SUPABASE_ANON = process.env.EXPO_PUBLIC_SUPABASE_ANON;
+const EXPO_PUBLIC_SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
 const supabaseUrl = EXPO_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = EXPO_PUBLIC_SUPABASE_ANON;
+const supabaseAnonKey = EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
 const supabase = createClient(
     supabaseUrl || '',

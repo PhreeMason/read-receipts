@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AuthHeader from '../../components/auth/AuthHeader';
 import AuthForm from '../../components/auth/AuthForm';
 import { useAuth } from '@/hooks/useAuth';
-import { Link } from 'expo-router';
+import { Link, Stack } from 'expo-router';
 import { View, ScrollView, Alert } from 'react-native';
 
 
@@ -10,7 +10,7 @@ export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { signOut, signIn } = useAuth();
+    const { signIn } = useAuth();
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -31,6 +31,7 @@ export default function LoginScreen() {
 
     return (
         <ScrollView className="flex-1 bg-white">
+            <Stack.Screen options={{ headerShown: false }} />
             <View className="px-4 py-10 space-y-8">
                 <AuthHeader
                     title="Welcome Back"

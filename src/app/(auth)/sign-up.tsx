@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Alert } from 'react-native';
-import { router } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
 import AuthHeader from '../../components/auth/AuthHeader';
 import AuthForm from '../../components/auth/AuthForm';
@@ -41,6 +41,7 @@ export default function SignUp() {
 
   return (
     <ScrollView className="flex-1 bg-white">
+      <Stack.Screen options={{ headerShown: false }} />
       <View className="px-4 py-10 space-y-8">
         <AuthHeader
           title="Create Account"
