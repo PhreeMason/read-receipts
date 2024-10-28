@@ -21,7 +21,7 @@ export default function PasswordField({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View style={tw`space-y-2`}>
+    <View style={tw`gap-2`}>
       <Text style={tw`text-sm font-medium text-gray-700`}>{label}</Text>
       <View style={tw`relative`}>
         <TextInput

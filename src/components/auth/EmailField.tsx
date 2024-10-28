@@ -13,7 +13,7 @@ export default function EmailField({
   ...props 
 }: EmailFieldProps) {
   return (
-    <View style={tw`space-y-2`}>
+    <View style={tw`gap-2`}>
       <Text style={tw`text-sm font-medium text-gray-700`}>{label}</Text>
       <TextInput
         style={tw`p-4 border rounded-lg bg-white ${

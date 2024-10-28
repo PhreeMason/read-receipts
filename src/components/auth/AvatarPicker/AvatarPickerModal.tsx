@@ -91,7 +91,7 @@ export default function AvatarPickerModal({
     onPress: () => void
   ) => (
     <TouchableOpacity
-      style={tw`flex-row items-center px-4 py-3 space-x-3`}
+      style={tw`flex-row items-center px-4 py-3 gap-3`}
       onPress={onPress}
     >
       {icon}

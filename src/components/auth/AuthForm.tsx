@@ -71,9 +71,9 @@ export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
   };
 
   return (
-    <View style={tw`space-y-4`}>
+    <View style={tw`gap-4`}>
       {type === 'register' && (
-        <View style={tw`space-y-2`}>
+        <View style={tw`gap-2`}>
           <Text style={tw`text-sm font-medium text-gray-700`}>Username</Text>
           <TextInput
             style={tw.style(`p-4 border rounded-lg bg-white ${
@@ -118,7 +118,7 @@ export default function AuthForm({ type, onSubmit, isLoading }: AuthFormProps) {
         </Text>
       </TouchableOpacity>
 
-      <View style={tw`flex-row justify-center space-x-1`}>
+      <View style={tw`flex-row justify-center gap-1`}>
         <Text style={tw`text-gray-500`}>
           {type === 'login' ? "Don't have an account?" : "Already have an account?"}
         </Text>

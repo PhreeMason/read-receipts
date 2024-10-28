@@ -43,7 +43,7 @@ export default function SignUp() {
   return (
     <ScrollView style={tw`flex-1 bg-white`}>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={tw`px-4 py-10 space-y-8`}>
+      <View style={tw`px-4 py-10 gap-8`}>
         <AuthHeader
           title="Create Account"
           subtitle="Join our community of readers"

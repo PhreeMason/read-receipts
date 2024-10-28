@@ -9,7 +9,7 @@ interface AuthHeaderProps {
 
 export default function AuthHeader({ title, subtitle }: AuthHeaderProps) {
   return (
-    <View style={tw`space-y-2`}>
+    <View style={tw`gap-2`}>
       <Text style={tw`text-3xl font-bold text-center`}>{title}</Text>
       <Text style={tw`text-center text-gray-500`}>
         {subtitle}
