@@ -4,8 +4,7 @@ import { ImagePickerAsset } from 'expo-image-picker';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import tw from 'twrnc';
 
-import { useAuth } from '@/hooks/useAuth';
-import { uploadImageToSupabase } from '@/utils/image';
+import { useAuth } from '@/providers/AuthProvider';
 import { uploadAvatar, deleteAvatar } from '@/utils/supabase-storage';
 
 import AvatarImage from './AvatarImage';
@@ -43,7 +42,6 @@ export default function AvatarPicker({
   
     const handleImageSelected = async (asset: ImagePickerAsset) => {
       if (!user) return;
-      
       setIsLoading(true);
       try {
         const url = await uploadAvatar(asset, user.id);

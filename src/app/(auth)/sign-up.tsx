@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Alert } from 'react-native';
 import { router, Stack } from 'expo-router';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/providers/AuthProvider';
 import AuthHeader from '../../components/auth/AuthHeader';
 import AuthForm from '../../components/auth/AuthForm';
 import AvatarPicker from '../../components/auth/AvatarPicker';

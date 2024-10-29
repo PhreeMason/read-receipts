@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Platform } from 'react-native';
 import tw from 'twrnc';
 
 const Camera = () => <AntDesign name="camera" size={24} color="rgb(59 130 246)" />
@@ -52,7 +53,6 @@ export default function AvatarPickerModal({
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.7,
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
 
@@ -75,7 +75,6 @@ export default function AvatarPickerModal({
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 0.7,
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
     });
 
@@ -117,18 +116,18 @@ export default function AvatarPickerModal({
           <Text style={tw`text-xl font-semibold px-4 mb-2`}>
             Profile Photo
           </Text>
-          
+
           {renderOption(
             <Camera />,
-            'Take Photo',
+            `${Platform.OS !== 'web' ? 'Take Photo' : 'Choose from Library'}`,
             handleCameraSelect
           )}
           
-          {renderOption(
+          {Platform.OS !== 'web' ? renderOption(
             <ImagePlus />,
             'Choose from Library',
             handleGallerySelect
-          )}
+          ): null}
 
           {hasExistingImage && onRemoveImage && (
             <>

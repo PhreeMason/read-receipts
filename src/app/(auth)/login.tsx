@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AuthHeader from '../../components/auth/AuthHeader';
 import AuthForm from '../../components/auth/AuthForm';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/providers/AuthProvider';
 import { Stack } from 'expo-router';
 import { View, ScrollView, Alert } from 'react-native';
 import tw from 'twrnc';

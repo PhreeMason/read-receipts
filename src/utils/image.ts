@@ -16,13 +16,12 @@ export const uploadImageToSupabase = async (
 
     // Generate unique filename
     const filename = `${path || 'avatar'}-${Date.now()}.${asset.uri.split('.').pop()}`;
-    const arrayBuffer = Buffer.from(base64, 'base64');
 
     // Upload to Supabase
     const { data, error } = await supabase
       .storage
       .from(bucket)
-      .upload(filename, arrayBuffer, {
+      .upload(filename, atob(base64), {
         contentType: asset.mimeType || 'image/jpeg',
         upsert: true
       });

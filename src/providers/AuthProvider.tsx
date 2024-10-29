@@ -18,6 +18,7 @@ type AuthData = {
     signOut: () => Promise<void>;
     signIn: (email: string, password: string) => Promise<AuthResponse>;
     signUp: (email: string, password: string, username: string, avatarBase64?: string) => Promise<AuthResponse>;
+    updateProfile: (updates: Partial<Profile>) => Promise<AuthResponse | { data: null; error: Error }>;
 };
 
 const AuthContext = createContext<AuthData>({
@@ -27,6 +28,7 @@ const AuthContext = createContext<AuthData>({
     signOut: async () => { },
     signIn: async () => ({ data: { user: null, session: null }, error: null }),
     signUp: async () => ({ data: { user: null, session: null }, error: null }),
+    updateProfile: async () => ({ data: { user: null, session: null }, error: null }),
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
@@ -40,7 +42,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
             const { data } = await supabase.auth.getSession();
             const sess = data.session;
             setSession(sess);
-
             if (sess) {
                 // fetch profile
                 const response = await supabase
@@ -120,13 +121,38 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         }
     }
 
+    const updateProfile = async (updates: Partial<Profile>) => {
+        if (!profile?.id) {
+          return { data: null, error: new Error('Profile not found') };
+        };
+    
+        try {
+          const { data, error } = await supabase
+            .from('profiles')
+            .update({
+              ...updates,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', profile.id)
+            .select()
+            .single();
+    
+          if (error) throw error;
+          setProfile(data);
+          return { data, error: null };
+        } catch (err) {
+          return { data: null, error: err as Error };
+        }
+      };
+
     const providerValue = {
         session,
         isLoading,
         profile,
         signOut,
         signIn,
-        signUp
+        signUp,
+        updateProfile
     };
     return (
         <AuthContext.Provider value={providerValue}>
