@@ -7,12 +7,10 @@ import { View, ScrollView, Alert } from 'react-native';
 import tw from 'twrnc';
 
 export default function LoginScreen() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const { signIn } = useAuth();
 
-    const handleLogin = async () => {
+    const handleLogin = async ({ email, password }: { email: string; password: string }) => {
         if (!email || !password) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
