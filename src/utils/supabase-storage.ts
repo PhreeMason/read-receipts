@@ -3,7 +3,7 @@ import { ImagePickerAsset } from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { decode } from 'base64-arraybuffer';
 
-const BUCKET_NAME = 'avatars';
+const AVATAR_BUCKET_NAME = 'avatars';
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 export const uploadAvatar = async (asset: ImagePickerAsset, userId: string) => {
@@ -32,7 +32,7 @@ export const uploadAvatar = async (asset: ImagePickerAsset, userId: string) => {
 
         // Upload to Supabase Storage
         const { data, error } = await supabase.storage
-            .from(BUCKET_NAME)
+            .from(AVATAR_BUCKET_NAME)
             .upload(fileName, decode(base64), {
                 contentType: asset.mimeType || 'image/jpeg',
                 upsert: true
@@ -44,7 +44,7 @@ export const uploadAvatar = async (asset: ImagePickerAsset, userId: string) => {
 
         // Get public URL
         const { data: { publicUrl } } = supabase.storage
-            .from(BUCKET_NAME)
+            .from(AVATAR_BUCKET_NAME)
             .getPublicUrl(fileName);
 
         return publicUrl;
@@ -59,7 +59,7 @@ export const deleteAvatar = async (userId: string) => {
         // Delete avatar from storage
         const { error: deleteError } = await supabase
             .storage
-            .from(BUCKET_NAME)
+            .from(AVATAR_BUCKET_NAME)
             .remove([`${userId}/avatar`]);
 
         if (deleteError) throw deleteError;
@@ -82,7 +82,7 @@ export const getAvatarUrl = (userId: string): Promise<string | null> => {
         try {
             const { data: files, error: listError } = await supabase
                 .storage
-                .from(BUCKET_NAME)
+                .from(AVATAR_BUCKET_NAME)
                 .list(userId);
 
             if (listError) throw listError;
@@ -94,7 +94,7 @@ export const getAvatarUrl = (userId: string): Promise<string | null> => {
 
             const { data: { publicUrl } } = supabase
                 .storage
-                .from(BUCKET_NAME)
+                .from(AVATAR_BUCKET_NAME)
                 .getPublicUrl(`${userId}/${files[0].name}`);
 
             resolve(publicUrl);
@@ -103,3 +103,26 @@ export const getAvatarUrl = (userId: string): Promise<string | null> => {
         }
     });
 };
+
+export const BOOK_BUCKET_NAME = 'books';
+
+export async function getSignedEpubUrl(filePath: string) {
+    const { data, error } = await supabase.storage
+      .from(BOOK_BUCKET_NAME)
+      .createSignedUrl(filePath, 3600); // Remove the epubs/ prefix concatenation
+  
+    if (error) throw error;
+    return data.signedUrl;
+  }
+
+export async function uploadEpub(file: File, fileName: string) {
+  const { data, error } = await supabase.storage
+    .from(BOOK_BUCKET_NAME)
+    .upload(`epubs/${fileName}`, file, {
+      cacheControl: '3600',
+      contentType: 'application/epub+zip'
+    });
+  
+  if (error) throw error;
+  return data;
+}
