@@ -75,26 +75,67 @@ export type Database = {
         }
         Relationships: []
       }
+      user_book_status_history: {
+        Row: {
+          changed_at: string
+          id: string
+          note: string | null
+          progress: number | null
+          status: Database["public"]["Enums"]["book_status"]
+          user_book_id: string | null
+        }
+        Insert: {
+          changed_at?: string
+          id?: string
+          note?: string | null
+          progress?: number | null
+          status: Database["public"]["Enums"]["book_status"]
+          user_book_id?: string | null
+        }
+        Update: {
+          changed_at?: string
+          id?: string
+          note?: string | null
+          progress?: number | null
+          status?: Database["public"]["Enums"]["book_status"]
+          user_book_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_book_status_history_user_book_id_fkey"
+            columns: ["user_book_id"]
+            isOneToOne: false
+            referencedRelation: "user_books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_books: {
         Row: {
           book_id: string | null
           created_at: string | null
           id: string
+          last_position: string | null
           reading_progress: string | null
+          status: Database["public"]["Enums"]["book_status"]
           user_id: string | null
         }
         Insert: {
           book_id?: string | null
           created_at?: string | null
           id?: string
+          last_position?: string | null
           reading_progress?: string | null
+          status?: Database["public"]["Enums"]["book_status"]
           user_id?: string | null
         }
         Update: {
           book_id?: string | null
           created_at?: string | null
           id?: string
+          last_position?: string | null
           reading_progress?: string | null
+          status?: Database["public"]["Enums"]["book_status"]
           user_id?: string | null
         }
         Relationships: [
@@ -112,10 +153,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_status_date: {
+        Args: {
+          user_book_id: string
+          target_status: Database["public"]["Enums"]["book_status"]
+        }
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      book_status: "to-read" | "reading" | "read" | "did-not-finish"
     }
     CompositeTypes: {
       [_ in never]: never
