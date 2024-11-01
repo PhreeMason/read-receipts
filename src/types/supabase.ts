@@ -9,6 +9,45 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      books: {
+        Row: {
+          author: string
+          cover_url: string | null
+          created_at: string | null
+          description: string | null
+          epub_path: string | null
+          epub_url: string
+          id: string
+          metadata: Json | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          author: string
+          cover_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          epub_path?: string | null
+          epub_url: string
+          id?: string
+          metadata?: Json | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          author?: string
+          cover_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          epub_path?: string | null
+          epub_url?: string
+          id?: string
+          metadata?: Json | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -35,6 +74,38 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      user_books: {
+        Row: {
+          book_id: string | null
+          created_at: string | null
+          id: string
+          reading_progress: string | null
+          user_id: string | null
+        }
+        Insert: {
+          book_id?: string | null
+          created_at?: string | null
+          id?: string
+          reading_progress?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          book_id?: string | null
+          created_at?: string | null
+          id?: string
+          reading_progress?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_books_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
