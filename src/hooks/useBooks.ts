@@ -1,3 +1,4 @@
+// src/hooks/useBooks.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../lib/supabase';
 import { uploadEpub, getSignedEpubUrl } from '../utils/supabase-storage';
@@ -203,6 +204,12 @@ type UserBook = {
         title: string;
         author: string;
         epub_path?: string;
+        epub_url?: string;
+        cover_url?: string | null;
+        created_at?: string | null;
+        description?: string | null;
+        metadata?: JSON;
+        updated_at?: string | null;
     };
     status_history: Array<{
         id: string;
@@ -231,7 +238,6 @@ export const useBookDetails = (bookId: string) => {
                 .eq('book_id', bookId)
                 .returns<UserBook[]>()
                 .single();
-
             if (userBookError) throw userBookError;
 
             // Get signed URL if needed

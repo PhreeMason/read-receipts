@@ -4,8 +4,6 @@ import {
     ScrollView,
     Text,
     TextInput,
-    TouchableOpacity,
-    ActivityIndicator,
     Alert,
     Platform,
 } from 'react-native';
