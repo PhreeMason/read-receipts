@@ -106,7 +106,8 @@ export const getAvatarUrl = (userId: string): Promise<string | null> => {
 
 export const BOOK_BUCKET_NAME = 'books';
 
-export async function getSignedEpubUrl(filePath: string) {
+export async function getSignedEpubUrl(filePath: string | null) {
+    if (!filePath) return '';
     const { data, error } = await supabase.storage
       .from(BOOK_BUCKET_NAME)
       .createSignedUrl(filePath, 3600); // Remove the epubs/ prefix concatenation

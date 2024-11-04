@@ -51,11 +51,13 @@ export default function ProfileScreen() {
                 username,
             });
 
-            if (resp && resp.error) throw error;
+            if (resp && resp.error) throw resp.error;
+            console.log(resp);
             setIsEditing(false);
             Alert.alert('Success', 'Profile updated successfully');
         } catch (error) {
-            Alert.alert('Error', (error as Error).message);
+            console.log(error);
+            // Alert.alert('Error', (error as Error).message);
         } finally {
             setIsSaving(false);
         }

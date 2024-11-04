@@ -12,13 +12,12 @@ export default function BookDetailScreen() {
 
     const { data: bookDetails, isLoading: isLoadingBook } = useBookDetails(id as string);
     const { currentStatus, progress, statusDates } = useBookStatus(id as string);
-
     if (isLoadingBook || !bookDetails) {
         return <Loading />;
     }
 
     const handleStartReading = () => {
-        if (bookDetails.book.epub_url) {
+        if (bookDetails.epub_url) {
             router.push(`/book/${id}/read`);
         } else {
             Alert.alert('Error', 'Cannot open book. EPUB file not found.');
@@ -29,9 +28,13 @@ export default function BookDetailScreen() {
         router.push(`/book/${id}/read`);
     };
 
+    const handleAddToLibrary = () => {
+        
+    };
+
     return (
         <BookDetailPresentation
-            book={bookDetails.book}
+            book={bookDetails}
             currentStatus={currentStatus}
             progress={progress}
             statusDates={statusDates}

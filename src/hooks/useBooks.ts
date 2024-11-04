@@ -1,20 +1,16 @@
+import { UserBook } from './../types/book';
 // src/hooks/useBooks.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../lib/supabase';
 import { uploadEpub, getSignedEpubUrl } from '../utils/supabase-storage';
 import { Book, BookStatus } from '@/types/book';
+import { searchBooks, getBookById, fetch10Books, fetchBookDetailsWithUserData, updateUserBookStatus } from '@/services/books';
 
 export const useGetBookWithSignedUrl = (bookId: string) => {
     return useQuery({
         queryKey: ['book', bookId],
         queryFn: async () => {
-            const { data: book, error } = await supabase
-                .from('books')
-                .select('*')
-                .eq('id', bookId)
-                .single();
-
-            if (error) throw error;
+            const book = await getBookById(bookId);
             if (!book) throw new Error('Book not found');
 
             const signedUrl = await getSignedEpubUrl(book.epub_path);
@@ -91,46 +87,13 @@ export const useUpdateBookStatus = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async ({
-            userBookId,
-            status,
-            progress,
-            note,
-        }: {
-            userBookId: string;
-            status: BookStatus;
-            progress?: number;
-            note?: string;
-        }) => {
-            // Update user_books table
-            const { error: updateError } = await supabase
-                .from('user_books')
-                .update({
-                    status,
-                    reading_progress: progress,
-                })
-                .eq('id', userBookId);
-
-            if (updateError) throw updateError;
-
-            // History is handled by trigger automatically
-            if (note) {
-                const { error: historyError } = await supabase
-                    .from('user_book_status_history')
-                    .update({ note })
-                    .eq('user_book_id', userBookId)
-                    .order('changed_at', { ascending: false })
-                    .limit(1);
-
-                if (historyError) throw historyError;
-            }
+        mutationFn: ({ userBookId, status }: { userBookId: string; status: BookStatus }) =>
+          updateUserBookStatus(userBookId, status),
+        onSuccess: ({id: userBookId, book_id: bookId}) => {
+          queryClient.invalidateQueries({ queryKey: ['book-status-history', userBookId] });
+          queryClient.invalidateQueries({ queryKey: ['user-book', bookId] });
         },
-        onSuccess: (_, { status }) => {
-            // Invalidate relevant queries
-            queryClient.invalidateQueries({ queryKey: ['books', status] });
-            queryClient.invalidateQueries({ queryKey: ['book-status-history'] });
-        },
-    });
+      });
 };
 
 // Add a book to user's library
@@ -193,64 +156,11 @@ export const useUpdateReadingProgress = () => {
     });
 };
 
-// Get book with all related status info
-type UserBook = {
-    id: string;
-    status: string;
-    reading_progress: number;
-    last_position: string;
-    book: {
-        id: string;
-        title: string;
-        author: string;
-        epub_path?: string;
-        epub_url?: string;
-        cover_url?: string | null;
-        created_at?: string | null;
-        description?: string | null;
-        metadata?: JSON;
-        updated_at?: string | null;
-    };
-    status_history: Array<{
-        id: string;
-        user_book_id: string;
-        status: string;
-        progress: number;
-        changed_at: string;
-        note?: string;
-    }>;
-}
+
 export const useBookDetails = (bookId: string) => {
     return useQuery({
         queryKey: ['book-details', bookId],
-        queryFn: async () => {
-            // Get book and current status
-            const { data: userBook, error: userBookError } = await supabase
-                .from('user_books')
-                .select(`
-            id,
-            status,
-            reading_progress,
-            last_position,
-            book:books(*),
-            status_history:user_book_status_history(*)
-          `)
-                .eq('book_id', bookId)
-                .returns<UserBook[]>()
-                .single();
-            if (userBookError) throw userBookError;
-
-            // Get signed URL if needed
-            if (userBook?.book?.epub_path) {
-                const signedUrl = await getSignedEpubUrl(userBook.book.epub_path);
-                return {
-                    ...userBook,
-                    book: { ...userBook.book, epub_url: signedUrl },
-                };
-            }
-
-            return userBook;
-        },
+        queryFn: async () => fetchBookDetailsWithUserData(bookId),
         staleTime: 1000 * 60 * 60, // 1 hour
     });
 };
@@ -291,23 +201,14 @@ export const useAddBook = () => {
     });
 };
 
-export const searchBooks = async (query: string): Promise<Book[]> => {
-    if (!query.trim()) return [];
-
-    const { data, error } = await supabase
-        .from('books')
-        .select('*')
-        .or(`title.ilike.%${query}%,author.ilike.%${query}%`)
-        .order('title', { ascending: true });
-
-    if (error) throw error;
-    return data || [];
-};
-
 export const useSearchBooks = (query: string) => {
     return useQuery({
         queryKey: ['books', 'search', query],
-        queryFn: () => searchBooks(query),
+        queryFn: async () => {
+            if (!query) return fetch10Books();
+
+            return searchBooks(query);
+        },
         // Cache for 5 minutes
         staleTime: 1000 * 60 * 5,
     });

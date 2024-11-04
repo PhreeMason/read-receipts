@@ -9,25 +9,24 @@ import { useSearchBooks } from '@/hooks/useBooks';
 import { useDebounce } from '@/hooks/useDebounce';
 
 export default function SearchScreen() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const debouncedSearch = useDebounce(searchQuery, 300);
-  const router = useRouter();
+    const [searchQuery, setSearchQuery] = useState('');
+    const debouncedSearch = useDebounce(searchQuery, 300);
+    const router = useRouter();
 
-  const { data: books = [], isLoading } = useSearchBooks(debouncedSearch);
-  const handleBookPress = (bookId: string) => {
-    router.push(`/book/${bookId}`);
-  };
-
-  return (
-    <SafeAreaView style={tw`flex-1`}>
-      <SearchBar
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
-      <SearchResults
-        books={books}
-        onBookPress={handleBookPress}
-      />
-    </SafeAreaView>
-  );
+    const { data: books = [], isLoading } = useSearchBooks(debouncedSearch);
+    const handleBookPress = (bookId: string) => {
+        router.push(`/book/${bookId}/details`);
+    };
+    return (
+        <SafeAreaView style={tw`flex-1`}>
+            <SearchBar
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+            />
+            <SearchResults
+                books={books}
+                onBookPress={handleBookPress}
+            />
+        </SafeAreaView>
+    );
 }

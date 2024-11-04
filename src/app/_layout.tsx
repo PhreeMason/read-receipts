@@ -8,7 +8,7 @@ import {
     QueryClient,
     QueryClientProvider,
 } from '@tanstack/react-query';
-
+import { ReaderProvider } from '@epubjs-react-native/core';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -32,11 +32,13 @@ export default function RootLayout() {
     return (
         <AuthProvider>
             <QueryClientProvider client={queryClient}>
-                <Stack>
-                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                    <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-                    <Stack.Screen name="+not-found" />
-                </Stack>
+                <ReaderProvider>
+                    <Stack>
+                        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+                        <Stack.Screen name="+not-found" />
+                    </Stack>
+                </ReaderProvider>
             </QueryClientProvider>
         </AuthProvider>
     );

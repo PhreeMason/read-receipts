@@ -12,7 +12,7 @@ export interface UserBook {
   updated_at: string;
 }
 
-export interface StatusHistoryEntry {
+export interface StatusHistory {
   id: string;
   user_book_id: string;
   status: BookStatus;
@@ -33,6 +33,6 @@ export type Book = Tables<'books'> & {
   status: BookStatus;
   reading_progress: number | null;
   last_position: string | null;
-  status_history: StatusHistoryEntry[];
+  status_history: StatusHistory[];
   status_dates: BookStatusDates;
 };
