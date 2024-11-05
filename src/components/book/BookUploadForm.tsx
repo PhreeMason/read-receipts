@@ -9,8 +9,8 @@ function BookUploadForm() {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [description, setDescription] = useState('');
+    const [coverURl, setCoverUrl] = useState('');
     const [selectedFile, setSelectedFile] = useState<DocumentPicker.DocumentPickerResult | null>(null);
-
     const addBookMutation = useAddBook();
 
     const handleFilePick = async () => {
@@ -35,13 +35,14 @@ function BookUploadForm() {
         }
 
         const file = selectedFile.assets[0];
-
+        console.log({file})
         try {
             await addBookMutation.mutateAsync({
                 bookData: {
                     title,
                     author,
                     description,
+                    cover_url: coverURl
                 },
                 epubFile: file as any, // You might need to adjust the file type based on your Book type
             }, {
@@ -50,6 +51,7 @@ function BookUploadForm() {
                     setTitle('');
                     setAuthor('');
                     setDescription('');
+                    setCoverUrl('');
                     setSelectedFile(null);
                     alert('Book uploaded successfully!');
                 }
@@ -81,6 +83,16 @@ function BookUploadForm() {
                     value={author}
                     onChangeText={setAuthor}
                     placeholder="Enter author name"
+                />
+            </View>
+
+            <View style={tw`mb-4`}>
+                <Text style={tw`text-gray-600 mb-1`}>Cover Url</Text>
+                <TextInput
+                    style={tw`border border-gray-300 rounded-lg p-2`}
+                    value={coverURl}
+                    onChangeText={setCoverUrl}
+                    placeholder="Enter Cover Url"
                 />
             </View>
 

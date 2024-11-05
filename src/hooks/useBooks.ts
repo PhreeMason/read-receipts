@@ -2,7 +2,7 @@ import { UserBook } from './../types/book';
 // src/hooks/useBooks.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../lib/supabase';
-import { uploadEpub, getSignedEpubUrl } from '../utils/supabase-storage';
+import { uploadEpub, getSignedEpubUrl, getPublicUrl } from '../utils/supabase-storage';
 import { Book, BookStatus } from '@/types/book';
 import { searchBooks, getBookById, fetch10Books, fetchBookDetailsWithUserData, updateUserBookStatus } from '@/services/books';
 
@@ -13,7 +13,7 @@ export const useGetBookWithSignedUrl = (bookId: string) => {
             const book = await getBookById(bookId);
             if (!book) throw new Error('Book not found');
 
-            const signedUrl = await getSignedEpubUrl(book.epub_path);
+            const signedUrl = await getPublicUrl(book.epub_path);
             return { ...book, epub_url: signedUrl };
         },
         staleTime: 1000 * 60 * 60, // 1 hour
@@ -179,7 +179,7 @@ export const useAddBook = () => {
         }) => {
             const fileName = `${Date.now()}-${epubFile.name}`;
             const { path } = await uploadEpub(epubFile, fileName);
-            const epubUrl = await getSignedEpubUrl(path);
+            const epubUrl = await getPublicUrl(path);
 
             const { data, error } = await supabase
                 .from('books')

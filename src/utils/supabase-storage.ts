@@ -106,24 +106,32 @@ export const getAvatarUrl = (userId: string): Promise<string | null> => {
 
 export const BOOK_BUCKET_NAME = 'books';
 
+export async function getPublicUrl(filePath: string | null) {
+    if (!filePath) return '';
+    const { data } = await supabase.storage
+        .from(BOOK_BUCKET_NAME)
+        .getPublicUrl(filePath); // Remove the epubs/ prefix concatenation
+
+    return data.publicUrl;
+}
+
 export async function getSignedEpubUrl(filePath: string | null) {
     if (!filePath) return '';
     const { data, error } = await supabase.storage
-      .from(BOOK_BUCKET_NAME)
-      .createSignedUrl(filePath, 3600); // Remove the epubs/ prefix concatenation
-  
+        .from(BOOK_BUCKET_NAME)
+        .createSignedUrl(filePath, 3600); // Remove the epubs/ prefix concatenation
+
     if (error) throw error;
     return data.signedUrl;
-  }
+}
 
 export async function uploadEpub(file: File, fileName: string) {
-  const { data, error } = await supabase.storage
-    .from(BOOK_BUCKET_NAME)
-    .upload(`epubs/${fileName}`, file, {
-      cacheControl: '3600',
-      contentType: 'application/epub+zip'
-    });
-  
-  if (error) throw error;
-  return data;
+    const { data, error } = await supabase.storage
+        .from(BOOK_BUCKET_NAME)
+        .upload(`epubs/${fileName}`, file, {
+            cacheControl: '3600',
+            contentType: 'application/epub+zip'
+        });
+    if (error) throw error;
+    return data;
 }
