@@ -13,7 +13,7 @@ import Button from '@/components/shared/Button';
 import tw from 'twrnc';
 
 export default function ProfileScreen() {
-    const { signOut, profile, updateProfile  } = useAuth();
+    const { signOut, profile, updateProfile } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [username, setUsername] = useState(profile?.username || '');
     const [isSaving, setIsSaving] = useState(false);
@@ -68,7 +68,7 @@ export default function ProfileScreen() {
             const resp = await updateProfile({
                 avatar_url: url,
             });
-            
+
             if (resp && resp.error) throw resp.error;
             Alert.alert('Success', 'Profile picture updated successfully');
         } catch (error) {

@@ -20,6 +20,7 @@ function BookUploadForm() {
                 copyToCacheDirectory: true,
             });
 
+            console.log(JSON.stringify(result, null, 2));
             if (result.assets && result.assets[0]) {
                 setSelectedFile(result);
             }
@@ -34,8 +35,8 @@ function BookUploadForm() {
             return;
         }
 
-        const file = selectedFile.assets[0];
-        console.log({file})
+        let file = Platform.OS === 'web' ? selectedFile.assets[0].file : selectedFile.assets[0];
+        console.log({ file })
         try {
             await addBookMutation.mutateAsync({
                 bookData: {
