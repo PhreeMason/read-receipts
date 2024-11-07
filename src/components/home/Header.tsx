@@ -18,7 +18,7 @@ export default function HomeHeader() {
       {/* Header Row */}
       <View style={tw`flex-row justify-between items-center`}>
         {/* Greeting */}
-        <View style={tw`space-y-1`}>
+        <View style={tw`gap-1`}>
           <Text 
             style={tw.style(`text-lg font-medium text-gray-900`)}
           >

@@ -15,7 +15,7 @@ export function CurrentlyReadingList({ books, onBookPress }: CurrentlyReadingLis
     <ScrollView 
       horizontal 
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={tw`space-x-4`}
+      contentContainerStyle={tw`gap-4`}
     >
       {books.map((book) => (
         <BookCard

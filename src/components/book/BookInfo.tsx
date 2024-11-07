@@ -18,7 +18,7 @@ export function BookInfo({
   onContinuePress 
 }: BookInfoProps) {
   return (
-    <View style={tw`p-4 space-y-2`}>
+    <View style={tw`p-4 gap-2`}>
       <View>
         <Text 
           numberOfLines={1} 

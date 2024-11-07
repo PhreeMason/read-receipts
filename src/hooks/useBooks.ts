@@ -42,29 +42,6 @@ export const useBooksByStatus = (status: BookStatus) => {
     });
 };
 
-// Get currently reading books with progress
-export const useCurrentlyReading = () => {
-    return useQuery({
-        queryKey: ['books', 'reading'],
-        queryFn: async () => {
-            const { data, error } = await supabase
-                .from('user_books')
-                .select(`
-            id,
-            status,
-            reading_progress,
-            last_position,
-            book:books(*)
-          `)
-                .eq('status', 'reading')
-                .order('updated_at', { ascending: false });
-
-            if (error) throw error;
-            return data;
-        },
-    });
-};
-
 // Get book status history
 export const useBookStatusHistory = (userBookId: string) => {
     return useQuery({

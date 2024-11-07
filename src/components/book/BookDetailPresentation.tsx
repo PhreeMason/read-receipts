@@ -6,6 +6,7 @@ import { ReadingProgress } from './ReadingProgress';
 import { BookStatus } from '@/types/book';
 import type { Book } from '@/types/book';
 import BookStatusButton from './BookStatusButton';
+import { Stack } from 'expo-router';
 
 type BookDetailPresentationProps = {
     book: Book;
@@ -34,6 +35,7 @@ export const BookDetailPresentation = ({
 
     return (
         <ScrollView style={tw`flex-1 bg-white`}>
+            <Stack.Screen options={{ title: book.title }} />
             <View style={tw`p-4`}>
                 <View style={tw`flex-row`}>
                     <BookCover url={book.cover_url} className="w-32 h-48 rounded-lg" />
@@ -73,7 +75,7 @@ export const BookDetailPresentation = ({
 
                 <View style={tw`mt-6`}>
                     <Text style={tw`text-lg font-semibold text-gray-900 mb-2`}>Reading History</Text>
-                    <View style={tw`space-y-2`}>
+                    <View style={tw`gap-2`}>
                         {statusDates.added_at && (
                             <Text style={tw`text-gray-600`}>
                                 Added on {new Date(statusDates.added_at).toLocaleDateString()}

@@ -16,7 +16,7 @@ export function Loading({
   
   // Base styles that will be used regardless of fullScreen prop
   const containerStyles = tw.style(
-    'items-center justify-center space-y-4',
+    'items-center justify-center gap-4',
     'bg-gray-50',
     fullScreen && 'flex-1' // Only add flex-1 if fullScreen is true
   );

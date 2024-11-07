@@ -1,12 +1,9 @@
 // components/reader/EpubReader.tsx
 import React from 'react';
-import { View, Text, SafeAreaView, Platform } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { Reader, useReader } from '@epubjs-react-native/core';
 import { useFileSystem } from '@epubjs-react-native/expo-file-system';
 import { useGetBookWithSignedUrl } from '@/hooks/useBooks';
-import tw from 'twrnc';
-import { Stack } from 'expo-router';
-
 interface Props {
     bookId: string;
 }
@@ -18,6 +15,7 @@ function EpubReader({ bookId }: Props) {
         isLoading
     } = useGetBookWithSignedUrl(bookId);
     const { goToLocation, currentLocation } = useReader();
+
     if (isLoading) {
         return <View><Text>Loading...</Text></View>;
     }

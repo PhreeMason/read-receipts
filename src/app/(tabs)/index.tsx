@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import tw from 'twrnc';
 
 // Hooks
-import { useCurrentlyReading, useBooksByStatus } from '@/hooks/useBooks';
+import { useBooksByStatus } from '@/hooks/useBooks';
 import { useAuth } from '@/providers/AuthProvider';
 
 // Components
@@ -23,8 +23,8 @@ export default function HomeScreen() {
     const [refreshing, setRefreshing] = React.useState(false);
 
     // Fetch data
-    const { data: currentlyReading, isLoading: loadingCurrentReads } = useCurrentlyReading();
     const { data: toReadBooks } = useBooksByStatus('to-read');
+    const { data: currentlyReading, isLoading: loadingCurrentReads } = useBooksByStatus('reading');
 
     // Handle pull-to-refresh
     const onRefresh = React.useCallback(async () => {
@@ -52,24 +52,24 @@ export default function HomeScreen() {
                 <HomeHeader />
 
                 {/* Main content container */}
-                <View style={tw`px-4 pb-6 space-y-6`}>
+                <View style={tw`px-4 pb-6 gap-6`}>
                     {/* Currently reading section */}
-                    <View style={tw`space-y-4`}>
+                    <View style={tw`gap-4`}>
                         {currentlyReading ? <CurrentlyReadingSection books={currentlyReading as unknown as Book[]} /> : null}
                     </View>
 
                     {/* Recent activity feed */}
-                    <View style={tw`space-y-4`}>
+                    <View style={tw`gap-4`}>
                         {/* <ActivityFeed /> */}
                     </View>
 
                     {/* Library quick access */}
-                    <View style={tw`space-y-4`}>
+                    <View style={tw`gap-4`}>
                         {/* <LibraryQuickAccess toReadBooks={toReadBooks} /> */}
                     </View>
 
                     {/* Reading stats (Optional for MVP) */}
-                    <View style={tw`space-y-4`}>
+                    <View style={tw`gap-4`}>
                         {/* <ReadingStats /> */}
                     </View>
                 </View>

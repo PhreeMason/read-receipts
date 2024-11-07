@@ -100,9 +100,9 @@ export default function ProfileScreen() {
 
     return (
         <ScrollView style={tw`flex-1 bg-white`}>
-            <View style={tw`p-6 space-y-8`}>
+            <View style={tw`p-6 gap-8`}>
                 {/* Profile Header */}
-                <View style={tw`items-center space-y-4`}>
+                <View style={tw`items-center gap-4`}>
                     <AvatarPicker
                         defaultUrl={profile?.avatar_url || null}
                         onSuccess={handleAvatarUpdate}
@@ -110,8 +110,8 @@ export default function ProfileScreen() {
                     />
 
                     {isEditing ? (
-                        <View style={tw`w-full space-y-4`}>
-                            <View style={tw`space-y-2`}>
+                        <View style={tw`w-full gap-4`}>
+                            <View style={tw`gap-2`}>
                                 <Text style={tw`text-sm font-medium text-gray-700`}>
                                     Username
                                 </Text>
@@ -129,7 +129,7 @@ export default function ProfileScreen() {
                                 </Text>
                             </View>
 
-                            <View style={tw`flex-row space-x-4 pt-4`}>
+                            <View style={tw`flex-row gap-4 pt-4`}>
                                 <Button
                                     variant="outline"
                                     onPress={handleCancel}
@@ -147,7 +147,7 @@ export default function ProfileScreen() {
                             </View>
                         </View>
                     ) : (
-                        <View style={tw`items-center space-y-2`}>
+                        <View style={tw`items-center gap-2`}>
                             <Text style={tw`text-2xl font-bold`}>
                                 {profile?.username}
                             </Text>

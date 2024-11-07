@@ -1,0 +1,25 @@
+{
+    "cli": {
+        "version": ">= 10.2.3"
+    },
+    "build": {
+        "development": {
+            "developmentClient": true,
+            "distribution": "internal"
+        },
+        "preview": {
+            "distribution": "internal",
+            "android": {
+                "buildType": "apk"
+            },
+            "env": {
+                "EXPO_PUBLIC_SUPABASE_URL": "https://nevezioullmxffvdlgyq.supabase.co",
+                "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ldmV6aW91bGxteGZmdmRsZ3lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwNTY5MzksImV4cCI6MjA0NTYzMjkzOX0.hsNV3FCBdjdR7ykbykjrurMHRiiTaivxsu6ZhO8PpNQ"
+            }
+        },
+        "production": {}
+    },
+    "submit": {
+        "production": {}
+    }
+}
