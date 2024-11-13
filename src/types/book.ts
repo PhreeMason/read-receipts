@@ -36,3 +36,15 @@ export type Book = Tables<'books'> & {
   status_history: StatusHistory[];
   status_dates: BookStatusDates;
 };
+
+export type ReadingStatus = 'currently-reading' | 'want-to-read' | 'finished' | 'paused';
+
+export type StatusOption = {
+  id: ReadingStatus;
+  label: string;
+  description: string;
+  icon: any; // Lucide icon component
+  color: string;
+  bgColor: string;
+  actionLabel: string;
+}

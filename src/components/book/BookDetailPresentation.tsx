@@ -38,7 +38,7 @@ export const BookDetailPresentation = ({
             <Stack.Screen options={{ title: book.title }} />
             <View style={tw`p-4`}>
                 <View style={tw`flex-row`}>
-                    <BookCover url={book.cover_url} className="w-32 h-48 rounded-lg" />
+                    <BookCover url={book.cover_url} />
                     <View style={tw`ml-4 flex-1`}>
                         <Text style={tw`text-2xl font-bold text-gray-900`}>{book.title}</Text>
                         <Text style={tw`text-lg text-gray-600 mt-1`}>{book.author}</Text>
@@ -51,7 +51,7 @@ export const BookDetailPresentation = ({
                     </View>
                 </View>
 
-                {isReading && <ReadingProgress progress={progress} />}
+                {isReading && progress && <ReadingProgress progress={progress} />}
 
                 <View style={tw`mt-6`}>
                     {canRead && (
