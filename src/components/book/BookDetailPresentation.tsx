@@ -51,7 +51,7 @@ export const BookDetailPresentation = ({
                     </View>
                 </View>
 
-                {isReading && progress && <ReadingProgress progress={progress} />}
+                {/* {isReading && <ReadingProgress progress={progress} />} */}
 
                 <View style={tw`mt-6`}>
                     {canRead && (

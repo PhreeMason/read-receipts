@@ -58,30 +58,9 @@ const BookDetailsScreen = () => {
         ]
     };
 
-    const getCurrentStatusDetails = (status: string | null): StatusOption => {
-        const stutusToFind = status || currentStatus;
-        return statusOptions.find(option => option.id === stutusToFind) || statusOptions[0];
-    };
 
-    const getActionButton = () => {
-        if (!currentStatus) {
-            return {
-                label: "Add to Library",
-                icon: BookOpen,
-                action: handleAddToLibrary,
-                loading: isAddingToLibrary
-            };
-        }
 
-        const status = getCurrentStatusDetails(currentStatus);
-
-        return {
-            label: status?.actionLabel || "Start Reading",
-            icon: status?.id === "finished" ? Book : BookOpen,
-            action: () => console.log(`Navigate to reader - ${status?.id}`),
-            loading: false
-        };
-    };
+    
 
     // Status change handlers
     const handleStatusChange = (
@@ -103,11 +82,10 @@ const BookDetailsScreen = () => {
     return (
         <SafeAreaView style={tw`flex-1 bg-gray-50`}>
             <ScrollView style={tw`flex-1`}>
-                <View style={tw`p-4 gap-6`}>
+                <View style={tw`p-4 gap-1`}>
                     <BookCover
                         bookData={bookData}
                         currentStatus={currentStatus}
-                        getCurrentStatusDetails={getCurrentStatusDetails}
                     />
                     <QuickStats bookData={bookData} />
                     <Tags
@@ -155,7 +133,7 @@ const BookDetailsScreen = () => {
                             />
                         </TouchableOpacity>
                     )}
-                    <ActionButtons getActionButton={getActionButton} />
+                    <ActionButtons handleAddToLibrary={handleAddToLibrary} isAddingToLibrary={isAddingToLibrary} currentStatus={currentStatus} />
                 </View>
             </View>
         </SafeAreaView>

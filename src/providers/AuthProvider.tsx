@@ -8,7 +8,9 @@ import {
     useState,
     useContext,
 } from 'react';
-import { Profile } from '@/types/auth';
+import { Tables } from "@/types/supabase";
+type Profile = Tables<'profiles'>;
+
 import { router, useSegments } from 'expo-router';
 
 type AuthData = {

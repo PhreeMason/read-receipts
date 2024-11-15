@@ -1,17 +1,37 @@
 import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import tw from 'twrnc';
+import {
+    Book,
+    BookOpen,
+} from 'lucide-react-native';
+import { getCurrentStatusDetails } from '@/utils/helpers';
 
 type ActionButtonProps = {
-    getActionButton: () => {
-        label: string;
-        icon: any;
-        action: () => void;
-        loading: boolean;
-    };
+    currentStatus: string | null;
+    handleAddToLibrary: () => void;
+    isAddingToLibrary: boolean;
 };
 
-const ActionButtons = ({ getActionButton }: ActionButtonProps) => {
-    
+const ActionButtons = ({ currentStatus, handleAddToLibrary, isAddingToLibrary  }: ActionButtonProps) => {
+    const getActionButton = () => {
+        if (!currentStatus) {
+            return {
+                label: "Add to Library",
+                icon: BookOpen,
+                action: handleAddToLibrary,
+                loading: isAddingToLibrary
+            };
+        }
+
+        const status = getCurrentStatusDetails(currentStatus);
+
+        return {
+            label: status?.actionLabel || "Start Reading",
+            icon: status?.id === "finished" ? Book : BookOpen,
+            action: () => console.log(`Navigate to reader - ${status?.id}`),
+            loading: false
+        };
+    };
     const button = getActionButton();
     
     return (

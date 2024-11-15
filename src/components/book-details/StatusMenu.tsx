@@ -6,7 +6,7 @@ import { convertTailwindColor } from '@/utils/constants';
 type StatusMenuProps = {
     isOpen: boolean;
     statusOptions: StatusOption[];
-    currentStatus: ReadingStatus;
+    currentStatus: ReadingStatus | null;
     onStatusChange: (status: ReadingStatus) => void;
 };
 

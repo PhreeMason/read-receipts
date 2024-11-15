@@ -7,6 +7,7 @@ import {
     Users,
     MessageCircle,
 } from 'lucide-react-native';
+import { getCurrentStatusDetails } from '@/utils/helpers';
 
 interface BookData {
     coverUrl: string;
@@ -21,11 +22,10 @@ interface BookData {
 interface BookCoverProps {
     bookData: BookData;
     currentStatus: ReadingStatus | null;
-    getCurrentStatusDetails: (status: string | null) => StatusOption;
 }
 
 
-const BookCover = ({ bookData, currentStatus, getCurrentStatusDetails }: BookCoverProps) => (
+const BookCover = ({ bookData, currentStatus }: BookCoverProps) => (
     <View style={tw`flex-row gap-4`}>
         <Image
             source={{ uri: bookData.coverUrl }}
@@ -44,7 +44,7 @@ const BookCover = ({ bookData, currentStatus, getCurrentStatusDetails }: BookCov
                 {currentStatus && (
                     <View style={tw`flex-row items-center gap-2`}>
                         {(() => {
-                            const statusDetails = getCurrentStatusDetails(null);
+                            const statusDetails = getCurrentStatusDetails(currentStatus);
                             const IconComponent = statusDetails.icon;
                             return (
                                 <>
