@@ -4,7 +4,15 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../lib/supabase';
 import { uploadEpub, getSignedEpubUrl, getPublicUrl } from '../utils/supabase-storage';
 import { Book, BookStatus } from '@/types/book';
-import { searchBooks, getBookById, fetch10Books, fetchBookDetailsWithUserData, updateUserBookStatus } from '@/services/books';
+import { 
+    searchBooks,
+     getBookById,
+     fetch10Books,
+     fetchBookDetailsWithUserData,
+     updateUserBookStatus,
+     getCurrentLocation,
+     saveCurrentLocation 
+} from '@/services/books';
 
 export const useGetBookWithSignedUrl = (bookId: string) => {
     return useQuery({
@@ -188,5 +196,24 @@ export const useSearchBooks = (query: string) => {
         },
         // Cache for 5 minutes
         staleTime: 1000 * 60 * 5,
+    });
+};
+
+export const useGetCurrentLocation = (bookId: string) => {
+    return useQuery({
+        queryKey: ['books', 'reading'],
+        queryFn: async () => getCurrentLocation(bookId),
+    })
+};
+
+export const useSaveCurrentLocation = (bookId: string) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (cfi: string) => saveCurrentLocation(bookId, cfi),
+        onSuccess: () => {
+            console.log('Location saved');
+            queryClient.invalidateQueries({ queryKey: ['book-details', bookId] });
+        },
     });
 };

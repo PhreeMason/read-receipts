@@ -5,6 +5,7 @@ import {
     useReader,
     Themes,
     Annotation,
+    Section,
 } from '@epubjs-react-native/core';
 import { useFileSystem } from '@epubjs-react-native/expo-file-system';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -18,7 +19,7 @@ import { SearchList } from '@/components/reader/SearchList';
 import { TableOfContents } from '@/components/reader/TableOfContents';
 import { COLORS } from '@/components/reader/AnnotationForm';
 import { AnnotationsList } from '@/components/reader/AnnotationsList';
-import { useGetBookWithSignedUrl } from '@/hooks/useBooks';
+import { useGetBookWithSignedUrl, useSaveCurrentLocation, useBookDetails } from '@/hooks/useBooks';
 import { Loading } from '../shared/Loading';
 
 interface Props {
@@ -31,7 +32,10 @@ function EpubReader({ bookId }: Props) {
         data: book,
         error,
         isLoading
-    } = useGetBookWithSignedUrl(bookId);
+    } = useBookDetails(bookId);
+    // } = useGetBookWithSignedUrl(bookId);
+
+    console.log(JSON.stringify({book}, null, 2))
 
     const insets = useSafeAreaInsets();
 
@@ -62,6 +66,10 @@ function EpubReader({ bookId }: Props) {
     const [selectedAnnotation, setSelectedAnnotation] = useState<
         Annotation | undefined
     >(undefined);
+
+    const { mutate: saveCurrentLocation } = useSaveCurrentLocation(bookId);
+    const lastPosition = book?.userDetails ? book.userDetails[0]?.last_position : '';
+    console.log({lastPosition})
 
     const increaseFontSize = () => {
         if (currentFontSize < MAX_FONT_SIZE) {
@@ -129,12 +137,17 @@ function EpubReader({ bookId }: Props) {
 
             <Reader
                 src={epub_url}
+                onLocationChange={(totalLocations, currentLocation, progress, currentSection) => {
+                    console.log(JSON.stringify({ totalLocations, currentLocation, progress, currentSection }, null, 2));
+                    saveCurrentLocation(currentLocation.start.cfi)
+                }}
                 width={width}
                 height={!isFullScreen ? height * 0.75 : height}
                 fileSystem={useFileSystem}
                 defaultTheme={Themes.DARK}
+
                 waitForLocationsReady
-                initialLocation="introduction_001.xhtml"
+                initialLocation={lastPosition ? lastPosition : ''}
                 initialAnnotations={[]}
                 onAddAnnotation={(annotation) => {
                     if (annotation.type === 'highlight' && annotation.data?.isTemp) {
