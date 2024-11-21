@@ -1,17 +1,16 @@
-import { UserBook } from './../types/book';
 // src/hooks/useBooks.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../lib/supabase';
 import { uploadEpub, getSignedEpubUrl, getPublicUrl } from '../utils/supabase-storage';
-import { Book, BookStatus } from '@/types/book';
-import { 
+import { Book, BookStatus, UserBook } from '@/types/book';
+import {
     searchBooks,
-     getBookById,
-     fetch10Books,
-     fetchBookDetailsWithUserData,
-     updateUserBookStatus,
-     getCurrentLocation,
-     saveCurrentLocation 
+    getBookById,
+    fetch10Books,
+    fetchBookDetailsWithUserData,
+    updateUserBookStatus,
+    getCurrentLocation,
+    saveCurrentLocation
 } from '@/services/books';
 
 export const useGetBookWithSignedUrl = (bookId: string) => {
@@ -35,15 +34,48 @@ export const useBooksByStatus = (status: BookStatus) => {
             const { data, error } = await supabase
                 .from('user_books')
                 .select(`
-            id,
-            status,
-            reading_progress,
-            last_position,
-            book:books(*)
-          `)
+                    *,
+                    book:books(*)
+                `)
                 .eq('status', status)
-                .order('updated_at', { ascending: false });
+                .order('created_at', { ascending: false });
+            if (error) throw error;
+            return data;
+        },
+    });
+};
 
+/**
+ * Returns user books except the ones with status 'did-not-finish'
+ * @returns UserBook[]
+ */
+export const useUserBook = () => {
+    return useQuery({
+        queryKey: ['user-book'],
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from('user_books')
+                .select(`*`)
+                .neq('status', 'did-not-finish');
+            if (error) throw error;
+            return data;
+        },
+    })
+};
+
+export const useRecentlyAddedBooks = () => {
+    return useQuery({
+        queryKey: ['books', 'recently-added'],
+        queryFn: async () => {
+            const { data, error } = await supabase
+                .from('user_books')
+                .select(`
+                    *,
+                    book:books(*)
+                `)
+                .neq('status', 'reading')
+                .order('created_at', { ascending: false })
+                .limit(10);
             if (error) throw error;
             return data;
         },
@@ -73,12 +105,12 @@ export const useUpdateBookStatus = () => {
 
     return useMutation({
         mutationFn: ({ userBookId, status }: { userBookId: string; status: BookStatus }) =>
-          updateUserBookStatus(userBookId, status),
-        onSuccess: ({id: userBookId, book_id: bookId}) => {
-          queryClient.invalidateQueries({ queryKey: ['book-status-history', userBookId] });
-          queryClient.invalidateQueries({ queryKey: ['user-book', bookId] });
+            updateUserBookStatus(userBookId, status),
+        onSuccess: ({ id: userBookId, book_id: bookId }) => {
+            queryClient.invalidateQueries({ queryKey: ['book-status-history', userBookId] });
+            queryClient.invalidateQueries({ queryKey: ['user-book', bookId] });
         },
-      });
+    });
 };
 
 // Add a book to user's library

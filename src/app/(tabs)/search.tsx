@@ -18,7 +18,7 @@ export default function SearchScreen() {
         router.push(`/book/${bookId}/details`);
     };
     return (
-        <SafeAreaView style={tw`flex-1`}>
+        <SafeAreaView style={tw`flex-1 justify-center`}>
             <SearchBar
                 value={searchQuery}
                 onChangeText={setSearchQuery}

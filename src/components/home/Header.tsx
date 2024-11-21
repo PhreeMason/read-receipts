@@ -1,12 +1,14 @@
 import React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useAuth } from '@/providers/AuthProvider';
 import tw from 'twrnc';
 
 export default function HomeHeader() {
-    const { profile: user } = useAuth();
+    const { profile } = useAuth();
 
-    const getGreeting = () => {
+    const { full_name, username, avatar_url } = profile || {};
+
+    const greeting = () => {
         const hour = new Date().getHours();
         if (hour < 12) return 'Morning';
         if (hour < 17) return 'Afternoon';
@@ -14,21 +16,17 @@ export default function HomeHeader() {
     };
 
     return (
-        <View style={tw`px-4 pt-2 pb-4`}>
-            {/* Header Row */}
-            <View style={tw`flex-row justify-between items-center`}>
-                {/* Greeting */}
-                <View style={tw`gap-1`}>
-                    <Text
-                        style={tw.style(`text-lg font-medium text-gray-900`)}
-                    >
-                        {getGreeting()}, {user?.username ?? 'Reader'} 📚
-                    </Text>
-                    <Text style={tw`text-sm  text-gray-600`}>
-                        What's on your reading list today?
-                    </Text>
-                </View>
-            </View>
+        <View style={tw`flex-row justify-between items-center px-4 pt-4`}>
+          <View>
+            <Text style={tw`text-gray-600 text-base`}>{greeting()}</Text>
+            <Text style={tw`text-gray-900 text-xl font-semibold`}>{full_name || username || 'User'}</Text>
+          </View>
+          <TouchableOpacity>
+            <Image
+              source={{ uri: avatar_url || "https://picsum.photos/200" }}
+              style={tw`w-10 h-10 rounded-full`}
+            />
+          </TouchableOpacity>
         </View>
     );
 }

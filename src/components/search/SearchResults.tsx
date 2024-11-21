@@ -15,7 +15,11 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ books, onBookPress
   return (
     <FlatList
       data={books}
+      numColumns={2}
       keyExtractor={(item) => item.id}
+    // center all items in the list
+
+
       renderItem={({ item }) => (
         <View style={tw`px-4 py-2`}>
           <BookCard
@@ -24,7 +28,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ books, onBookPress
           />
         </View>
       )}
-      contentContainerStyle={tw`pb-4`}
+      contentContainerStyle={tw`flex-grow pb-4`}
     />
   );
 };
