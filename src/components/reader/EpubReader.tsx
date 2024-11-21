@@ -30,12 +30,6 @@ function EpubReader({ bookId }: Props) {
     }
 
     const handleLocationChange = async (totalLocations: number, currentLocation: Location, progress: number, currentSection: Section | null) => {
-        console.log('Location changed:', JSON.stringify({
-            totalLocations,
-            currentLocation,
-            progress,
-            currentSection
-        }, null, 2));
         const { start: { cfi, percentage } } = currentLocation;
         // debounce the location update
         useDebounce(() => {

@@ -8,7 +8,7 @@ import ReadingStats from '@/components/home/ReadingStats';
 
 const HomeScreen = () => {
   return (
-    <SafeAreaView style={tw`flex-1 bg-white`}>
+    <SafeAreaView style={tw`flex-1 bg-white pt-4`}>
       <ScrollView style={tw`flex-1`}>
         {/* Header */}
         <HomeHeader />

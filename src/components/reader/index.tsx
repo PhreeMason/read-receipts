@@ -35,8 +35,6 @@ function EpubReader({ bookId }: Props) {
     } = useBookDetails(bookId);
     // } = useGetBookWithSignedUrl(bookId);
 
-    console.log(JSON.stringify({book}, null, 2))
-
     const insets = useSafeAreaInsets();
 
     const {
@@ -69,7 +67,6 @@ function EpubReader({ bookId }: Props) {
 
     const { mutate: saveCurrentLocation } = useSaveCurrentLocation(bookId);
     const lastPosition = book?.userDetails ? book.userDetails[0]?.last_position : '';
-    console.log({lastPosition})
 
     const increaseFontSize = () => {
         if (currentFontSize < MAX_FONT_SIZE) {
@@ -138,8 +135,7 @@ function EpubReader({ bookId }: Props) {
             <Reader
                 src={epub_url}
                 onLocationChange={(totalLocations, currentLocation, progress, currentSection) => {
-                    console.log(JSON.stringify({ totalLocations, currentLocation, progress, currentSection }, null, 2));
-                    saveCurrentLocation(currentLocation.start.cfi)
+                    saveCurrentLocation(currentLocation)
                 }}
                 width={width}
                 height={!isFullScreen ? height * 0.75 : height}

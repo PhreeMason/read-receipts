@@ -2,7 +2,8 @@ import { Book, BookStatus, StatusHistory, UserBook } from '@/types/book';
 import supabase from '@/lib/supabase';
 import { getPublicUrl, getSignedEpubUrl } from '@/utils/supabase-storage';
 import { useAuth } from '@/providers/AuthProvider';
-
+import { Location } from '@epubjs-react-native/core';
+ 
 export const searchBooks = async (query: string): Promise<Book[]> => {
     if (!query.trim()) return [];
 
@@ -114,11 +115,14 @@ export const updateUserBookStatus = async (userBookId: string, status: BookStatu
     return data;
 }
 
-export const saveCurrentLocation = async (bookId: string, cfi: string) => {
-    console.log({bookId, cfi})
+export const saveCurrentLocation = async (bookId: string, location: Location) => {
+    const cfi = location.start.cfi;
     const { data, error } = await supabase
         .from('user_books')
-        .update({ last_position: cfi })
+        .update({ 
+            last_position: cfi,
+            reading_progress: Math.round(location.start.percentage * 100) 
+        })
         .eq('book_id', bookId)
         .select()
         .single();

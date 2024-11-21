@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../lib/supabase';
 import { uploadEpub, getSignedEpubUrl, getPublicUrl } from '../utils/supabase-storage';
 import { Book, BookStatus, UserBook } from '@/types/book';
+import { Location } from '@epubjs-react-native/core';
 import {
     searchBooks,
     getBookById,
@@ -242,9 +243,8 @@ export const useSaveCurrentLocation = (bookId: string) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (cfi: string) => saveCurrentLocation(bookId, cfi),
+        mutationFn: async (location: Location) => saveCurrentLocation(bookId, location),
         onSuccess: () => {
-            console.log('Location saved');
             queryClient.invalidateQueries({ queryKey: ['book-details', bookId] });
         },
     });

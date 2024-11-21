@@ -52,7 +52,6 @@ export default function ProfileScreen() {
             });
 
             if (resp && resp.error) throw resp.error;
-            console.log(resp);
             setIsEditing(false);
             Alert.alert('Success', 'Profile updated successfully');
         } catch (error) {

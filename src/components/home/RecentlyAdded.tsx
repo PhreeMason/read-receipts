@@ -3,6 +3,7 @@ import React from 'react'
 import tw from 'twrnc';
 import { BookCard } from '@/components/book/BookCard';
 import { useRecentlyAddedBooks } from '@/hooks/useBooks';
+import { router } from 'expo-router';
 
 const RecentlyAdded = () => {
     const { data: recentlyAdded, error } = useRecentlyAddedBooks();
@@ -24,7 +25,11 @@ const RecentlyAdded = () => {
                 style={tw`mt-4 pl-4`}
             >
                 {recentlyAdded.map(({ book }) => (
-                    <BookCard key={book.id} book={book} onPress={() => { }} />
+                    <BookCard
+                        key={book.id}
+                        book={book}
+                        onPress={() => router.push(`/book/${book.id}/details`)}
+                    />
                 ))}
             </ScrollView>
         </View>
