@@ -27,3 +27,8 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
+// https://ebookfoundation.org/openzim.html
+// https://library.kiwix.org/content/gutenberg_en_all/Home.html
+// https://www.goodreads.com/book/show/944073.The_Blade_Itself?ref=nav_sb_ss_1_14
+// https://dev.to/paullaros/updating-timestamps-automatically-in-supabase-5f5o - adding timestamps to supabase

@@ -33,7 +33,6 @@ function EpubReader({ bookId }: Props) {
         error,
         isLoading
     } = useBookDetails(bookId);
-    // } = useGetBookWithSignedUrl(bookId);
 
     const insets = useSafeAreaInsets();
 
@@ -81,7 +80,6 @@ function EpubReader({ bookId }: Props) {
             changeFontSize(`${currentFontSize - 1}px`);
         }
     };
-
     const switchTheme = () => {
         const index = Object.values(themes).indexOf(theme);
         const nextTheme =
@@ -132,7 +130,7 @@ function EpubReader({ bookId }: Props) {
                 />
             )}
 
-            <Reader
+            <Reader 
                 src={epub_url}
                 onLocationChange={(totalLocations, currentLocation, progress, currentSection) => {
                     saveCurrentLocation(currentLocation)
