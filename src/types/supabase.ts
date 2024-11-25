@@ -75,6 +75,143 @@ export type Database = {
         }
         Relationships: []
       }
+      reading_sessions: {
+        Row: {
+          book_id: string
+          created_at: string | null
+          end_location: string | null
+          end_time: string | null
+          id: string
+          pages_read: number | null
+          start_location: string
+          start_time: string
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string | null
+          end_location?: string | null
+          end_time?: string | null
+          id: string
+          pages_read?: number | null
+          start_location: string
+          start_time: string
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string | null
+          end_location?: string | null
+          end_time?: string | null
+          id?: string
+          pages_read?: number | null
+          start_location?: string
+          start_time?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reading_sessions_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reading_sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reading_stats: {
+        Row: {
+          book_id: string
+          created_at: string | null
+          id: string
+          last_read_at: string
+          total_pages_read: number | null
+          total_time_read: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string | null
+          id: string
+          last_read_at: string
+          total_pages_read?: number | null
+          total_time_read?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string | null
+          id?: string
+          last_read_at?: string
+          total_pages_read?: number | null
+          total_time_read?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reading_stats_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reading_stats_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reading_streaks: {
+        Row: {
+          created_at: string | null
+          current_streak: number | null
+          id: string
+          last_read_date: string
+          longest_streak: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_streak?: number | null
+          id: string
+          last_read_date: string
+          longest_streak?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          current_streak?: number | null
+          id?: string
+          last_read_date?: string
+          longest_streak?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reading_streaks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_book_status_history: {
         Row: {
           changed_at: string
@@ -116,7 +253,7 @@ export type Database = {
           created_at: string | null
           id: string
           last_position: string | null
-          reading_progress: string | null
+          reading_progress: number | null
           status: Database["public"]["Enums"]["book_status"]
           user_id: string | null
         }
@@ -125,7 +262,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           last_position?: string | null
-          reading_progress?: string | null
+          reading_progress?: number | null
           status?: Database["public"]["Enums"]["book_status"]
           user_id?: string | null
         }
@@ -134,7 +271,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           last_position?: string | null
-          reading_progress?: string | null
+          reading_progress?: number | null
           status?: Database["public"]["Enums"]["book_status"]
           user_id?: string | null
         }

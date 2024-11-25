@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { Database } from '../types/supabase';
 import { Location } from '@epubjs-react-native/core';
 import supabase from '@/lib/supabase';
+import type { ReadingStats, ReadingStreak } from '@/types/readdingSession';
 
-const MINIMUM_SESSION_TIME = 5; // Minimum 5 seconds to count as a reading session
+const MINIMUM_SESSION_TIME = 10; // Minimum 5 seconds to count as a reading session
 const STREAK_RESET_HOURS = 36; // Reset streak if no reading in 36 hours
 const MIN_READING_TIME = 60; // Minimum 1 minute of reading to count towards streak
 
@@ -20,10 +20,11 @@ export function useReadingSession({ bookId, userId }: UseReadingSessionProps) {
 
   // Start a new reading session
   const startSession = async (location: Location) => {
+    console.log('startSession');
     if (isTracking) return;
 
     const startTime = new Date();
-    
+
     const { data, error } = await supabase
       .from('reading_sessions')
       .insert({
@@ -46,15 +47,21 @@ export function useReadingSession({ bookId, userId }: UseReadingSessionProps) {
 
   // End the current reading session
   const endSession = async (location: Location) => {
+    console.log('endSession');
     if (!isTracking || !sessionRef.current || !startTimeRef.current || !lastLocationRef.current) return;
 
     const endTime = new Date();
     const sessionDuration = (endTime.getTime() - startTimeRef.current.getTime()) / 1000;
-    
+
     // Only save sessions longer than minimum duration
+    console.log({ sessionDuration });
     if (sessionDuration >= MINIMUM_SESSION_TIME) {
-      const pagesRead = location.end.displayed.page - lastLocationRef.current.start.displayed.page;
-      
+      const pagesRead = location.start.displayed.page - lastLocationRef.current.start.displayed.page;
+      console.log({
+        pagesRead,
+        start: lastLocationRef.current.start.displayed.page,
+        end: location.start.displayed.page
+      })
       // Update session
       await supabase
         .from('reading_sessions')
@@ -67,7 +74,7 @@ export function useReadingSession({ bookId, userId }: UseReadingSessionProps) {
 
       // Update total stats
       await updateReadingStats(sessionDuration, pagesRead);
-      
+
       // Update streak if session was long enough
       if (sessionDuration >= MIN_READING_TIME) {
         await updateReadingStreak();
@@ -88,6 +95,7 @@ export function useReadingSession({ bookId, userId }: UseReadingSessionProps) {
   };
 
   const updateReadingStats = async (duration: number, pagesRead: number) => {
+    console.log('updateReadingStats');
     const { data } = await supabase
       .from('reading_stats')
       .select()
@@ -119,8 +127,9 @@ export function useReadingSession({ bookId, userId }: UseReadingSessionProps) {
   };
 
   const updateReadingStreak = async () => {
+    console.log('updateReadingStreak');
     const today = new Date().toISOString().split('T')[0];
-    
+
     const { data: streak } = await supabase
       .from('reading_streaks')
       .select()
@@ -130,7 +139,7 @@ export function useReadingSession({ bookId, userId }: UseReadingSessionProps) {
     if (streak) {
       const lastReadDate = new Date(streak.last_read_date);
       const hoursSinceLastRead = (new Date().getTime() - lastReadDate.getTime()) / (1000 * 60 * 60);
-      
+
       let currentStreak = streak.current_streak;
       const lastReadDay = lastReadDate.toISOString().split('T')[0];
 
@@ -173,7 +182,7 @@ export function useReadingSession({ bookId, userId }: UseReadingSessionProps) {
 
 // Hook to fetch reading stats
 export function useReadingStats(userId: string, bookId: string) {
-  const [stats, setStats] = useState<Database['public']['Tables']['reading_stats']['Row'] | null>(null);
+  const [stats, setStats] = useState<ReadingStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -199,8 +208,7 @@ export function useReadingStats(userId: string, bookId: string) {
 
 // Hook to fetch reading streak
 export function useReadingStreak(userId: string) {
-  const supabase = useSupabaseClient<Database>();
-  const [streak, setStreak] = useState<Database['public']['Tables']['reading_streaks']['Row'] | null>(null);
+  const [streak, setStreak] = useState<ReadingStreak | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

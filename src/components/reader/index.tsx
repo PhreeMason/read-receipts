@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useWindowDimensions, View, Text } from 'react-native';
 import {
     Reader,
@@ -21,6 +21,8 @@ import { COLORS } from '@/components/reader/AnnotationForm';
 import { AnnotationsList } from '@/components/reader/AnnotationsList';
 import { useGetBookWithSignedUrl, useSaveCurrentLocation, useBookDetails } from '@/hooks/useBooks';
 import { Loading } from '../shared/Loading';
+import { useReadingSession, useReadingStats, useReadingStreak } from '@/hooks/useReadingSession';
+import { useAuth } from '@/providers/AuthProvider';
 
 interface Props {
     bookId: string;
@@ -34,6 +36,8 @@ function EpubReader({ bookId }: Props) {
         isLoading
     } = useBookDetails(bookId);
 
+    const { profile: user } = useAuth();
+
     const insets = useSafeAreaInsets();
 
     const {
@@ -45,7 +49,21 @@ function EpubReader({ bookId }: Props) {
         goToLocation,
         addAnnotation,
         removeAnnotation,
+        currentLocation
     } = useReader();
+
+    const { startSession, endSession, isTracking } = useReadingSession({
+        bookId,
+        userId: user!.id,
+    });
+
+    // when commponent unmounts, end the session
+    useEffect(() => {
+        return () => {
+            if (isTracking && currentLocation) endSession(currentLocation);
+        };
+    }, [isTracking]);
+
 
     const bookmarksListRef = useRef<BottomSheetModal>(null);
     const searchListRef = useRef<BottomSheetModal>(null);
@@ -130,9 +148,18 @@ function EpubReader({ bookId }: Props) {
                 />
             )}
 
-            <Reader 
+            <Reader
+                onLocationsReady={() => {
+                    if (!isTracking && !currentLocation) return ;
+                    // make copy of current location to avoid mutation
+                    const location = JSON.parse(JSON.stringify(currentLocation));
+                    console.log('current location', location);
+                    startSession(location);
+                }}
+                onRendered={(locations) => console.log('locations rendered', locations)}
+                onStarted={() => console.log('onStarted')}
                 src={epub_url}
-                onLocationChange={(totalLocations, currentLocation, progress, currentSection) => {
+                onLocationChange={(_, currentLocation) => {
                     saveCurrentLocation(currentLocation)
                 }}
                 width={width}
