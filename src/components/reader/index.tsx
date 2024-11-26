@@ -49,26 +49,30 @@ function EpubReader({ bookId }: Props) {
         goToLocation,
         addAnnotation,
         removeAnnotation,
-        currentLocation
+        currentLocation,
+        isLoading: isReaderLoading,
+        progress
     } = useReader();
-
     const { startSession, endSession, isTracking } = useReadingSession({
         bookId,
         userId: user!.id,
     });
 
-    // when commponent unmounts, end the session
-    useEffect(() => {
-        return () => {
-            if (isTracking && currentLocation) endSession(currentLocation);
-        };
-    }, [isTracking]);
-
-
     const bookmarksListRef = useRef<BottomSheetModal>(null);
     const searchListRef = useRef<BottomSheetModal>(null);
     const tableOfContentsRef = useRef<BottomSheetModal>(null);
     const annotationsListRef = useRef<BottomSheetModal>(null);
+    const locationRef = useRef(currentLocation);
+
+    useEffect(() => {
+        locationRef.current = currentLocation;
+    }, [currentLocation]);
+
+    useEffect(() => {
+        return () => {
+            locationRef.current && endSession(locationRef.current);
+        };
+    }, []);
 
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [currentFontSize, setCurrentFontSize] = useState(14);
@@ -149,18 +153,14 @@ function EpubReader({ bookId }: Props) {
             )}
 
             <Reader
-                onLocationsReady={() => {
-                    if (!isTracking && !currentLocation) return ;
-                    // make copy of current location to avoid mutation
-                    const location = JSON.parse(JSON.stringify(currentLocation));
-                    console.log('current location', location);
-                    startSession(location);
-                }}
-                onRendered={(locations) => console.log('locations rendered', locations)}
-                onStarted={() => console.log('onStarted')}
                 src={epub_url}
                 onLocationChange={(_, currentLocation) => {
+                    if (!currentLocation || currentLocation.start.location === -1) return;
                     saveCurrentLocation(currentLocation)
+
+                    if (isTracking.current) return;
+
+                    startSession(currentLocation);
                 }}
                 width={width}
                 height={!isFullScreen ? height * 0.75 : height}

@@ -79,33 +79,39 @@ export type Database = {
         Row: {
           book_id: string
           created_at: string | null
-          end_location: string | null
+          end_cfi: string | null
+          end_location: number | null
           end_time: string | null
           id: string
           pages_read: number | null
-          start_location: string
+          start_cfi: string
+          start_location: number
           start_time: string
           user_id: string
         }
         Insert: {
           book_id: string
           created_at?: string | null
-          end_location?: string | null
+          end_cfi?: string | null
+          end_location?: number | null
           end_time?: string | null
-          id: string
+          id?: string
           pages_read?: number | null
-          start_location: string
+          start_cfi: string
+          start_location: number
           start_time: string
           user_id: string
         }
         Update: {
           book_id?: string
           created_at?: string | null
-          end_location?: string | null
+          end_cfi?: string | null
+          end_location?: number | null
           end_time?: string | null
           id?: string
           pages_read?: number | null
-          start_location?: string
+          start_cfi?: string
+          start_location?: number
           start_time?: string
           user_id?: string
         }
@@ -140,7 +146,7 @@ export type Database = {
         Insert: {
           book_id: string
           created_at?: string | null
-          id: string
+          id?: string
           last_read_at: string
           total_pages_read?: number | null
           total_time_read?: number | null
@@ -187,7 +193,7 @@ export type Database = {
         Insert: {
           created_at?: string | null
           current_streak?: number | null
-          id: string
+          id?: string
           last_read_date: string
           longest_streak?: number | null
           updated_at?: string | null
