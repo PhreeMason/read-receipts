@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Location, useReader } from '@epubjs-react-native/core';
 import supabase from '@/lib/supabase';
 import type { ReadingStats, ReadingStreak, ReadingSession } from '@/types/readdingSession';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '@/providers/AuthProvider';
 
 const MINIMUM_SESSION_TIME = 10; // Minimum 5 seconds to count as a reading session
 const STREAK_RESET_HOURS = 36; // Reset streak if no reading in 36 hours
@@ -195,26 +197,22 @@ export function useReadingStats(userId: string, bookId: string) {
 }
 
 // Hook to fetch reading streak
-export function useReadingStreak(userId: string) {
-    const [streak, setStreak] = useState<ReadingStreak | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+export function useReadingStreak() {
+    const { profile: user } = useAuth();
 
-    useEffect(() => {
-        async function fetchStreak() {
+    return useQuery({
+        queryKey: ['reading-streak', user?.id],
+        queryFn: async () => {
+            if (!user?.id) return null;
             const { data, error } = await supabase
                 .from('reading_streaks')
                 .select()
-                .eq('user_id', userId)
+                .eq('user_id', user.id)
                 .single();
 
-            if (!error && data) {
-                setStreak(data);
-            }
-            setIsLoading(false);
-        }
-
-        fetchStreak();
-    }, [userId]);
-
-    return { streak, isLoading };
+            if (error) throw error;
+            return data;
+        },
+        enabled: !!user?.id
+    })
 }
