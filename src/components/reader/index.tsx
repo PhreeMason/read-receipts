@@ -1,3 +1,4 @@
+// src/components/reader/EpubReader.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import { useWindowDimensions, View, Text } from 'react-native';
 import {
@@ -19,10 +20,9 @@ import { SearchList } from '@/components/reader/SearchList';
 import { TableOfContents } from '@/components/reader/TableOfContents';
 import { COLORS } from '@/components/reader/AnnotationForm';
 import { AnnotationsList } from '@/components/reader/AnnotationsList';
-import { useGetBookWithSignedUrl, useSaveCurrentLocation, useBookDetails } from '@/hooks/useBooks';
+import { useSaveCurrentLocation, useBookDetails } from '@/hooks/useBooks';
 import { Loading } from '../shared/Loading';
-import { useReadingSession, useReadingStats, useReadingStreak } from '@/hooks/useReadingSession';
-import { useAuth } from '@/providers/AuthProvider';
+import { useEndSession, useStartSession } from '@/hooks/useReadingSession';
 
 interface Props {
     bookId: string;
@@ -35,8 +35,6 @@ function EpubReader({ bookId }: Props) {
         error,
         isLoading
     } = useBookDetails(bookId);
-
-    const { profile: user } = useAuth();
 
     const insets = useSafeAreaInsets();
 
@@ -51,12 +49,10 @@ function EpubReader({ bookId }: Props) {
         removeAnnotation,
         currentLocation,
         isLoading: isReaderLoading,
-        progress
     } = useReader();
-    const { startSession, endSession, isTracking } = useReadingSession({
-        bookId,
-        userId: user!.id,
-    });
+
+    const { mutate: endSession } = useEndSession();
+    const { mutate: startSession } = useStartSession(bookId);
 
     const bookmarksListRef = useRef<BottomSheetModal>(null);
     const searchListRef = useRef<BottomSheetModal>(null);
@@ -64,17 +60,8 @@ function EpubReader({ bookId }: Props) {
     const annotationsListRef = useRef<BottomSheetModal>(null);
     const locationRef = useRef(currentLocation);
 
-    useEffect(() => {
-        locationRef.current = currentLocation;
-    }, [currentLocation]);
-
-    useEffect(() => {
-        return () => {
-            locationRef.current && endSession(locationRef.current);
-        };
-    }, []);
-
     const [isFullScreen, setIsFullScreen] = useState(false);
+    const [readingSessionId, setReadingSessionId] = useState<string | null>(null);
     const [currentFontSize, setCurrentFontSize] = useState(14);
     const [currentFontFamily, setCurrentFontFamily] = useState(availableFonts[0]);
     const [tempMark, setTempMark] = useState<Annotation | null>(null);
@@ -88,6 +75,21 @@ function EpubReader({ bookId }: Props) {
 
     const { mutate: saveCurrentLocation } = useSaveCurrentLocation(bookId);
     const lastPosition = book?.userDetails ? book.userDetails[0]?.last_position : '';
+
+
+    useEffect(() => {
+        locationRef.current = currentLocation;
+    }, [currentLocation]);
+
+    useEffect(() => {
+        return () => {
+            console.log('ending session from reader');
+            readingSessionId && locationRef.current && endSession({
+                location: locationRef.current,
+                sessionId: readingSessionId
+            });
+        };
+    }, [readingSessionId]);
 
     const increaseFontSize = () => {
         if (currentFontSize < MAX_FONT_SIZE) {
@@ -158,9 +160,13 @@ function EpubReader({ bookId }: Props) {
                     if (!currentLocation || currentLocation.start.location === -1) return;
                     saveCurrentLocation(currentLocation)
 
-                    if (isTracking.current) return;
-
-                    startSession(currentLocation);
+                    if (readingSessionId) return;
+                    console.log('start session');
+                    // startSession(currentLocation, {
+                    //     onSuccess: ({ id }) => {
+                    //         setReadingSessionId(id);
+                    //     },
+                    // });
                 }}
                 width={width}
                 height={!isFullScreen ? height * 0.75 : height}

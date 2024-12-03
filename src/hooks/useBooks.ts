@@ -83,7 +83,6 @@ export const useRecentlyAddedBooks = () => {
     });
 };
 
-// Get book status history
 export const useBookStatusHistory = (userBookId: string) => {
     return useQuery({
         queryKey: ['book-status-history', userBookId],
@@ -100,7 +99,6 @@ export const useBookStatusHistory = (userBookId: string) => {
     });
 };
 
-// Update book status
 export const useUpdateBookStatus = () => {
     const queryClient = useQueryClient();
 
@@ -110,36 +108,6 @@ export const useUpdateBookStatus = () => {
         onSuccess: ({ id: userBookId, book_id: bookId }) => {
             queryClient.invalidateQueries({ queryKey: ['book-status-history', userBookId] });
             queryClient.invalidateQueries({ queryKey: ['user-book', bookId] });
-        },
-    });
-};
-
-// Add a book to user's library
-export const useAddBookToLibrary = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: async ({
-            bookId,
-            initialStatus = 'to-read' as BookStatus,
-        }: {
-            bookId: string;
-            initialStatus?: BookStatus;
-        }) => {
-            const { data, error } = await supabase
-                .from('user_books')
-                .insert({
-                    book_id: bookId,
-                    status: initialStatus,
-                })
-                .select()
-                .single();
-
-            if (error) throw error;
-            return data;
-        },
-        onSuccess: (_, { initialStatus }) => {
-            queryClient.invalidateQueries({ queryKey: ['books', initialStatus] });
         },
     });
 };
