@@ -28,6 +28,8 @@ interface Props {
     bookId: string;
 }
 
+type FileInfo = { uri: string | null; mimeType: string | null; }
+
 function EpubReader({ bookId }: Props) {
     const { width, height } = useWindowDimensions();
     const {
@@ -35,6 +37,18 @@ function EpubReader({ bookId }: Props) {
         error,
         isLoading
     } = useBookDetails(bookId);
+
+    const epub_url = book?.epub_url!;
+    const {
+        downloadFile,
+        getFileInfo,
+        size: fileSize,
+        progress: downloadProgress,
+        success: downloadSuccess,
+        error: downloadError,
+        documentDirectory
+    } = useFileSystem();
+
 
     const insets = useSafeAreaInsets();
 
@@ -62,6 +76,7 @@ function EpubReader({ bookId }: Props) {
 
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [readingSessionId, setReadingSessionId] = useState<string | null>(null);
+    const [bookFileUri, setBookFileUri] = useState<string | null>(null);
     const [currentFontSize, setCurrentFontSize] = useState(14);
     const [currentFontFamily, setCurrentFontFamily] = useState(availableFonts[0]);
     const [tempMark, setTempMark] = useState<Annotation | null>(null);
@@ -76,6 +91,27 @@ function EpubReader({ bookId }: Props) {
     const { mutate: saveCurrentLocation } = useSaveCurrentLocation(bookId);
     const lastPosition = book?.userDetails ? book.userDetails[0]?.last_position : '';
 
+    useEffect(() => {
+        const cachebook = async () => {
+            // sample epub url https://nevezioullmxffvdlgyq.supabase.co/storage/v1/object/public/books/epubs/1730420518570-The%20Blade%20Itself%20(Joe%20Aberc_%20(Z-Library).epub
+
+            if (epub_url && documentDirectory) {
+                const fileName = epub_url.split('/').pop();
+                if (!fileName) return;
+                const fileInfo = await getFileInfo(`${documentDirectory}${fileName}`);
+
+                if (fileInfo && fileInfo.exists) {
+                    console.log('file exists *********************');
+                    setBookFileUri(fileInfo.uri);
+                    return;
+                }
+                const bookFileUri = await downloadFile(epub_url, fileName);
+                setBookFileUri(bookFileUri.uri);
+            }
+        }
+
+        cachebook();
+    }, [documentDirectory, epub_url]);
 
     useEffect(() => {
         locationRef.current = currentLocation;
@@ -127,7 +163,15 @@ function EpubReader({ bookId }: Props) {
     if (error || !book) {
         return <View><Text>Error loading book: {error?.message}</Text></View>;
     }
-    const { epub_url } = book;
+
+    console.log(JSON.stringify({
+        fileSize,
+        downloadProgress,
+        downloadSuccess,
+        downloadError,
+        documentDirectory,
+        bookFileUri
+    }, null, 2))
 
     return (
         <GestureHandlerRootView
@@ -153,78 +197,74 @@ function EpubReader({ bookId }: Props) {
                     onOpenAnnotationsList={() => annotationsListRef.current?.present()}
                 />
             )}
+            {bookFileUri ?
+                <Reader
+                    src={bookFileUri}
+                    onLocationChange={(_, currentLocation) => {
+                        if (!currentLocation || currentLocation.start.location === -1) return;
+                        saveCurrentLocation(currentLocation)
 
-            <Reader
-                src={epub_url}
-                onLocationChange={(_, currentLocation) => {
-                    if (!currentLocation || currentLocation.start.location === -1) return;
-                    saveCurrentLocation(currentLocation)
+                        if (readingSessionId) return;
+                        console.log('start session');
+                    }}
+                    width={width}
+                    height={!isFullScreen ? height * 0.75 : height}
+                    fileSystem={useFileSystem}
+                    defaultTheme={Themes.DARK}
 
-                    if (readingSessionId) return;
-                    console.log('start session');
-                    // startSession(currentLocation, {
-                    //     onSuccess: ({ id }) => {
-                    //         setReadingSessionId(id);
-                    //     },
-                    // });
-                }}
-                width={width}
-                height={!isFullScreen ? height * 0.75 : height}
-                fileSystem={useFileSystem}
-                defaultTheme={Themes.DARK}
-
-                waitForLocationsReady
-                initialLocation={lastPosition ? lastPosition : ''}
-                initialAnnotations={[]}
-                onAddAnnotation={(annotation) => {
-                    if (annotation.type === 'highlight' && annotation.data?.isTemp) {
-                        setTempMark(annotation);
-                    }
-                }}
-                onPressAnnotation={(annotation) => {
-                    setSelectedAnnotation(annotation);
-                    annotationsListRef.current?.present();
-                }}
-                menuItems={[
-                    {
-                        label: '🟡',
-                        action: (cfiRange) => {
-                            addAnnotation('highlight', cfiRange, undefined, {
-                                color: COLORS[2],
-                            });
-                            return true;
+                    waitForLocationsReady
+                    initialLocation={lastPosition ? lastPosition : ''}
+                    initialAnnotations={[]}
+                    onAddAnnotation={(annotation) => {
+                        if (annotation.type === 'highlight' && annotation.data?.isTemp) {
+                            setTempMark(annotation);
+                        }
+                    }}
+                    onPressAnnotation={(annotation) => {
+                        setSelectedAnnotation(annotation);
+                        annotationsListRef.current?.present();
+                    }}
+                    menuItems={[
+                        {
+                            label: '🟡',
+                            action: (cfiRange) => {
+                                addAnnotation('highlight', cfiRange, undefined, {
+                                    color: COLORS[2],
+                                });
+                                return true;
+                            },
                         },
-                    },
-                    {
-                        label: '🔴',
-                        action: (cfiRange) => {
-                            addAnnotation('highlight', cfiRange, undefined, {
-                                color: COLORS[0],
-                            });
-                            return true;
+                        {
+                            label: '🔴',
+                            action: (cfiRange) => {
+                                addAnnotation('highlight', cfiRange, undefined, {
+                                    color: COLORS[0],
+                                });
+                                return true;
+                            },
                         },
-                    },
-                    {
-                        label: '🟢',
-                        action: (cfiRange) => {
-                            addAnnotation('highlight', cfiRange, undefined, {
-                                color: COLORS[3],
-                            });
-                            return true;
+                        {
+                            label: '🟢',
+                            action: (cfiRange) => {
+                                addAnnotation('highlight', cfiRange, undefined, {
+                                    color: COLORS[3],
+                                });
+                                return true;
+                            },
                         },
-                    },
-                    {
-                        label: 'Add Note',
-                        action: (cfiRange, text) => {
-                            setSelection({ cfiRange, text });
-                            addAnnotation('highlight', cfiRange, { isTemp: true });
-                            annotationsListRef.current?.present();
-                            return true;
+                        {
+                            label: 'Add Note',
+                            action: (cfiRange, text) => {
+                                setSelection({ cfiRange, text });
+                                addAnnotation('highlight', cfiRange, { isTemp: true });
+                                annotationsListRef.current?.present();
+                                return true;
+                            },
                         },
-                    },
-                ]}
-                onDoubleTap={() => setIsFullScreen((oldState) => !oldState)}
-            />
+                    ]}
+                    onDoubleTap={() => setIsFullScreen((oldState) => !oldState)}
+                />
+                : null}
 
             <BookmarksList
                 ref={bookmarksListRef}

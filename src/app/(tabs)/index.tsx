@@ -7,23 +7,23 @@ import RecentlyAdded from '@/components/home/RecentlyAdded';
 import ReadingStats from '@/components/home/ReadingStats';
 
 const HomeScreen = () => {
-  return (
-    <SafeAreaView style={tw`flex-1 bg-white pt-4`}>
-      <ScrollView style={tw`flex-1`}>
-        {/* Header */}
-        <HomeHeader />
+    return (
+        <SafeAreaView style={tw`flex-1 bg-white pt-4`}>
+            <ScrollView style={tw`flex-1`}>
+                {/* Header */}
+                <HomeHeader />
 
-        {/* Reading Stats */}
-        <ReadingStats />
+                {/* Reading Stats */}
+                <ReadingStats />
 
-        {/* Currently Reading Section */}
-        <CurrentlyReading />
+                {/* Currently Reading Section */}
+                <CurrentlyReading />
 
-        {/* Recently Added Section */}
-        <RecentlyAdded />
-      </ScrollView>
-    </SafeAreaView>
-  );
+                {/* Recently Added Section */}
+                <RecentlyAdded />
+            </ScrollView>
+        </SafeAreaView>
+    );
 };
 
 export default HomeScreen;
@@ -32,3 +32,4 @@ export default HomeScreen;
 // https://library.kiwix.org/content/gutenberg_en_all/Home.html
 // https://www.goodreads.com/book/show/944073.The_Blade_Itself?ref=nav_sb_ss_1_14
 // https://dev.to/paullaros/updating-timestamps-automatically-in-supabase-5f5o - adding timestamps to supabase
+// https://reactnativeelements.com/docs/components/bottomsheet - bottom sheet
