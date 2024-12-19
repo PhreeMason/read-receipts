@@ -61,3 +61,6 @@ export const statusOptions: StatusOption[] = [
         actionLabel: "Resume Reading"
     }
 ];
+
+export const MINIMUM_SESSION_TIME = 10; // 10 seconds, 
+export const MIN_READING_TIME = 60; // 1 minute

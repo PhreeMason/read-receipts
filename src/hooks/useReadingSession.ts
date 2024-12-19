@@ -14,7 +14,6 @@ import {
 
 export const useStartSession = (bookId: string) => {
     const { profile: user } = useAuth();
-
     return useMutation({
         mutationFn: async (location: Location) => startSession(bookId, user!.id, location),
     })

@@ -1,6 +1,6 @@
 import { Book, BookStatus, StatusHistory, UserBook } from '@/types/book';
 import supabase from '@/lib/supabase';
-import { getPublicUrl, getSignedEpubUrl } from '@/utils/supabase-storage';
+import { getPublicUrl } from '@/utils/supabase-storage';
 import { useAuth } from '@/providers/AuthProvider';
 import { Location } from '@epubjs-react-native/core';
 

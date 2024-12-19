@@ -30,17 +30,6 @@ function AnnotationItem({
         />
 
         <TouchableOpacity onPress={() => onPressAnnotation(annotation)}>
-          {annotation.type === 'highlight' && (
-            <Text
-              style={{
-                ...styles.cfiRange,
-                color: contrast[theme.body.background],
-              }}
-            >
-              {annotation.cfiRange}
-            </Text>
-          )}
-
           {annotation.type !== 'highlight' && (
             <Text
               style={{
@@ -100,11 +89,12 @@ const styles = StyleSheet.create({
   cfiRangeText: {
     fontStyle: 'italic',
     flexWrap: 'wrap',
-    maxWidth: 220,
+    maxWidth: 300,
   },
   observation: {
     fontWeight: '600',
     marginLeft: 5,
+    marginBottom: 5,
   },
 });
 

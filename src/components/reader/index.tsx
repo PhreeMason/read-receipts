@@ -23,12 +23,11 @@ import { AnnotationsList } from '@/components/reader/AnnotationsList';
 import { useSaveCurrentLocation, useBookDetails } from '@/hooks/useBooks';
 import { Loading } from '../shared/Loading';
 import { useEndSession, useStartSession } from '@/hooks/useReadingSession';
+import { useFetchAnnotations, useCreateAnnotation } from '@/hooks/useAnnotations';
 
 interface Props {
     bookId: string;
 }
-
-type FileInfo = { uri: string | null; mimeType: string | null; }
 
 function EpubReader({ bookId }: Props) {
     const { width, height } = useWindowDimensions();
@@ -37,7 +36,6 @@ function EpubReader({ bookId }: Props) {
         error,
         isLoading
     } = useBookDetails(bookId);
-
     const epub_url = book?.epub_url!;
     const {
         downloadFile,
@@ -64,15 +62,15 @@ function EpubReader({ bookId }: Props) {
         currentLocation,
         isLoading: isReaderLoading,
     } = useReader();
-
     const { mutate: endSession } = useEndSession();
     const { mutate: startSession } = useStartSession(bookId);
+    const { mutate: createAnnotation } = useCreateAnnotation();
+    const { data: annotationsData } = useFetchAnnotations(bookId);
 
     const bookmarksListRef = useRef<BottomSheetModal>(null);
     const searchListRef = useRef<BottomSheetModal>(null);
     const tableOfContentsRef = useRef<BottomSheetModal>(null);
     const annotationsListRef = useRef<BottomSheetModal>(null);
-    const locationRef = useRef(currentLocation);
 
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [readingSessionId, setReadingSessionId] = useState<string | null>(null);
@@ -93,15 +91,12 @@ function EpubReader({ bookId }: Props) {
 
     useEffect(() => {
         const cachebook = async () => {
-            // sample epub url https://nevezioullmxffvdlgyq.supabase.co/storage/v1/object/public/books/epubs/1730420518570-The%20Blade%20Itself%20(Joe%20Aberc_%20(Z-Library).epub
-
             if (epub_url && documentDirectory) {
                 const fileName = epub_url.split('/').pop();
                 if (!fileName) return;
                 const fileInfo = await getFileInfo(`${documentDirectory}${fileName}`);
 
                 if (fileInfo && fileInfo.exists) {
-                    console.log('file exists *********************');
                     setBookFileUri(fileInfo.uri);
                     return;
                 }
@@ -114,18 +109,14 @@ function EpubReader({ bookId }: Props) {
     }, [documentDirectory, epub_url]);
 
     useEffect(() => {
-        locationRef.current = currentLocation;
-    }, [currentLocation]);
-
-    useEffect(() => {
         return () => {
             console.log('ending session from reader');
-            readingSessionId && locationRef.current && endSession({
-                location: locationRef.current,
+            currentLocation && readingSessionId && endSession({
+                location: currentLocation,
                 sessionId: readingSessionId
             });
         };
-    }, [readingSessionId]);
+    }, [currentLocation]);
 
     const increaseFontSize = () => {
         if (currentFontSize < MAX_FONT_SIZE) {
@@ -164,15 +155,12 @@ function EpubReader({ bookId }: Props) {
         return <View><Text>Error loading book: {error?.message}</Text></View>;
     }
 
-    console.log(JSON.stringify({
-        fileSize,
-        downloadProgress,
-        downloadSuccess,
-        downloadError,
-        documentDirectory,
-        bookFileUri
-    }, null, 2))
-
+    const closeAllModals = () => {
+        bookmarksListRef.current?.dismiss();
+        searchListRef.current?.dismiss();
+        tableOfContentsRef.current?.dismiss();
+        annotationsListRef.current?.dismiss();
+    }
     return (
         <GestureHandlerRootView
             style={{
@@ -191,10 +179,26 @@ function EpubReader({ bookId }: Props) {
                     decreaseFontSize={decreaseFontSize}
                     switchTheme={switchTheme}
                     switchFontFamily={switchFontFamily}
-                    onPressSearch={() => searchListRef.current?.present()}
-                    onOpenBookmarksList={() => bookmarksListRef.current?.present()}
-                    onOpenTableOfContents={() => tableOfContentsRef.current?.present()}
-                    onOpenAnnotationsList={() => annotationsListRef.current?.present()}
+                    onPressSearch={() => {
+                        closeAllModals()
+                        searchListRef.current?.present()
+                    }
+                    }
+                    onOpenBookmarksList={() => {
+                        closeAllModals()
+                        bookmarksListRef.current?.present()
+                    }
+                    }
+                    onOpenTableOfContents={() => {
+                        closeAllModals()
+                        tableOfContentsRef.current?.present()
+                    }
+                    }
+                    onOpenAnnotationsList={() => {
+                        closeAllModals()
+                        annotationsListRef.current?.present()
+                    }
+                    }
                 />
             )}
             {bookFileUri ?
@@ -205,7 +209,6 @@ function EpubReader({ bookId }: Props) {
                         saveCurrentLocation(currentLocation)
 
                         if (readingSessionId) return;
-                        console.log('start session');
                     }}
                     width={width}
                     height={!isFullScreen ? height * 0.75 : height}
@@ -214,11 +217,13 @@ function EpubReader({ bookId }: Props) {
 
                     waitForLocationsReady
                     initialLocation={lastPosition ? lastPosition : ''}
-                    initialAnnotations={[]}
+                    initialAnnotations={annotationsData}
                     onAddAnnotation={(annotation) => {
                         if (annotation.type === 'highlight' && annotation.data?.isTemp) {
                             setTempMark(annotation);
+                            return;
                         }
+                        createAnnotation({ annotation, bookId });
                     }}
                     onPressAnnotation={(annotation) => {
                         setSelectedAnnotation(annotation);

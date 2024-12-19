@@ -26,7 +26,7 @@ export const AnnotationsList = forwardRef<Ref, Props>(
   ({ selection, selectedAnnotation, annotations, onClose }, ref) => {
     const { theme, removeAnnotation, goToLocation } = useReader();
 
-    const snapPoints = React.useMemo(() => ['50%', '75%', '100%'], []);
+    const snapPoints = React.useMemo(() => ['25%', '50%', '75%', '100%'], []);
 
     const renderItem = React.useCallback(
       // eslint-disable-next-line react/no-unused-prop-types
@@ -95,7 +95,7 @@ export const AnnotationsList = forwardRef<Ref, Props>(
       <BottomSheetModalProvider>
         <BottomSheetModal
           ref={ref}
-          index={0}
+          index={1}
           snapPoints={snapPoints}
           enablePanDownToClose
           style={{

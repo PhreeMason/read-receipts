@@ -32,7 +32,7 @@ export const TableOfContents = forwardRef<Ref, Props>(
         const [searchTerm, setSearchTerm] = useState('');
         const [data, setData] = useState<Toc>(toc);
 
-        const snapPoints = React.useMemo(() => ['50%', '90%'], []);
+        const snapPoints = React.useMemo(() => ['25%', '50%', '90%'], []);
 
         const renderItem = React.useCallback(
             ({ item }: { item: SectionType }) => (
@@ -103,7 +103,7 @@ export const TableOfContents = forwardRef<Ref, Props>(
             <BottomSheetModalProvider>
                 <BottomSheetModal
                     ref={ref}
-                    index={0}
+                    index={1}
                     snapPoints={snapPoints}
                     enablePanDownToClose
                     style={{
