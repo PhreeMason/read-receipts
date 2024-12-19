@@ -1,312 +1,197 @@
 // src/components/reader/EpubReader.tsx
-import React, { useState, useRef, useEffect } from 'react';
-import { useWindowDimensions, View, Text } from 'react-native';
-import {
-    Reader,
-    useReader,
-    Themes,
-    Annotation,
-    Section,
-} from '@epubjs-react-native/core';
+import React from 'react';
+import { View, Text } from 'react-native';
+import { Reader, Themes } from '@epubjs-react-native/core';
 import { useFileSystem } from '@epubjs-react-native/expo-file-system';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Header } from '@/components/reader/Header';
-import { Footer } from '@/components/reader/Footer';
-import { MAX_FONT_SIZE, MIN_FONT_SIZE, availableFonts, themes } from '@/components/reader/utils';
-import { BookmarksList } from '@/components/reader/BookmarksList';
-import { SearchList } from '@/components/reader/SearchList';
-import { TableOfContents } from '@/components/reader/TableOfContents';
-import { COLORS } from '@/components/reader/AnnotationForm';
-import { AnnotationsList } from '@/components/reader/AnnotationsList';
-import { useSaveCurrentLocation, useBookDetails } from '@/hooks/useBooks';
+import { Header } from './Header';
+import { Footer } from './Footer';
+import { BookmarksList } from './BookmarksList';
+import { SearchList } from './SearchList';
+import { TableOfContents } from './TableOfContents';
+import { COLORS } from './AnnotationForm';
+import { AnnotationsList } from './AnnotationsList';
 import { Loading } from '../shared/Loading';
-import { useEndSession, useStartSession } from '@/hooks/useReadingSession';
-import { useFetchAnnotations, useCreateAnnotation } from '@/hooks/useAnnotations';
+import { useEpubReader } from '@/hooks/useEpubReader';
 
 interface Props {
-    bookId: string;
+  bookId: string;
 }
 
 function EpubReader({ bookId }: Props) {
-    const { width, height } = useWindowDimensions();
-    const {
-        data: book,
-        error,
-        isLoading
-    } = useBookDetails(bookId);
-    const epub_url = book?.epub_url!;
-    const {
-        downloadFile,
-        getFileInfo,
-        size: fileSize,
-        progress: downloadProgress,
-        success: downloadSuccess,
-        error: downloadError,
-        documentDirectory
-    } = useFileSystem();
+  const insets = useSafeAreaInsets();
+  const {
+    // Destructure all needed values from the hook
+    book,
+    error,
+    isLoading,
+    isFullScreen,
+    bookFileUri,
+    currentFontSize,
+    theme,
+    annotations,
+    tempMark,
+    selection,
+    selectedAnnotation,
+    annotationsData,
+    width,
+    height,
+    bookmarksListRef,
+    searchListRef,
+    tableOfContentsRef,
+    annotationsListRef,
+    setIsFullScreen,
+    setTempMark,
+    setSelection,
+    setSelectedAnnotation,
+    handleIncreaseFontSize,
+    handleDecreaseFontSize,
+    handleSwitchTheme,
+    handleSwitchFontFamily,
+    handleOpenBookmarks,
+    handleOpenSearch,
+    handleOpenTableOfContents,
+    handleOpenAnnotations,
+    goToLocation,
+    addAnnotation,
+    removeAnnotation,
+    createAnnotation,
+    saveCurrentLocation
+  } = useEpubReader(bookId);
 
+  if (isLoading) {
+    return <Loading message="Fetching book" />;
+  }
 
-    const insets = useSafeAreaInsets();
+  if (error || !book) {
+    return <View><Text>Error loading book: {error?.message}</Text></View>;
+  }
 
-    const {
-        theme,
-        annotations,
-        changeFontSize,
-        changeFontFamily,
-        changeTheme,
-        goToLocation,
-        addAnnotation,
-        removeAnnotation,
-        currentLocation,
-        isLoading: isReaderLoading,
-    } = useReader();
-    const { mutate: endSession } = useEndSession();
-    const { mutate: startSession } = useStartSession(bookId);
-    const { mutate: createAnnotation } = useCreateAnnotation();
-    const { data: annotationsData } = useFetchAnnotations(bookId);
+  const lastPosition = book?.userDetails?.[0]?.last_position ?? '';
 
-    const bookmarksListRef = useRef<BottomSheetModal>(null);
-    const searchListRef = useRef<BottomSheetModal>(null);
-    const tableOfContentsRef = useRef<BottomSheetModal>(null);
-    const annotationsListRef = useRef<BottomSheetModal>(null);
+  return (
+    <GestureHandlerRootView
+      style={{
+        flex: 1,
+        paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
+        backgroundColor: theme.body.background,
+      }}
+    >
+      {!isFullScreen && (
+        <Header
+          currentFontSize={currentFontSize}
+          increaseFontSize={handleIncreaseFontSize}
+          decreaseFontSize={handleDecreaseFontSize}
+          switchTheme={handleSwitchTheme}
+          switchFontFamily={handleSwitchFontFamily}
+          onPressSearch={handleOpenSearch}
+          onOpenBookmarksList={handleOpenBookmarks}
+          onOpenTableOfContents={handleOpenTableOfContents}
+          onOpenAnnotationsList={handleOpenAnnotations}
+        />
+      )}
 
-    const [isFullScreen, setIsFullScreen] = useState(false);
-    const [readingSessionId, setReadingSessionId] = useState<string | null>(null);
-    const [bookFileUri, setBookFileUri] = useState<string | null>(null);
-    const [currentFontSize, setCurrentFontSize] = useState(14);
-    const [currentFontFamily, setCurrentFontFamily] = useState(availableFonts[0]);
-    const [tempMark, setTempMark] = useState<Annotation | null>(null);
-    const [selection, setSelection] = useState<{
-        cfiRange: string;
-        text: string;
-    } | null>(null);
-    const [selectedAnnotation, setSelectedAnnotation] = useState<
-        Annotation | undefined
-    >(undefined);
-
-    const { mutate: saveCurrentLocation } = useSaveCurrentLocation(bookId);
-    const lastPosition = book?.userDetails ? book.userDetails[0]?.last_position : '';
-
-    useEffect(() => {
-        const cachebook = async () => {
-            if (epub_url && documentDirectory) {
-                const fileName = epub_url.split('/').pop();
-                if (!fileName) return;
-                const fileInfo = await getFileInfo(`${documentDirectory}${fileName}`);
-
-                if (fileInfo && fileInfo.exists) {
-                    setBookFileUri(fileInfo.uri);
-                    return;
-                }
-                const bookFileUri = await downloadFile(epub_url, fileName);
-                setBookFileUri(bookFileUri.uri);
+      {bookFileUri && (
+        <Reader
+          src={bookFileUri}
+          onLocationChange={(_, currentLocation) => {
+            if (!currentLocation || currentLocation.start.location === -1) return;
+            saveCurrentLocation(currentLocation);
+          }}
+          width={width}
+          height={!isFullScreen ? height * 0.75 : height}
+          fileSystem={useFileSystem}
+          defaultTheme={Themes.DARK}
+          waitForLocationsReady
+          initialLocation={lastPosition}
+          initialAnnotations={annotationsData}
+          onAddAnnotation={(annotation) => {
+            if (annotation.type === 'highlight' && annotation.data?.isTemp) {
+              setTempMark(annotation);
+              return;
             }
-        }
+            createAnnotation({ annotation, bookId });
+          }}
+          onPressAnnotation={(annotation) => {
+            setSelectedAnnotation(annotation);
+            annotationsListRef.current?.present();
+          }}
+          menuItems={[
+            {
+              label: '🟡',
+              action: (cfiRange) => {
+                addAnnotation('highlight', cfiRange, undefined, { color: COLORS[2] });
+                return true;
+              },
+            },
+            {
+              label: '🔴',
+              action: (cfiRange) => {
+                addAnnotation('highlight', cfiRange, undefined, { color: COLORS[0] });
+                return true;
+              },
+            },
+            {
+              label: '🟢',
+              action: (cfiRange) => {
+                addAnnotation('highlight', cfiRange, undefined, { color: COLORS[3] });
+                return true;
+              },
+            },
+            {
+              label: 'Add Note',
+              action: (cfiRange, text) => {
+                setSelection({ cfiRange, text });
+                addAnnotation('highlight', cfiRange, { isTemp: true });
+                annotationsListRef.current?.present();
+                return true;
+              },
+            },
+          ]}
+          onDoubleTap={() => setIsFullScreen((prev) => !prev)}
+        />
+      )}
 
-        cachebook();
-    }, [documentDirectory, epub_url]);
+      <BookmarksList
+        ref={bookmarksListRef}
+        onClose={() => bookmarksListRef.current?.dismiss()}
+      />
 
-    useEffect(() => {
-        return () => {
-            console.log('ending session from reader');
-            currentLocation && readingSessionId && endSession({
-                location: currentLocation,
-                sessionId: readingSessionId
-            });
-        };
-    }, [currentLocation]);
+      <SearchList
+        ref={searchListRef}
+        onClose={() => searchListRef.current?.dismiss()}
+      />
 
-    const increaseFontSize = () => {
-        if (currentFontSize < MAX_FONT_SIZE) {
-            setCurrentFontSize(currentFontSize + 1);
-            changeFontSize(`${currentFontSize + 1}px`);
-        }
-    };
+      <TableOfContents
+        ref={tableOfContentsRef}
+        onClose={() => tableOfContentsRef.current?.dismiss()}
+        onPressSection={(selectedSection) => {
+          goToLocation(selectedSection.href.split('/')[1]);
+          tableOfContentsRef.current?.dismiss();
+        }}
+      />
 
-    const decreaseFontSize = () => {
-        if (currentFontSize > MIN_FONT_SIZE) {
-            setCurrentFontSize(currentFontSize - 1);
-            changeFontSize(`${currentFontSize - 1}px`);
-        }
-    };
-    const switchTheme = () => {
-        const index = Object.values(themes).indexOf(theme);
-        const nextTheme =
-            Object.values(themes)[(index + 1) % Object.values(themes).length];
+      <AnnotationsList
+        ref={annotationsListRef}
+        selection={selection}
+        selectedAnnotation={selectedAnnotation}
+        annotations={annotations}
+        onClose={() => {
+          setTempMark(null);
+          setSelection(null);
+          setSelectedAnnotation(undefined);
+          if (tempMark) removeAnnotation(tempMark);
+          annotationsListRef.current?.dismiss();
+        }}
+      />
 
-        changeTheme(nextTheme);
-    };
-
-    const switchFontFamily = () => {
-        const index = availableFonts.indexOf(currentFontFamily);
-        const nextFontFamily = availableFonts[(index + 1) % availableFonts.length];
-
-        setCurrentFontFamily(nextFontFamily);
-        changeFontFamily(nextFontFamily);
-    };
-
-    if (isLoading) {
-        return <Loading message='Fetching book' />
-    }
-
-    if (error || !book) {
-        return <View><Text>Error loading book: {error?.message}</Text></View>;
-    }
-
-    const closeAllModals = () => {
-        bookmarksListRef.current?.dismiss();
-        searchListRef.current?.dismiss();
-        tableOfContentsRef.current?.dismiss();
-        annotationsListRef.current?.dismiss();
-    }
-    return (
-        <GestureHandlerRootView
-            style={{
-                flex: 1,
-                paddingTop: insets.top,
-                paddingBottom: insets.bottom,
-                paddingLeft: insets.left,
-                paddingRight: insets.right,
-                backgroundColor: theme.body.background,
-            }}
-        >
-            {!isFullScreen && (
-                <Header
-                    currentFontSize={currentFontSize}
-                    increaseFontSize={increaseFontSize}
-                    decreaseFontSize={decreaseFontSize}
-                    switchTheme={switchTheme}
-                    switchFontFamily={switchFontFamily}
-                    onPressSearch={() => {
-                        closeAllModals()
-                        searchListRef.current?.present()
-                    }
-                    }
-                    onOpenBookmarksList={() => {
-                        closeAllModals()
-                        bookmarksListRef.current?.present()
-                    }
-                    }
-                    onOpenTableOfContents={() => {
-                        closeAllModals()
-                        tableOfContentsRef.current?.present()
-                    }
-                    }
-                    onOpenAnnotationsList={() => {
-                        closeAllModals()
-                        annotationsListRef.current?.present()
-                    }
-                    }
-                />
-            )}
-            {bookFileUri ?
-                <Reader
-                    src={bookFileUri}
-                    onLocationChange={(_, currentLocation) => {
-                        if (!currentLocation || currentLocation.start.location === -1) return;
-                        saveCurrentLocation(currentLocation)
-
-                        if (readingSessionId) return;
-                    }}
-                    width={width}
-                    height={!isFullScreen ? height * 0.75 : height}
-                    fileSystem={useFileSystem}
-                    defaultTheme={Themes.DARK}
-
-                    waitForLocationsReady
-                    initialLocation={lastPosition ? lastPosition : ''}
-                    initialAnnotations={annotationsData}
-                    onAddAnnotation={(annotation) => {
-                        if (annotation.type === 'highlight' && annotation.data?.isTemp) {
-                            setTempMark(annotation);
-                            return;
-                        }
-                        createAnnotation({ annotation, bookId });
-                    }}
-                    onPressAnnotation={(annotation) => {
-                        setSelectedAnnotation(annotation);
-                        annotationsListRef.current?.present();
-                    }}
-                    menuItems={[
-                        {
-                            label: '🟡',
-                            action: (cfiRange) => {
-                                addAnnotation('highlight', cfiRange, undefined, {
-                                    color: COLORS[2],
-                                });
-                                return true;
-                            },
-                        },
-                        {
-                            label: '🔴',
-                            action: (cfiRange) => {
-                                addAnnotation('highlight', cfiRange, undefined, {
-                                    color: COLORS[0],
-                                });
-                                return true;
-                            },
-                        },
-                        {
-                            label: '🟢',
-                            action: (cfiRange) => {
-                                addAnnotation('highlight', cfiRange, undefined, {
-                                    color: COLORS[3],
-                                });
-                                return true;
-                            },
-                        },
-                        {
-                            label: 'Add Note',
-                            action: (cfiRange, text) => {
-                                setSelection({ cfiRange, text });
-                                addAnnotation('highlight', cfiRange, { isTemp: true });
-                                annotationsListRef.current?.present();
-                                return true;
-                            },
-                        },
-                    ]}
-                    onDoubleTap={() => setIsFullScreen((oldState) => !oldState)}
-                />
-                : null}
-
-            <BookmarksList
-                ref={bookmarksListRef}
-                onClose={() => bookmarksListRef.current?.dismiss()}
-            />
-
-            <SearchList
-                ref={searchListRef}
-                onClose={() => searchListRef.current?.dismiss()}
-            />
-
-            <TableOfContents
-                ref={tableOfContentsRef}
-                onClose={() => tableOfContentsRef.current?.dismiss()}
-                onPressSection={(selectedSection) => {
-                    goToLocation(selectedSection.href.split('/')[1]);
-                    tableOfContentsRef.current?.dismiss();
-                }}
-            />
-
-            <AnnotationsList
-                ref={annotationsListRef}
-                selection={selection}
-                selectedAnnotation={selectedAnnotation}
-                annotations={annotations}
-                onClose={() => {
-                    setTempMark(null);
-                    setSelection(null);
-                    setSelectedAnnotation(undefined);
-                    if (tempMark) removeAnnotation(tempMark);
-                    annotationsListRef.current?.dismiss();
-                }}
-            />
-
-            {!isFullScreen && <Footer />}
-        </GestureHandlerRootView>
-    );
+      {!isFullScreen && <Footer />}
+    </GestureHandlerRootView>
+  );
 }
 
 export default EpubReader;
