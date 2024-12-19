@@ -1,5 +1,5 @@
 // src/hooks/useEpubReader.ts
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useReader, Annotation } from '@epubjs-react-native/core';
@@ -20,7 +20,8 @@ export const useEpubReader = (bookId: string) => {
   const {
     downloadFile,
     getFileInfo,
-    documentDirectory
+    documentDirectory,
+    deleteAsync
   } = useFileSystem();
 
   const {
@@ -149,6 +150,34 @@ export const useEpubReader = (bookId: string) => {
     annotationsListRef.current?.present();
   };
 
+  const reloadBook = useCallback(async () => {
+    try {
+      if (!book?.epub_url || !documentDirectory) return;
+      
+      // Clear the current book URI
+      setBookFileUri(null);
+      
+      // Re-download the book
+      const fileName = book.epub_url.split('/').pop();
+      if (!fileName) throw new Error('Invalid book URL');
+      
+      // Remove existing file if it exists
+      const fileInfo = await getFileInfo(`${documentDirectory}${fileName}`);
+      if (fileInfo?.exists) {
+        // Add your file system delete method here
+        await deleteAsync(`${documentDirectory}${fileName}`);
+      }
+
+      // Download fresh copy
+      const bookFile = await downloadFile(book.epub_url, fileName);
+      setBookFileUri(bookFile.uri);
+    } catch (error) {
+      console.error('Failed to reload book:', error);
+      throw error; // Let the error boundary handle it
+    }
+  }, [book?.epub_url, documentDirectory]);
+
+
   return {
     // State
     book,
@@ -194,7 +223,8 @@ export const useEpubReader = (bookId: string) => {
     goToLocation,
     addAnnotation,
     removeAnnotation,
-    
+    reloadBook,
+
     // Mutations
     createAnnotation,
     saveCurrentLocation
