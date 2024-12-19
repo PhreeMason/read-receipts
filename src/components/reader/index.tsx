@@ -58,6 +58,7 @@ function EpubReader({ bookId }: Props) {
         goToLocation,
         addAnnotation,
         removeAnnotation,
+        deleteAnnotation,
         reloadBook,
         createAnnotation,
         saveCurrentLocation
@@ -188,6 +189,7 @@ function EpubReader({ bookId }: Props) {
                     selection={selection}
                     selectedAnnotation={selectedAnnotation}
                     annotations={annotations}
+                    deleteAnnotation={deleteAnnotation}
                     onClose={() => {
                         setTempMark(null);
                         setSelection(null);

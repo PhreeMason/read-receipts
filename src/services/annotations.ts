@@ -21,9 +21,20 @@ export const fetchAnnotations = async (bookId: string, userId: string):
 export const createAnnotation = async (annotation: AnnotationInsert) => {
     const { data, error } = await supabase
         .from('annotations')
-        .insert([annotation])
+        .upsert(annotation, {
+            onConflict: 'cfi_range',
+            ignoreDuplicates: false
+        })
         .select()
         .single();
     if (error) throw error;
     return data;
+}
+
+export const deleteAnnotation = async (annotationId: string) => {
+    const { error } = await supabase
+        .from('annotations')
+        .delete()
+        .eq('id', annotationId);
+    if (error) throw error;
 }

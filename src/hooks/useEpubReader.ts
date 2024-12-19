@@ -1,3 +1,4 @@
+import { deleteAnnotation } from '@/services/annotations';
 // src/hooks/useEpubReader.ts
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useWindowDimensions } from 'react-native';
@@ -6,7 +7,7 @@ import { useReader, Annotation } from '@epubjs-react-native/core';
 import { useFileSystem } from '@epubjs-react-native/expo-file-system';
 import { useSaveCurrentLocation, useBookDetails } from '@/hooks/useBooks';
 import { useEndSession, useStartSession } from '@/hooks/useReadingSession';
-import { useFetchAnnotations, useCreateAnnotation } from '@/hooks/useAnnotations';
+import { useFetchAnnotations, useCreateAnnotation, useDeleteAnnotation } from '@/hooks/useAnnotations';
 import { MAX_FONT_SIZE, MIN_FONT_SIZE, availableFonts, themes } from '@/components/reader/utils';
 
 export const useEpubReader = (bookId: string) => {
@@ -60,6 +61,7 @@ export const useEpubReader = (bookId: string) => {
   const { mutate: endSession } = useEndSession();
   const { mutate: startSession } = useStartSession(bookId);
   const { mutate: createAnnotation } = useCreateAnnotation();
+  const { mutate: deleteAnnotation } = useDeleteAnnotation();
   const { mutate: saveCurrentLocation } = useSaveCurrentLocation(bookId);
   const { data: annotationsData } = useFetchAnnotations(bookId);
 
@@ -227,6 +229,7 @@ export const useEpubReader = (bookId: string) => {
 
     // Mutations
     createAnnotation,
-    saveCurrentLocation
+    saveCurrentLocation,
+    deleteAnnotation
   };
 };

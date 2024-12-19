@@ -1,4 +1,4 @@
-import { createAnnotation, fetchAnnotations } from "@/services/annotations";
+import { createAnnotation, deleteAnnotation, fetchAnnotations } from "@/services/annotations";
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/providers/AuthProvider';
 import { Annotation } from '@epubjs-react-native/core';
@@ -21,8 +21,20 @@ export const useCreateAnnotation = () => {
         mutationFn: async ({ annotation, bookId }: { annotation: Annotation, bookId: string }) => {
             if (!user?.id) return null;
             const formattedAnnotation = formatAnnotationForDb(annotation, bookId, user.id);
+            if (!formattedAnnotation.cfi_range_text) return null;
             return createAnnotation(formattedAnnotation);
         },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['annotations'] });
+        }
+    })
+}
+
+export const useDeleteAnnotation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async (annotationId: string) => deleteAnnotation(annotationId),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['annotations'] });
         }
