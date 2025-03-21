@@ -1371,7 +1371,897 @@
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Book Addition Screen -->
+        <div class="phone-frame">
+            <div class="screen">
+                <!-- Header Section -->
+                <div class="px-6 pt-12 pb-6">
+                    <div class="flex items-center mb-8">
+                        <button
+                            class="mr-4 w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                        </button>
+                        <h1 class="text-2xl font-bold text-black">Add New Book</h1>
+                    </div>
+                </div>
+
+                <!-- Book Addition Form -->
+                <div class="px-6 pb-6">
+                    <div class="space-y-6">
+                        <!-- Cover Image Upload -->
+                        <div class="flex justify-center mb-6">
+                            <div class="relative">
+                                <div
+                                    class="w-32 h-48 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                                        fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                </div>
+                                <div class="absolute bottom-2 right-0">
+                                    <button
+                                        class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center shadow-md">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                                            </path>
+                                            <circle cx="12" cy="13" r="4"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Book Info Form -->
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                                <input type="text" class="input-field" placeholder="Enter book title">
+                                <p class="text-xs text-gray-500 mt-1 flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="mr-1">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                    </svg>
+                                    Enter the title to auto-populate book details
+                                </p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Author *</label>
+                                <input type="text" class="input-field" placeholder="Enter author name">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">ISBN</label>
+                                    <input type="text" class="input-field" placeholder="Optional">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Pages</label>
+                                    <input type="number" class="input-field" placeholder="Optional">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Publisher</label>
+                                <input type="text" class="input-field" placeholder="Optional">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Publication Date</label>
+                                <input type="date" class="input-field">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Format *</label>
+                                <div class="grid grid-cols-3 gap-3 mt-1">
+                                    <button
+                                        class="bg-white border border-gray-300 rounded-lg py-3 px-2 text-sm font-medium text-center hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 active:bg-gray-200">
+                                        <div class="flex flex-col items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="#8C6A5B" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="mb-1">
+                                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                                <path
+                                                    d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z">
+                                                </path>
+                                            </svg>
+                                            <span>Physical</span>
+                                        </div>
+                                    </button>
+                                    <button
+                                        class="bg-gray-50 border border-gray-800 rounded-lg py-3 px-2 text-sm font-medium text-center hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                                        <div class="flex flex-col items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="mb-1">
+                                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                            </svg>
+                                            <span>E-Book</span>
+                                        </div>
+                                    </button>
+                                    <button
+                                        class="bg-white border border-gray-300 rounded-lg py-3 px-2 text-sm font-medium text-center hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                                        <div class="flex flex-col items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="#8C6A5B" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="mb-1">
+                                                <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                                                <path
+                                                    d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
+                                                </path>
+                                            </svg>
+                                            <span>Audio</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Status *</label>
+                                <select class="input-field" id="bookStatus">
+                                    <option value="tbr">To Be Read</option>
+                                    <option value="current">Currently Reading</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="dnf">Did Not Finish</option>
+                                </select>
+                            </div>
+
+                            <!-- Currently Reading Options - Conditionally shown -->
+                            <div id="readingOptions" class="space-y-4 border-t border-gray-200 pt-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Current Progress</label>
+                                    <div class="flex items-center">
+                                        <input type="number" class="input-field w-20 text-center" value="0">
+                                        <span class="mx-2 text-sm text-gray-600">of</span>
+                                        <span class="text-sm font-medium">496 pages</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                                    <input type="date" class="input-field">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Target Completion
+                                        Date</label>
+                                    <input type="date" class="input-field">
+                                </div>
+                            </div>
+
+                            <!-- Conditional Review Section (only appears if status is "completed") -->
+                            <div id="reviewSection" class="border-t border-gray-200 pt-4 mt-4">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h3 class="font-medium text-black">Add a Review</h3>
+                                    <span class="text-xs text-gray-500">Optional</span>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                                        <div class="flex items-center space-x-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="#8C6A5B" stroke="#8C6A5B" stroke-width="1"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polygon
+                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                                </polygon>
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="#8C6A5B" stroke="#8C6A5B" stroke-width="1"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polygon
+                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                                </polygon>
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="#8C6A5B" stroke="#8C6A5B" stroke-width="1"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polygon
+                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                                </polygon>
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="#8C6A5B" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polygon
+                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                                </polygon>
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="#8C6A5B" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <polygon
+                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                                </polygon>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Review</label>
+                                        <textarea class="input-field h-32 resize-none"
+                                            placeholder="Write your thoughts about this book"></textarea>
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="shareReview"
+                                            class="rounded border-gray-300 text-gray-800 focus:ring-gray-500 h-4 w-4">
+                                        <label for="shareReview" class="ml-2 block text-sm text-gray-700">Share this
+                                            review in your feed</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                                <textarea class="input-field h-24 resize-none"
+                                    placeholder="Enter book description (optional)"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Genres</label>
+                                <input type="text" class="input-field" placeholder="Separate genres with commas">
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button class="btn-primary w-full">
+                                Add to Library
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Screen -->
+        <div class="phone-frame">
+            <div class="screen">
+                <!-- Header Section -->
+                <div class="px-6 pt-12 pb-4">
+                    <div class="flex items-center mb-6">
+                        <button
+                            class="mr-4 w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                        </button>
+                        <h1 class="text-2xl font-bold text-black">Add Book</h1>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="relative mb-4">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+                        <input type="text" class="input-field py-3 pl-10 pr-12"
+                            placeholder="Search by title, author, or ISBN">
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <rect x="7" y="7" width="3" height="9"></rect>
+                                <rect x="14" y="7" width="3" height="5"></rect>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Barcode Scanner Button -->
+                    <button
+                        class="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="#8C6A5B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="mr-2">
+                            <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+                            <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+                            <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+                            <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+                            <line x1="8" y1="10" x2="8" y2="16"></line>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="16" y1="10" x2="16" y2="16"></line>
+                        </svg>
+                        <span class="font-medium">Scan Book Barcode</span>
+                    </button>
+                </div>
+
+                <!-- Popular Books Section -->
+                <div class="px-6 pb-4">
+                    <h2 class="font-semibold text-black mb-4">Popular Books</h2>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200?random=10" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">The Midnight Library</h3>
+                                <p class="text-xs text-gray-600">Matt Haig</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200?random=11" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">Project Hail Mary</h3>
+                                <p class="text-xs text-gray-600">Andy Weir</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200?random=12" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">The House in the Cerulean Sea
+                                </h3>
+                                <p class="text-xs text-gray-600">TJ Klune</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200?random=13" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">The Invisible Life of Addie
+                                    LaRue</h3>
+                                <p class="text-xs text-gray-600">V.E. Schwab</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="font-semibold text-black mb-4">Recently Added by Friends</h2>
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200?random=14" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">The Seven Husbands of Evelyn
+                                    Hugo</h3>
+                                <p class="text-xs text-gray-600">Taylor Jenkins Reid</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200?random=15" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">Circe</h3>
+                                <p class="text-xs text-gray-600">Madeline Miller</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-20">
+                        <button class="text-gray-600 font-medium flex items-center justify-center mx-auto">
+                            <span>Can't find your book?</span>
+                            <span class="ml-1 text-gray-900 underline">Add manually</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Navigation Bar -->
+                <div class="navigation-bar">
+                    <div class="grid grid-cols-5 h-full">
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Home</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1">Library</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center -mt-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </div>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Social</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Profile</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results Screen -->
+        <div class="phone-frame">
+            <div class="screen">
+                <!-- Header Section -->
+                <div class="px-6 pt-12 pb-4">
+                    <div class="flex items-center mb-6">
+                        <button
+                            class="mr-4 w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                        </button>
+                        <h1 class="text-2xl font-bold text-black">Search Results</h1>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="relative mb-6">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </div>
+                        <input type="text" class="input-field py-3 pl-10" placeholder="Project Hail Mary"
+                            value="Project Hail Mary">
+                    </div>
+                </div>
+
+                <!-- Search Results List -->
+                <div class="px-6 pb-20">
+                    <p class="text-gray-600 text-sm mb-4">Found 7 results for "Project Hail Mary"</p>
+
+                    <div class="space-y-4">
+                        <!-- Result Item 1 -->
+                        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                            <div class="flex space-x-4">
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                        <img src="https://picsum.photos/64/96?random=20" alt="Book cover"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <h3 class="font-medium text-black mb-1">Project Hail Mary</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Andy Weir</p>
+                                    <p class="text-xs text-gray-500 mb-3">Science Fiction • 2021 • 496 pages</p>
+                                    <button
+                                        class="text-xs font-medium py-1.5 px-3 rounded-md bg-[#8C6A5B] text-white hover:bg-[#75594D] transition-colors">
+                                        Add to Library
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Result Item 2 -->
+                        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                            <div class="flex space-x-4">
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                        <img src="https://picsum.photos/64/96?random=21" alt="Book cover"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <h3 class="font-medium text-black mb-1">Project Hail Mary: A Novel</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Andy Weir</p>
+                                    <p class="text-xs text-gray-500 mb-3">Science Fiction • 2021 • 496 pages</p>
+                                    <button
+                                        class="text-xs font-medium py-1.5 px-3 rounded-md bg-[#8C6A5B] text-white hover:bg-[#75594D] transition-colors">
+                                        Add to Library
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Result Item 3 -->
+                        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                            <div class="flex space-x-4">
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                        <img src="https://picsum.photos/64/96?random=22" alt="Book cover"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <h3 class="font-medium text-black mb-1">Project Hail Mary (Audiobook)</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Andy Weir, Ray Porter (Narrator)</p>
+                                    <p class="text-xs text-gray-500 mb-3">Science Fiction • 2021 • 16h 10m</p>
+                                    <button
+                                        class="text-xs font-medium py-1.5 px-3 rounded-md bg-[#8C6A5B] text-white hover:bg-[#75594D] transition-colors">
+                                        Add to Library
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Result Item 4 -->
+                        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+                            <div class="flex space-x-4">
+                                <div class="flex-shrink-0">
+                                    <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                        <img src="https://picsum.photos/64/96?random=23" alt="Book cover"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <h3 class="font-medium text-black mb-1">Project Hail Mary (German Edition)</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Andy Weir</p>
+                                    <p class="text-xs text-gray-500 mb-3">Science Fiction • 2021 • 512 pages</p>
+                                    <button
+                                        class="text-xs font-medium py-1.5 px-3 rounded-md bg-[#8C6A5B] text-white hover:bg-[#75594D] transition-colors">
+                                        Add to Library
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-6 mb-4">
+                            <button class="text-gray-600 font-medium flex items-center justify-center mx-auto">
+                                <span>Can't find your book?</span>
+                                <span class="ml-1 text-gray-900 underline">Add manually</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Bar -->
+                <div class="navigation-bar">
+                    <div class="grid grid-cols-5 h-full">
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Home</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1">Library</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center -mt-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </div>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Social</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Profile</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Details Screen - Add to Library -->
+        <div class="phone-frame">
+            <div class="screen">
+                <!-- Header Section -->
+                <div class="px-6 pt-12 pb-4">
+                    <div class="flex items-center mb-6">
+                        <button
+                            class="mr-4 w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                        </button>
+                        <h1 class="text-2xl font-bold text-black">Add to Library</h1>
+                    </div>
+                </div>
+
+                <!-- Book Details Section -->
+                <div class="px-6 pb-6">
+                    <div class="flex space-x-4 mb-6">
+                        <div class="flex-shrink-0">
+                            <div class="w-24 h-36 rounded-md overflow-hidden shadow-md">
+                                <img src="https://picsum.photos/96/144?random=20" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h2 class="font-bold text-lg text-black mb-1">Project Hail Mary</h2>
+                            <p class="text-gray-600 text-sm mb-2">Andy Weir</p>
+                            <div class="flex items-center mb-1">
+                                <div class="flex">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="#8C6A5B" stroke="#8C6A5B" stroke-width="1" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="#8C6A5B" stroke="#8C6A5B" stroke-width="1" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="#8C6A5B" stroke="#8C6A5B" stroke-width="1" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="#8C6A5B" stroke="#8C6A5B" stroke-width="1" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                </div>
+                                <span class="text-xs text-gray-500 ml-1">4.5 (84,235 ratings)</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-1">Science Fiction • 496 pages</p>
+                            <p class="text-xs text-gray-500">Published May 4, 2021</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <p class="text-sm text-gray-700 line-clamp-4">Ryland Grace is the sole survivor on a desperate,
+                            last-chance mission—and if he fails, humanity and the Earth itself will perish. Except that
+                            right now, he doesn't know that. He can't even remember his own name, let alone the nature
+                            of his assignment or how to complete it...</p>
+                        <button class="text-sm font-medium text-gray-800 mt-1">Read more</button>
+                    </div>
+
+                    <!-- Add to Library Form -->
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Status *</label>
+                            <select class="input-field" id="bookStatus">
+                                <option value="tbr">To Be Read</option>
+                                <option value="current">Currently Reading</option>
+                                <option value="completed">Completed</option>
+                                <option value="dnf">Did Not Finish</option>
+                            </select>
+                        </div>
+
+                        <!-- Currently Reading Options - Conditionally shown -->
+                        <div id="readingOptions" class="space-y-4 border-t border-gray-200 pt-4 hidden">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Current Progress</label>
+                                <div class="flex items-center">
+                                    <input type="number" class="input-field w-20 text-center" value="0">
+                                    <span class="mx-2 text-sm text-gray-600">of</span>
+                                    <span class="text-sm font-medium">496 pages</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                                <input type="date" class="input-field">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Target Completion
+                                    Date</label>
+                                <input type="date" class="input-field">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Format *</label>
+                            <div class="grid grid-cols-3 gap-3 mt-1">
+                                <button
+                                    class="format-button bg-white border border-gray-300 rounded-lg py-3 px-2 text-sm font-medium text-center hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 active:bg-gray-200"
+                                    data-format="physical">
+                                    <div class="flex flex-col items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="#8C6A5B" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="mb-1">
+                                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z">
+                                            </path>
+                                        </svg>
+                                        <span>Physical</span>
+                                    </div>
+                                </button>
+
+                                <button
+                                    class="format-button bg-white border border-gray-300 rounded-lg py-3 px-2 text-sm font-medium text-center hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                                    data-format="ebook">
+                                    <div class="flex flex-col items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="#8C6A5B" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="mb-1">
+                                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                        </svg>
+                                        <span>E-Book</span>
+                                    </div>
+                                </button>
+
+                                <button
+                                    class="format-button bg-white border border-gray-300 rounded-lg py-3 px-2 text-sm font-medium text-center hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                                    data-format="audio">
+                                    <div class="flex flex-col items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 24 24" fill="none" stroke="#8C6A5B" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="mb-1">
+                                            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                                            <path
+                                                d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z">
+                                            </path>
+                                        </svg>
+                                        <span>Audio</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="audioDurationField" class="space-y-2 mt-4" style="display: none;">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Audiobook Duration</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Hours</label>
+                                    <input type="number" min="0" class="input-field" placeholder="0">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Minutes</label>
+                                    <input type="number" min="0" max="59" class="input-field" placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </body>
+
+<!-- JavaScript to show/hide the review section based on status selection -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const statusSelect = document.getElementById('bookStatus');
+        const reviewSection = document.getElementById('reviewSection');
+
+        // Initially hide the review section if status is not completed
+        if (statusSelect.value !== 'completed') {
+            reviewSection.style.display = 'none';
+        }
+
+        // Show/hide review section based on status change
+        statusSelect.addEventListener('change', function () {
+            if (this.value === 'completed') {
+                reviewSection.style.display = 'block';
+            } else {
+                reviewSection.style.display = 'none';
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const formatButtons = document.querySelectorAll('.format-button');
+        const audioDurationField = document.getElementById('audioDurationField');
+        const pagesField = document.getElementById('pagesField');
+
+        // Initially hide audio duration field
+        audioDurationField.style.display = 'none';
+
+        formatButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Remove selected class from all buttons
+                formatButtons.forEach(btn => btn.classList.remove('bg-gray-50', 'border-gray-800'));
+                formatButtons.forEach(btn => btn.classList.add('bg-white', 'border-gray-300'));
+
+                // Add selected class to clicked button
+                this.classList.remove('bg-white', 'border-gray-300');
+                this.classList.add('bg-gray-50', 'border-gray-800');
+
+                // Check if audio format is selected
+                const isAudio = this.getAttribute('data-format') === 'audio';
+                audioDurationField.style.display = isAudio ? 'block' : 'none';
+                pagesField.style.display = isAudio ? 'none' : 'block';
+            });
+        });
+    });
+
+    // Add this to your existing JS
+    const formatButtons = document.querySelectorAll('.format-button');
+    const audioProgress = document.getElementById('audioProgress');
+    const pageProgress = document.getElementById('pageProgress');
+
+    formatButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const isAudio = this.getAttribute('data-format') === 'audio';
+
+            // Only update these if readingOptions is visible
+            if (readingOptions.style.display !== 'none') {
+                audioProgress.style.display = isAudio ? 'block' : 'none';
+                pageProgress.style.display = isAudio ? 'none' : 'block';
+            }
+        });
+    });
+</script>
 
 </html>

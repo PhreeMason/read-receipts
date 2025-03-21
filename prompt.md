@@ -42,19 +42,19 @@ This is a **Book Organizer app called "Read Receipts" where users can catalog, t
    - Reading stats visualization 
    - Active reading status and streaks
 
-3. **Library Management**
-   - Book library grid/list view
-   - TBR (To Be Read) organization screen
-   - Priority management interface
-   - Book status filters (unread, reading, completed)
-
-4. **Book Details**
+3. **Book Details**
    - Comprehensive book details page
    - Format selection (physical, ebook, audiobook)
    - Reading progress tracker
    - Book metadata editor
 
-I have attached the current UI mock ups for the MVP screens of my app. I would like to turn this into a propper react native app. What UI Components should I create? Do not generate any code just think and plan for now, and also focus on minimal amount of UI Components
+### Supporting Screens
+1. **Book Addition**
+   - Manual book entry form
+   - Format designation interface
+   - Book cover upload/selection
+
+I have attached the current UI mock ups for the MVP screens of my app. Review the schema for the mocks to make sure all this are added properly. Some information will be automatically added by out api once user enters a title. I would like to create mocks for the supporting screens book addition screen. Only generate the html necessary for the book addition screen. I will make the changes to my html to add in the new code. Remember to follow the design style outlined above.
 
 
 Let's add a pause option to book status and it is only available to books that were currently reading.
