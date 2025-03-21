@@ -10,13 +10,14 @@ import {
 } from '@tanstack/react-query';
 import { useReactQueryDevTools } from '@dev-plugins/react-query';
 import { ReaderProvider } from '@epubjs-react-native/core';
-
+import tw, { useDeviceContext } from 'twrnc';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient()
 export default function RootLayout() {
+    useDeviceContext(tw);
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     });

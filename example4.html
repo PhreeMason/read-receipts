@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Receipts UI Design</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Inter', sans-serif;
+            padding: 2rem;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: white;
+            border-radius: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin: 2rem;
+            display: inline-block;
+            vertical-align: top;
+            overflow: hidden;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow-y: auto;
+            /* Allow content to scroll */
+            overflow-x: hidden;
+            padding-bottom: 70px;
+        }
+
+        .btn-primary {
+            background-color: #8C6A5B;
+            color: white;
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #75594D;
+        }
+
+        .btn-secondary {
+            background-color: #E9E2DD;
+            color: #8C6A5B;
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #DFD6CF;
+        }
+
+        .input-field {
+            background-color: #F7F5F3;
+            border: 1px solid #E9E2DD;
+            border-radius: 12px;
+            padding: 14px 16px;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .input-field:focus {
+            border-color: #8C6A5B;
+            outline: none;
+        }
+
+        .book-card {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .screens-container {
+            display: flex;
+            flex-wrap: wrap;
+            overflow-x: auto;
+            padding: 2rem 0;
+        }
+
+        .navigation-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            /* Taller to match design */
+            background-color: white !important;
+            /* Force white background */
+            border-top: 1px solid #E5E7EB;
+            z-index: 999;
+            /* Very high z-index to ensure it's on top */
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            /* Subtle shadow for separation */
+        }
+
+
+        /* Ensure grid content fills the navigation bar properly */
+        .navigation-bar .grid {
+            height: 100%;
+        }
+
+        /* Ensure screen content doesn't get cut off */
+        .phone-frame .screen>div:last-child:not(.navigation-bar) {
+            margin-bottom: 70px;
+        }
+
+        /* Fix for Safari and some mobile browsers */
+        .phone-frame {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="text-3xl font-bold mb-6">Read Receipts - Book Organizer App UI Design</h1>
+
+    <div class="screens-container">
+        <!-- Login Screen -->
+        <div class="phone-frame">
+            <div class="screen p-8 flex flex-col">
+                <div class="flex-grow flex flex-col justify-center items-center">
+                    <div class="mb-12 text-center">
+                        <div class="inline-block mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                        </div>
+                        <h1 class="text-3xl font-bold mb-2 text-black">Read Receipts</h1>
+                        <p class="text-gray-600">Track, review, and share your reading journey</p>
+                    </div>
+
+                    <div class="w-full space-y-4 mb-8">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" class="input-field" placeholder="youremail@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <input type="password" class="input-field" placeholder="••••••••">
+                        </div>
+                        <div class="flex justify-end">
+                            <a href="#" class="text-sm text-gray-600 hover:text-gray-900">Forgot password?</a>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary w-full mb-4">
+                        Sign In
+                    </button>
+
+                    <div class="relative w-full my-6">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-300"></div>
+                        </div>
+                        <div class="relative flex justify-center">
+                            <span class="px-2 bg-white text-sm text-gray-500">or continue with</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 w-full mb-8">
+                        <button
+                            class="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </button>
+                        <button
+                            class="flex items-center justify-center py-3 px-4 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-gray-600">Don't have an account? <a href="#" class="font-medium text-gray-900">Sign
+                            up</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home Dashboard Screen -->
+        <div class="phone-frame">
+            <div class="screen">
+                <!-- Header Section -->
+                <div class="px-6 pt-12 pb-6">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h1 class="text-2xl font-bold text-black">My Library</h1>
+                            <p class="text-gray-600 text-sm">Welcome back, Alex</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button
+                                class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </button>
+                            <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                                <img src="https://picsum.photos/40" alt="User avatar"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reading Progress Carousel -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <h2 class="font-semibold text-black">Current Reading</h2>
+                            <div class="flex space-x-1">
+                                <span class="w-2 h-2 rounded-full bg-gray-800"></span>
+                                <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+                                <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto scrollbar-hide pb-2">
+                            <div class="flex space-x-4">
+                                <!-- First Current Book -->
+                                <div class="bg-white rounded-2xl p-5 shadow-sm min-w-[280px]">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <span class="text-xs text-gray-500">Updated 2h ago</span>
+                                        <span class="text-sm text-gray-500">70% Complete</span>
+                                    </div>
+
+                                    <div class="flex space-x-4">
+                                        <div class="flex-shrink-0">
+                                            <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                                <img src="https://picsum.photos/64/96" alt="Book cover"
+                                                    class="w-full h-full object-cover" />
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow">
+                                            <h3 class="font-medium text-black mb-1">The Midnight Library</h3>
+                                            <p class="text-gray-600 text-sm mb-3">Matt Haig</p>
+                                            <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                                <div class="bg-gray-800 h-2 rounded-full" style="width: 70%"></div>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-xs text-gray-500">Page 175 of 250</span>
+                                                <button class="text-xs font-medium text-gray-900">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Second Current Book -->
+                                <div class="bg-white rounded-2xl p-5 shadow-sm min-w-[280px]">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <span class="text-xs text-gray-500">Updated 1d ago</span>
+                                        <span class="text-sm text-gray-500">35% Complete</span>
+                                    </div>
+
+                                    <div class="flex space-x-4">
+                                        <div class="flex-shrink-0">
+                                            <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                                <img src="https://picsum.photos/64/96?random=4" alt="Book cover"
+                                                    class="w-full h-full object-cover" />
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow">
+                                            <h3 class="font-medium text-black mb-1">Dune</h3>
+                                            <p class="text-gray-600 text-sm mb-3">Frank Herbert</p>
+                                            <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                                <div class="bg-gray-800 h-2 rounded-full" style="width: 35%"></div>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-xs text-gray-500">Page 245 of 700</span>
+                                                <button class="text-xs font-medium text-gray-900">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Third Current Book -->
+                                <div class="bg-white rounded-2xl p-5 shadow-sm min-w-[280px]">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <span class="text-xs text-gray-500">Updated 3d ago</span>
+                                        <span class="text-sm text-gray-500">15% Complete</span>
+                                    </div>
+
+                                    <div class="flex space-x-4">
+                                        <div class="flex-shrink-0">
+                                            <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                                <img src="https://picsum.photos/64/96?random=5" alt="Book cover"
+                                                    class="w-full h-full object-cover" />
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow">
+                                            <h3 class="font-medium text-black mb-1">The Alchemist</h3>
+                                            <p class="text-gray-600 text-sm mb-3">Paulo Coelho</p>
+                                            <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                                <div class="bg-gray-800 h-2 rounded-full" style="width: 15%"></div>
+                                            </div>
+                                            <div class="flex justify-between">
+                                                <span class="text-xs text-gray-500">Page 30 of 197</span>
+                                                <button class="text-xs font-medium text-gray-900">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reading Stats -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-white rounded-2xl p-4 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M6 10h4"></path>
+                                    <path d="M6 14h2"></path>
+                                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                                    <line x1="10" y1="2" x2="10" y2="22"></line>
+                                </svg>
+                                <h3 class="font-medium text-sm text-gray-800">This Month</h3>
+                            </div>
+                            <p class="text-2xl font-bold text-black">6 Books</p>
+                            <p class="text-sm text-green-600">+2 from last month</p>
+                        </div>
+
+                        <div class="bg-white rounded-2xl p-4 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                <h3 class="font-medium text-sm text-gray-800">Reading Time</h3>
+                            </div>
+                            <p class="text-2xl font-bold text-black">42 hrs</p>
+                            <p class="text-sm text-green-600">8.5 hrs this week</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Collection -->
+                <div class="px-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="font-semibold text-black">Recently Added</h2>
+                        <button class="text-sm font-medium text-gray-600">See All</button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">Klara and the Sun</h3>
+                                <p class="text-xs text-gray-600">Kazuo Ishiguro</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200?random=1" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">Circe</h3>
+                                <p class="text-xs text-gray-600">Madeline Miller</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200?random=2" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">The Song of Achilles</h3>
+                                <p class="text-xs text-gray-600">Madeline Miller</p>
+                            </div>
+                        </div>
+
+                        <div class="book-card">
+                            <div class="w-full h-40 overflow-hidden">
+                                <img src="https://picsum.photos/150/200?random=3" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-sm text-black mb-1 truncate">Project Hail Mary</h3>
+                                <p class="text-xs text-gray-600">Andy Weir</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Feed -->
+                <div class="mt-6 mb-20">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="font-semibold text-black">Recent Activity</h2>
+                        <button class="text-sm font-medium text-gray-600">See All</button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Activity Item 1 - Finished Book -->
+                        <div class="bg-white rounded-2xl p-4 shadow-md">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mr-3">
+                                    <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                                        <img src="https://picsum.photos/40?random=1" alt="User avatar"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="font-medium text-black text-sm">Sarah Johnson</p>
+                                            <p class="text-xs text-gray-500">2 hours ago</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm mt-2 text-black">Finished reading <span class="font-medium">The
+                                            Midnight Library</span> and gave it 4.5 stars ⭐</p>
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center space-x-4">
+                                            <button class="flex items-center text-gray-600 text-xs font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="mr-1">
+                                                    <path
+                                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                                    </path>
+                                                </svg>
+                                                24 likes
+                                            </button>
+                                            <button class="flex items-center text-gray-600 text-xs font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="mr-1">
+                                                    <path
+                                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                                    </path>
+                                                </svg>
+                                                6 comments
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Item 2 - Added New Book -->
+                        <div class="bg-white rounded-2xl p-4 shadow-md">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mr-3">
+                                    <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                                        <img src="https://picsum.photos/40?random=2" alt="User avatar"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="font-medium text-black text-sm">Alex Chen</p>
+                                            <p class="text-xs text-gray-500">Yesterday</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm mt-2 text-black">Added <span class="font-medium">Project Hail
+                                            Mary</span> to their library</p>
+
+                                    <div class="mt-3 mb-3">
+                                        <div class="flex space-x-4">
+                                            <div class="flex-shrink-0">
+                                                <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                                    <img src="https://picsum.photos/64/96?random=20" alt="Book cover"
+                                                        class="w-full h-full object-cover" />
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow">
+                                                <h3 class="font-medium text-black text-sm mb-1">Project Hail Mary</h3>
+                                                <p class="text-gray-600 text-xs mb-2">Andy Weir</p>
+                                                <p class="text-xs text-gray-500">Science Fiction • 496 pages</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center space-x-4">
+                                            <button class="flex items-center text-gray-600 text-xs font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="mr-1">
+                                                    <path
+                                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                                    </path>
+                                                </svg>
+                                                18 likes
+                                            </button>
+                                            <button class="flex items-center text-gray-600 text-xs font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="mr-1">
+                                                    <path
+                                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                                    </path>
+                                                </svg>
+                                                3 comments
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Item 3 - Quote -->
+                        <div class="bg-white rounded-2xl p-4 shadow-md">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mr-3">
+                                    <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                                        <img src="https://picsum.photos/40?random=3" alt="User avatar"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="font-medium text-black text-sm">Morgan Taylor</p>
+                                            <p class="text-xs text-gray-500">2 days ago</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm mt-2 text-black">Saved a quote from <span class="font-medium">The
+                                            Alchemist</span></p>
+
+                                    <div class="mt-3 bg-gray-50 p-3 rounded-xl border-l-2 border-gray-800">
+                                        <p class="text-sm text-black italic">"When you want something, all the universe
+                                            conspires in helping you to achieve it."</p>
+                                    </div>
+
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center space-x-4">
+                                            <button class="flex items-center text-gray-600 text-xs font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="mr-1">
+                                                    <path
+                                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                                    </path>
+                                                </svg>
+                                                32 likes
+                                            </button>
+                                            <button class="flex items-center text-gray-600 text-xs font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="mr-1">
+                                                    <path
+                                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                                    </path>
+                                                </svg>
+                                                8 comments
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Item 4 - Reading Session -->
+                        <div class="bg-white rounded-2xl p-4 shadow-md">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mr-3">
+                                    <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                                        <img src="https://picsum.photos/40?random=4" alt="User avatar"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="font-medium text-black text-sm">Jamie Wilson</p>
+                                            <p class="text-xs text-gray-500">3 days ago</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm mt-2 text-black">Logged a 45-minute reading session of <span
+                                            class="font-medium">Dune</span></p>
+
+                                    <div class="mt-3 bg-gray-50 p-3 rounded-xl flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                viewBox="0 0 24 24" fill="none" stroke="#8C6A5B" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <polyline points="12 6 12 12 16 14"></polyline>
+                                            </svg>
+                                            <span class="text-sm text-black">45 minutes</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-xs text-gray-500">Pages 180-205</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex justify-between items-center mt-3">
+                                        <div class="flex items-center space-x-4">
+                                            <button class="flex items-center text-gray-600 text-xs font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="mr-1">
+                                                    <path
+                                                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                                    </path>
+                                                </svg>
+                                                12 likes
+                                            </button>
+                                            <button class="flex items-center text-gray-600 text-xs font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="mr-1">
+                                                    <path
+                                                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                                    </path>
+                                                </svg>
+                                                2 comments
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Bar -->
+                <div class="navigation-bar">
+                    <div class="grid grid-cols-5 h-full">
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span class="text-xs mt-1">Home</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Library</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center -mt-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </div>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Social</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Profile</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Library Screen -->
+        <div class="phone-frame">
+            <div class="screen">
+                <!-- Header Section -->
+                <div class="px-6 pt-12 pb-4">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h1 class="text-2xl font-bold text-black">My Library</h1>
+                            <p class="text-gray-600 text-sm">128 books in collection</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button
+                                class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </button>
+                            <button
+                                class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                                    <line x1="17" y1="16" x2="23" y2="16"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Library Filter Tabs -->
+                    <div class="mb-6">
+                        <div class="flex space-x-2 overflow-x-auto py-1">
+                            <button class="px-4 py-2 bg-gray-800 text-white rounded-full text-sm whitespace-nowrap">
+                                All Books
+                            </button>
+                            <button
+                                class="px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-full text-sm whitespace-nowrap">
+                                Currently Reading
+                            </button>
+                            <button
+                                class="px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-full text-sm whitespace-nowrap">
+                                To Read
+                            </button>
+                            <button
+                                class="px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-full text-sm whitespace-nowrap">
+                                Finished
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Library View Toggle -->
+                <div class="px-6 mb-4 flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <button class="p-2 bg-gray-800 text-white rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                        </button>
+                        <button class="p-2 bg-white border border-gray-200 text-gray-800 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="flex items-center text-sm text-gray-600">
+                            <span>Sort by: Recently Added</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="ml-1">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Book Grid -->
+                <div class="px-6 mb-20">
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Book 1 -->
+                        <div class="book-card">
+                            <div class="relative">
+                                <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                                    <img src="https://picsum.photos/150/200?random=10" alt="Book cover"
+                                        class="w-full h-full object-cover" />
+                                </div>
+                                <!-- Reading status badge -->
+                                <div
+                                    class="absolute top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded-full">
+                                    Reading
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-black mb-1 truncate">The Midnight Library</h3>
+                                <p class="text-xs text-gray-600 mb-1">Matt Haig</p>
+                                <!-- Progress bar -->
+                                <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
+                                    <div class="bg-gray-800 h-1 rounded-full" style="width: 70%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500">70% complete</p>
+                            </div>
+                        </div>
+
+                        <!-- Book 2 -->
+                        <div class="book-card">
+                            <div class="relative">
+                                <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                                    <img src="https://picsum.photos/150/200?random=11" alt="Book cover"
+                                        class="w-full h-full object-cover" />
+                                </div>
+                                <!-- Reading status badge -->
+                                <div
+                                    class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full">
+                                    Finished
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-black mb-1 truncate">Klara and the Sun</h3>
+                                <p class="text-xs text-gray-600 mb-1">Kazuo Ishiguro</p>
+                                <!-- Star rating -->
+                                <div class="flex items-center text-yellow-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="0.5"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Book 3 -->
+                        <div class="book-card">
+                            <div class="relative">
+                                <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                                    <img src="https://picsum.photos/150/200?random=12" alt="Book cover"
+                                        class="w-full h-full object-cover" />
+                                </div>
+                                <!-- Reading status badge -->
+                                <div
+                                    class="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+                                    To Read
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-black mb-1 truncate">Project Hail Mary</h3>
+                                <p class="text-xs text-gray-600 mb-1">Andy Weir</p>
+                                <p class="text-xs text-gray-500">Added 2 weeks ago</p>
+                            </div>
+                        </div>
+
+                        <!-- Book 4 -->
+                        <div class="book-card">
+                            <div class="relative">
+                                <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                                    <img src="https://picsum.photos/150/200?random=13" alt="Book cover"
+                                        class="w-full h-full object-cover" />
+                                </div>
+                                <!-- Reading status badge -->
+                                <div
+                                    class="absolute top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded-full">
+                                    Reading
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-black mb-1 truncate">Dune</h3>
+                                <p class="text-xs text-gray-600 mb-1">Frank Herbert</p>
+                                <!-- Progress bar -->
+                                <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
+                                    <div class="bg-gray-800 h-1 rounded-full" style="width: 35%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500">35% complete</p>
+                            </div>
+                        </div>
+
+                        <!-- Book 5 -->
+                        <div class="book-card">
+                            <div class="relative">
+                                <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                                    <img src="https://picsum.photos/150/200?random=14" alt="Book cover"
+                                        class="w-full h-full object-cover" />
+                                </div>
+                                <!-- Reading status badge -->
+                                <div
+                                    class="absolute top-2 right-2 bg-gray-800 text-white text-xs px-2 py-1 rounded-full">
+                                    Reading
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-black mb-1 truncate">The Alchemist</h3>
+                                <p class="text-xs text-gray-600 mb-1">Paulo Coelho</p>
+                                <!-- Progress bar -->
+                                <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
+                                    <div class="bg-gray-800 h-1 rounded-full" style="width: 15%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500">15% complete</p>
+                            </div>
+                        </div>
+
+                        <!-- Book 6 -->
+                        <div class="book-card">
+                            <div class="relative">
+                                <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                                    <img src="https://picsum.photos/150/200?random=15" alt="Book cover"
+                                        class="w-full h-full object-cover" />
+                                </div>
+                                <!-- Reading status badge -->
+                                <div
+                                    class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full">
+                                    Finished
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-medium text-black mb-1 truncate">The Song of Achilles</h3>
+                                <p class="text-xs text-gray-600 mb-1">Madeline Miller</p>
+                                <!-- Star rating -->
+                                <div class="flex items-center text-yellow-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+                                        fill="currentColor" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                        </polygon>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Bar -->
+                <div class="navigation-bar">
+                    <div class="grid grid-cols-5 h-full">
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Home</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-black">Library</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center -mt-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </div>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Social</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Profile</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Details Screen -->
+        <div class="phone-frame">
+            <div class="screen">
+                <!-- Header Section (Simplified) -->
+                <div class="px-6 pt-12 pb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Book Cover (Centered and Prominent) -->
+                <div class="px-6 mb-4 flex justify-center">
+                    <div class="w-2/3 max-w-xs">
+                        <div class="aspect-[2/3] rounded-xl overflow-hidden shadow-md">
+                            <img src="https://picsum.photos/300/450?random=10" alt="Book cover"
+                                class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Details -->
+                <div class="px-6 mb-6 text-center">
+                    <h2 class="text-xl font-bold text-black mb-1">The Midnight Library</h2>
+                    <p class="text-sm text-black mb-3">by Matt Haig</p>
+
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="flex items-center text-yellow-500 mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <span class="ml-1 text-xs text-black">4.2</span>
+                        </div>
+                        <span class="text-xs text-black mx-2">•</span>
+                        <span class="text-xs text-black">Fiction</span>
+                        <span class="text-xs text-black mx-2">•</span>
+                        <span class="text-xs text-black">288 pages</span>
+                    </div>
+
+                    <div class="mb-5 px-4">
+                        <div class="flex justify-between text-xs text-black mb-1">
+                            <span>Reading Progress</span>
+                            <span>70% (196/288)</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-gray-800 h-2 rounded-full" style="width: 70%"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <button
+                            class="px-3 py-2 bg-gray-800 text-white text-xs rounded-lg flex-grow flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="mr-1">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            Update Progress
+                        </button>
+                        <button class="p-2 border border-gray-300 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </button>
+                        <button class="p-2 border border-gray-300 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Format Selection (Cleaner style) -->
+                <div class="px-6 mb-8">
+                    <div class="flex space-x-3">
+                        <button class="flex-1 py-2 bg-gray-800 text-white text-xs rounded-lg">
+                            Physical
+                        </button>
+                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
+                            E-book
+                        </button>
+                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
+                            Audiobook
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Book Synopsis -->
+                <div class="px-6 mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-sm font-semibold text-black">Synopsis</h3>
+                        <button class="text-xs text-black">See More</button>
+                    </div>
+                    <p class="text-xs text-black leading-relaxed">
+                        Between life and death there is a library, and within that library, the shelves go on forever.
+                        Every book provides a chance to try another life you could have lived. To see how things would
+                        be if you had made other choices...
+                    </p>
+                </div>
+
+                <!-- Reading Sessions -->
+                <div class="px-6 mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-sm font-semibold text-black">Reading Sessions</h3>
+                        <button class="text-xs text-black">See All</button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-medium text-black">Today</span>
+                                <span class="text-xs text-black">45 min</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-black">Pages 176-196</span>
+                                <span class="text-xs text-green-600">+20 pages</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-medium text-black">Yesterday</span>
+                                <span class="text-xs text-black">30 min</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-black">Pages 156-176</span>
+                                <span class="text-xs text-green-600">+20 pages</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes & Quotes -->
+                <div class="px-6 mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-sm font-semibold text-black">Notes & Quotes</h3>
+                        <button class="text-xs text-black">Add New</button>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm mb-3">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-medium text-black">Quote on p.87</span>
+                            <span class="text-xs text-black">3 days ago</span>
+                        </div>
+                        <p class="text-xs text-black italic mb-2">
+                            "The only way to learn is to live."
+                        </p>
+                        <div class="flex space-x-2">
+                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs text-black">inspiration</span>
+                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs text-black">favorite</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-medium text-black">Note on Chapter 5</span>
+                            <span class="text-xs text-black">1 week ago</span>
+                        </div>
+                        <p class="text-xs text-black mb-2">
+                            Interesting parallel between Nora's choices and the quantum physics concept mentioned
+                            earlier.
+                        </p>
+                        <div class="flex space-x-2">
+                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs text-black">analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reading Stats -->
+                <div class="px-6 mb-20">
+                    <h3 class="text-sm font-semibold text-black mb-2">Reading Stats</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
+                                <span class="text-xs font-medium text-black">Avg. Pages/Day</span>
+                            </div>
+                            <p class="text-lg font-bold text-black">18</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                <span class="text-xs font-medium text-black">Total Time</span>
+                            </div>
+                            <p class="text-lg font-bold text-black">7.5 hrs</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M12 20v-6M6 20V10M18 20V4"></path>
+                                </svg>
+                                <span class="text-xs font-medium text-black">Reading Streak</span>
+                            </div>
+                            <p class="text-lg font-bold text-black">5 days</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <span class="text-xs font-medium text-black">Est. Completion</span>
+                            </div>
+                            <p class="text-lg font-bold text-black">6 days</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Bar -->
+                <div class="navigation-bar">
+                    <div class="grid grid-cols-5 h-full">
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Home</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-black">Library</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center -mt-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </div>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Social</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Profile</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
