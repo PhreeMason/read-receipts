@@ -15,7 +15,7 @@ You are a **senior front-end developer**.
 ## Technical Specifications
 1. **Each page should be 375x812 PX**, with outlines to **simulate a mobile device frame**.
 2. **Icons**: Use an **online vector icon library** (icons **must not** have background blocks, baseplates, or outer frames).
-3. **Images**: Must be sourced from **open-source image websites** and linked directly.
+3. **Images**: Must use lorem picsum urls i.e: https://picsum.photos/64/96?random=10.
 4. **Styles**: Use **Tailwind CSS** via **CDN** for styling.
 5. **Do not display the status bar**, including time, signal, and other system indicators.
 6. **Do not display non-mobile elements**, such as scrollbars.
@@ -27,7 +27,6 @@ This is a **Book Organizer app called "Read Receipts" where users can catalog, t
 - Simulate a **Product Manager's detailed functional and information architecture design**.
 - Follow the **design style** and **technical specifications** to generate a complete **UI design plan**.
 - Create a **UI.html** file that contains all pages displayed in a **horizontal layout**.
-- Generate the **first two pages** now.
 
 ## Required Screens Based on User Stories
 
@@ -71,7 +70,7 @@ This is a **Book Organizer app called "Read Receipts" where users can catalog, t
 - Can add optional notes about the session
 - Can add mood for the session, with emoji
 
-user lorem picsum for all image urls i.e: https://picsum.photos/64/96?random=10
+
 
 I have attached the current UI mock ups for the MVP screens of my app. Logging user reading sessions. Based on the user story above generate the mocks for that screen. Only generate the html necessary for the book addition screen. I will make the changes to my html to add in the new code. Do not include the navigation bar since that is always the same and I can add it myself. Remember to follow the design style outlined above.
 
