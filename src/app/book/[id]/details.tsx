@@ -16,18 +16,6 @@ export default function BookDetailScreen() {
         return <Loading />;
     }
 
-    const handleStartReading = () => {
-        if (bookDetails.epub_url) {
-            router.push(`/book/${id}/read`);
-        } else {
-            Alert.alert('Error', 'Cannot open book. EPUB file not found.');
-        }
-    };
-
-    const handleContinueReading = () => {
-        router.push(`/book/${id}/read`);
-    };
-
     const handleAddToLibrary = () => {
         
     };
@@ -38,8 +26,8 @@ export default function BookDetailScreen() {
             currentStatus={currentStatus}
             progress={progress}
             statusDates={statusDates}
-            onStartReading={handleStartReading}
-            onContinueReading={handleContinueReading}
+            onStartReading={() => {}}
+            onContinueReading={() => {}}
         />
     );
-}
+}        

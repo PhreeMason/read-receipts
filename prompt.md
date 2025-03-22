@@ -71,6 +71,8 @@ This is a **Book Organizer app called "Read Receipts" where users can catalog, t
 - Can add optional notes about the session
 - Can add mood for the session, with emoji
 
+user lorem picsum for all image urls i.e: https://picsum.photos/64/96?random=10
+
 I have attached the current UI mock ups for the MVP screens of my app. Logging user reading sessions. Based on the user story above generate the mocks for that screen. Only generate the html necessary for the book addition screen. I will make the changes to my html to add in the new code. Do not include the navigation bar since that is always the same and I can add it myself. Remember to follow the design style outlined above.
 
 
