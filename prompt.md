@@ -54,7 +54,24 @@ This is a **Book Organizer app called "Read Receipts" where users can catalog, t
    - Format designation interface
    - Book cover upload/selection
 
-I have attached the current UI mock ups for the MVP screens of my app. Review the schema for the mocks to make sure all this are added properly. Some information will be automatically added by out api once user enters a title. I would like to create mocks for the supporting screens book addition screen. Only generate the html necessary for the book addition screen. I will make the changes to my html to add in the new code. Remember to follow the design style outlined above.
+### User Story 1.2: Updating Reading Progress
+**As a** reader
+
+**I want to** update my progress after a reading session
+
+**So that** I can track how far I've gotten in my book
+
+### Acceptance Criteria:
+
+- Can enter pages read or time listened
+- - if audiobook can set listening speed
+- Can update current page/percentage/time position
+- Progress bar visually updates
+- Date of update is automatically recorded
+- Can add optional notes about the session
+- Can add mood for the session, with emoji
+
+I have attached the current UI mock ups for the MVP screens of my app. Logging user reading sessions. Based on the user story above generate the mocks for that screen. Only generate the html necessary for the book addition screen. I will make the changes to my html to add in the new code. Do not include the navigation bar since that is always the same and I can add it myself. Remember to follow the design style outlined above.
 
 
 Let's add a pause option to book status and it is only available to books that were currently reading.

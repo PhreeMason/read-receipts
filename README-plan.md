@@ -726,7 +726,7 @@ Cross-format tracking
 - Can view all reactions for a particular book
 - Can add reactions during or after reading
 
-User Story 4.2: Quote Collection
+### User Story 4.2: Quote Collection
 
 **As a** reader  who finds meaningful passages
 
@@ -744,7 +744,7 @@ User Story 4.2: Quote Collection
 
 ## 5. Reading Journal Capabilities
 
-## User Story 5.1: Reading reviewss
+## User Story 5.1: Reading reviews
 
 **As a** reader  who wants to reflect on completed books
 
@@ -758,7 +758,7 @@ User Story 4.2: Quote Collection
 - Can use guided prompts or free-form writing
 - Can rate different aspects of the book (optional)
 - Can decide if reviews is private or shareable
-- Can edit reviewss after saving
+- Can edit reviews after saving
 
 
 ### User Story 5.3: Reading Session Documentation
