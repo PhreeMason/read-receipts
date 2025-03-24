@@ -490,97 +490,80 @@
                     </div>
 
                     <!-- Reading Progress Carousel -->
-                    <div class="mb-6">
-                        <div class="flex justify-between items-center mb-3">
-                            <h2 class="font-semibold text-black">Current Reading</h2>
-                            <div class="flex space-x-1">
-                                <span class="w-2 h-2 rounded-full bg-gray-800"></span>
-                                <span class="w-2 h-2 rounded-full bg-gray-300"></span>
-                                <span class="w-2 h-2 rounded-full bg-gray-300"></span>
-                            </div>
+                    <div class="mb-6 ">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="font-semibold text-black">Currently Reading</h2>
+                            <a href="#" class="text-sm text-gray-600">See all</a>
                         </div>
-
-                        <div class="overflow-x-auto scrollbar-hide pb-2">
-                            <div class="flex space-x-4">
-                                <!-- First Current Book -->
-                                <div class="bg-white rounded-2xl p-5 shadow-sm min-w-[280px]">
-                                    <div class="flex justify-between items-center mb-3">
-                                        <span class="text-xs text-gray-500">Updated 2h ago</span>
-                                        <span class="text-sm text-gray-500">70% Complete</span>
-                                    </div>
-
-                                    <div class="flex space-x-4">
-                                        <div class="flex-shrink-0">
-                                            <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
-                                                <img src="https://picsum.photos/64/96" alt="Book cover"
+                        <div class="overflow-x-auto">
+                            <div class="flex space-x-4 pb-2">
+                                <!-- Book 1 -->
+                                <div class="w-36 flex-shrink-0">
+                                    <div class="book-card h-full flex flex-col">
+                                        <div class="relative">
+                                            <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                                                <img src="https://picsum.photos/150/200?random=20" alt="Book cover"
                                                     class="w-full h-full object-cover" />
                                             </div>
                                         </div>
-                                        <div class="flex-grow">
-                                            <h3 class="font-medium text-black mb-1">The Midnight Library</h3>
-                                            <p class="text-gray-600 text-sm mb-3">Matt Haig</p>
-                                            <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
-                                                <div class="bg-gray-800 h-2 rounded-full" style="width: 70%"></div>
-                                            </div>
-                                            <div class="flex justify-between">
-                                                <span class="text-xs text-gray-500">Page 175 of 250</span>
-                                                <button class="text-xs font-medium text-gray-900">Update</button>
+                                        <div class="p-3 flex-grow flex flex-col">
+                                            <h3 class="font-medium text-black mb-1 truncate">The Midnight Library</h3>
+                                            <p class="text-xs text-gray-600 mb-1">Matt Haig</p>
+                                            <!-- Progress bar -->
+                                            <div class="mt-auto">
+                                                <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
+                                                    <div class="bg-gray-800 h-1 rounded-full" style="width: 70%"></div>
+                                                </div>
+                                                <p class="text-xs text-gray-600 mb-1">70% complete</p>
+                                                <p class="text-xs text-gray-600">Updated 2 hours ago</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Second Current Book -->
-                                <div class="bg-white rounded-2xl p-5 shadow-sm min-w-[280px]">
-                                    <div class="flex justify-between items-center mb-3">
-                                        <span class="text-xs text-gray-500">Updated 1d ago</span>
-                                        <span class="text-sm text-gray-500">35% Complete</span>
-                                    </div>
-
-                                    <div class="flex space-x-4">
-                                        <div class="flex-shrink-0">
-                                            <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
-                                                <img src="https://picsum.photos/64/96?random=4" alt="Book cover"
+                                <!-- Book 2 -->
+                                <div class="w-36 flex-shrink-0">
+                                    <div class="book-card h-full flex flex-col">
+                                        <div class="relative">
+                                            <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                                                <img src="https://picsum.photos/150/200?random=21" alt="Book cover"
                                                     class="w-full h-full object-cover" />
                                             </div>
                                         </div>
-                                        <div class="flex-grow">
-                                            <h3 class="font-medium text-black mb-1">Dune</h3>
-                                            <p class="text-gray-600 text-sm mb-3">Frank Herbert</p>
-                                            <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
-                                                <div class="bg-gray-800 h-2 rounded-full" style="width: 35%"></div>
-                                            </div>
-                                            <div class="flex justify-between">
-                                                <span class="text-xs text-gray-500">Page 245 of 700</span>
-                                                <button class="text-xs font-medium text-gray-900">Update</button>
+                                        <div class="p-3 flex-grow flex flex-col">
+                                            <h3 class="font-medium text-black mb-1 truncate">Dune</h3>
+                                            <p class="text-xs text-gray-600 mb-1">Frank Herbert</p>
+                                            <!-- Progress bar -->
+                                            <div class="mt-auto">
+                                                <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
+                                                    <div class="bg-gray-800 h-1 rounded-full" style="width: 35%"></div>
+                                                </div>
+                                                <p class="text-xs text-gray-600 mb-1">35% complete</p>
+                                                <p class="text-xs text-gray-600">Updated 3 days ago</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Third Current Book -->
-                                <div class="bg-white rounded-2xl p-5 shadow-sm min-w-[280px]">
-                                    <div class="flex justify-between items-center mb-3">
-                                        <span class="text-xs text-gray-500">Updated 3d ago</span>
-                                        <span class="text-sm text-gray-500">15% Complete</span>
-                                    </div>
-
-                                    <div class="flex space-x-4">
-                                        <div class="flex-shrink-0">
-                                            <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
-                                                <img src="https://picsum.photos/64/96?random=5" alt="Book cover"
+                                <!-- Book 3 -->
+                                <div class="w-36 flex-shrink-0">
+                                    <div class="book-card h-full flex flex-col">
+                                        <div class="relative">
+                                            <div class="w-full h-48 overflow-hidden rounded-t-lg">
+                                                <img src="https://picsum.photos/150/200?random=22" alt="Book cover"
                                                     class="w-full h-full object-cover" />
                                             </div>
                                         </div>
-                                        <div class="flex-grow">
-                                            <h3 class="font-medium text-black mb-1">The Alchemist</h3>
-                                            <p class="text-gray-600 text-sm mb-3">Paulo Coelho</p>
-                                            <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
-                                                <div class="bg-gray-800 h-2 rounded-full" style="width: 15%"></div>
-                                            </div>
-                                            <div class="flex justify-between">
-                                                <span class="text-xs text-gray-500">Page 30 of 197</span>
-                                                <button class="text-xs font-medium text-gray-900">Update</button>
+                                        <div class="p-3 flex-grow flex flex-col">
+                                            <h3 class="font-medium text-black mb-1 truncate">The Alchemist</h3>
+                                            <p class="text-xs text-gray-600 mb-1">Paulo Coelho</p>
+                                            <!-- Progress bar -->
+                                            <div class="mt-auto">
+                                                <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
+                                                    <div class="bg-gray-800 h-1 rounded-full" style="width: 15%"></div>
+                                                </div>
+                                                <p class="text-xs text-gray-600 mb-1">15% complete</p>
+                                                <p class="text-xs text-gray-600">Updated 3 days ago</p>
                                             </div>
                                         </div>
                                     </div>
@@ -601,10 +584,10 @@
                                     <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
                                     <line x1="10" y1="2" x2="10" y2="22"></line>
                                 </svg>
-                                <h3 class="font-medium text-sm text-gray-800">This Month</h3>
+                                <h3 class="font-medium text-sm text-gray-800 text-nowrap">This Month</h3>
                             </div>
                             <p class="text-2xl font-bold text-black">6 Books</p>
-                            <p class="text-sm text-green-600">+2 from last month</p>
+                            <p class="text-sm text-green-600">+2 this month</p>
                         </div>
 
                         <div class="bg-white rounded-2xl p-4 shadow-sm">
@@ -615,12 +598,12 @@
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <polyline points="12 6 12 12 16 14"></polyline>
                                 </svg>
-                                <h3 class="font-medium text-sm text-gray-800">Reading Time</h3>
+                                <h3 class="font-medium text-sm text-gray-800 text-nowrap">Reading Time</h3>
                             </div>
                             <p class="text-2xl font-bold text-black">6 hrs</p>
-                            <p class="text-sm text-green-600">+1.5 hrs this week</p>
+                            <p class="text-sm text-green-600">+1.5 this week</p>
                         </div>
-        
+
                         <div class="bg-white rounded-2xl p-4 shadow-sm">
                             <div class="flex items-center space-x-2 mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -629,10 +612,9 @@
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <polyline points="12 6 12 12 16 14"></polyline>
                                 </svg>
-                                <h3 class="font-medium text-sm text-gray-800">Reading Streak</h3>
+                                <h3 class="font-medium text-sm text-gray-800 text-nowrap">Reading Streak</h3>
                             </div>
                             <p class="text-2xl font-bold text-black">17 days</p>
-                            <p class="text-sm text-green-600">+10 from last streak</p>
                         </div>
                         <div class="bg-white rounded-2xl p-4 shadow-sm">
                             <div class="flex items-center space-x-2 mb-3">
@@ -641,7 +623,7 @@
                                     stroke-linejoin="round">
                                     <path d="M12 20v-6M6 20V10M18 20V4"></path>
                                 </svg>
-                                <h3 class="font-medium text-sm text-gray-800">Pages Today</h3>
+                                <h3 class="font-medium text-sm text-gray-800 text-nowrap">Pages Today</h3>
                             </div>
                             <p class="text-2xl font-bold text-black">8</p>
                         </div>
@@ -997,76 +979,96 @@
 
                 <!-- Currently Reading Section -->
                 <div class="px-6 mb-6">
-                    <div class="flex justify-between items-center mb-4">
+                    <div class="flex justify-between items-center mb-3">
                         <h2 class="font-semibold text-black">Currently Reading</h2>
-                        <a href="#" class="text-sm text-gray-600">See all</a>
+                        <div class="flex space-x-1">
+                            <span class="w-2 h-2 rounded-full bg-gray-800"></span>
+                            <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+                            <span class="w-2 h-2 rounded-full bg-gray-300"></span>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto">
-                        <div class="flex space-x-4 pb-2">
-                            <!-- Book 1 -->
-                            <div class="w-36 flex-shrink-0">
-                                <div class="book-card h-full flex flex-col">
-                                    <div class="relative">
-                                        <div class="w-full h-48 overflow-hidden rounded-t-lg">
-                                            <img src="https://picsum.photos/150/200?random=20" alt="Book cover"
+
+                    <div class="overflow-x-auto scrollbar-hide pb-2">
+                        <div class="flex space-x-4">
+                            <!-- First Current Book -->
+                            <div class="bg-white rounded-2xl p-5 shadow-sm min-w-[280px]">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-xs text-gray-500">Updated 2h ago</span>
+                                    <span class="text-sm text-gray-500">70% Complete</span>
+                                </div>
+
+                                <div class="flex space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                            <img src="https://picsum.photos/64/96" alt="Book cover"
                                                 class="w-full h-full object-cover" />
                                         </div>
                                     </div>
-                                    <div class="p-3 flex-grow flex flex-col">
-                                        <h3 class="font-medium text-black mb-1 truncate">The Midnight Library</h3>
-                                        <p class="text-xs text-gray-600 mb-1">Matt Haig</p>
-                                        <!-- Progress bar -->
-                                        <div class="mt-auto">
-                                            <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
-                                                <div class="bg-gray-800 h-1 rounded-full" style="width: 70%"></div>
-                                            </div>
-                                            <p class="text-xs text-gray-600">70% complete</p>
+                                    <div class="flex-grow">
+                                        <h3 class="font-medium text-black mb-1">The Midnight Library</h3>
+                                        <p class="text-gray-600 text-sm mb-3">Matt Haig</p>
+                                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                            <div class="bg-gray-800 h-2 rounded-full" style="width: 70%"></div>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-xs text-gray-500">Page 175 of 250</span>
+                                            <button class="text-xs font-medium text-gray-900">Update</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Book 2 -->
-                            <div class="w-36 flex-shrink-0">
-                                <div class="book-card h-full flex flex-col">
-                                    <div class="relative">
-                                        <div class="w-full h-48 overflow-hidden rounded-t-lg">
-                                            <img src="https://picsum.photos/150/200?random=21" alt="Book cover"
+                            <!-- Second Current Book -->
+                            <div class="bg-white rounded-2xl p-5 shadow-sm min-w-[280px]">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-xs text-gray-500">Updated 1d ago</span>
+                                    <span class="text-sm text-gray-500">35% Complete</span>
+                                </div>
+
+                                <div class="flex space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                            <img src="https://picsum.photos/64/96?random=4" alt="Book cover"
                                                 class="w-full h-full object-cover" />
                                         </div>
                                     </div>
-                                    <div class="p-3 flex-grow flex flex-col">
-                                        <h3 class="font-medium text-black mb-1 truncate">Dune</h3>
-                                        <p class="text-xs text-gray-600 mb-1">Frank Herbert</p>
-                                        <!-- Progress bar -->
-                                        <div class="mt-auto">
-                                            <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
-                                                <div class="bg-gray-800 h-1 rounded-full" style="width: 35%"></div>
-                                            </div>
-                                            <p class="text-xs text-gray-600">35% complete</p>
+                                    <div class="flex-grow">
+                                        <h3 class="font-medium text-black mb-1">Dune</h3>
+                                        <p class="text-gray-600 text-sm mb-3">Frank Herbert</p>
+                                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                            <div class="bg-gray-800 h-2 rounded-full" style="width: 35%"></div>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-xs text-gray-500">Page 245 of 700</span>
+                                            <button class="text-xs font-medium text-gray-900">Update</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Book 3 -->
-                            <div class="w-36 flex-shrink-0">
-                                <div class="book-card h-full flex flex-col">
-                                    <div class="relative">
-                                        <div class="w-full h-48 overflow-hidden rounded-t-lg">
-                                            <img src="https://picsum.photos/150/200?random=22" alt="Book cover"
+                            <!-- Third Current Book -->
+                            <div class="bg-white rounded-2xl p-5 shadow-sm min-w-[280px]">
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-xs text-gray-500">Updated 3d ago</span>
+                                    <span class="text-sm text-gray-500">15% Complete</span>
+                                </div>
+
+                                <div class="flex space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                            <img src="https://picsum.photos/64/96?random=5" alt="Book cover"
                                                 class="w-full h-full object-cover" />
                                         </div>
                                     </div>
-                                    <div class="p-3 flex-grow flex flex-col">
-                                        <h3 class="font-medium text-black mb-1 truncate">The Alchemist</h3>
-                                        <p class="text-xs text-gray-600 mb-1">Paulo Coelho</p>
-                                        <!-- Progress bar -->
-                                        <div class="mt-auto">
-                                            <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
-                                                <div class="bg-gray-800 h-1 rounded-full" style="width: 15%"></div>
-                                            </div>
-                                            <p class="text-xs text-gray-600">15% complete</p>
+                                    <div class="flex-grow">
+                                        <h3 class="font-medium text-black mb-1">The Alchemist</h3>
+                                        <p class="text-gray-600 text-sm mb-3">Paulo Coelho</p>
+                                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                            <div class="bg-gray-800 h-2 rounded-full" style="width: 15%"></div>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-xs text-gray-500">Page 30 of 197</span>
+                                            <button class="text-xs font-medium text-gray-900">Update</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1631,297 +1633,6 @@
             </div>
         </div>
 
-        <!-- Book Details Screen -->
-        <div class="phone-frame">
-            <div class="screen">
-                <!-- Header Section (Simplified) -->
-                <div class="px-6 pt-12 pb-4">
-                    <div class="flex items-center justify-between mb-4">
-                        <button class="p-2 rounded-full hover:bg-gray-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M19 12H5M12 19l-7-7 7-7"></path>
-                            </svg>
-                        </button>
-                        <button class="p-2 rounded-full hover:bg-gray-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Book Cover (Centered and Prominent) -->
-                <div class="px-6 mb-4 flex justify-center">
-                    <div class="w-2/3 max-w-xs">
-                        <div class="aspect-[2/3] rounded-xl overflow-hidden shadow-md">
-                            <img src="https://picsum.photos/300/450?random=10" alt="Book cover"
-                                class="w-full h-full object-cover" />
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book Details -->
-                <div class="px-6 mb-6 text-center">
-                    <h2 class="text-xl font-bold text-black mb-1">The Midnight Library</h2>
-                    <p class="text-sm text-black mb-3">by Matt Haig</p>
-
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="flex items-center text-yellow-500 mr-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <polygon
-                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-                                </polygon>
-                            </svg>
-                            <span class="ml-1 text-xs text-black">4.2</span>
-                        </div>
-                        <span class="text-xs text-black mx-2">•</span>
-                        <span class="text-xs text-black">Fiction</span>
-                        <span class="text-xs text-black mx-2">•</span>
-                        <span class="text-xs text-black">288 pages</span>
-                    </div>
-
-                    <div class="mb-5 px-4">
-                        <div class="flex justify-between text-xs text-black mb-1">
-                            <span>Reading Progress</span>
-                            <span>70% (196/288)</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-gray-800 h-2 rounded-full" style="width: 70%"></div>
-                        </div>
-                    </div>
-
-                    <div class="flex space-x-2">
-                        <button
-                            class="px-3 py-2 bg-gray-800 text-white text-xs rounded-lg flex-grow flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="mr-1">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                            </svg>
-                            Update Progress
-                        </button>
-                        <button class="p-2 border border-gray-300 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                        </button>
-                        <button class="p-2 border border-gray-300 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Format Selection (Cleaner style) -->
-                <div class="px-6 mb-8">
-                    <div class="flex space-x-3">
-                        <button class="flex-1 py-2 bg-gray-800 text-white text-xs rounded-lg">
-                            Physical
-                        </button>
-                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
-                            E-book
-                        </button>
-                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
-                            Audiobook
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Book Synopsis -->
-                <div class="px-6 mb-8">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-sm font-semibold text-black">Synopsis</h3>
-                        <button class="text-xs text-black">See More</button>
-                    </div>
-                    <p class="text-xs text-black leading-relaxed">
-                        Between life and death there is a library, and within that library, the shelves go on forever.
-                        Every book provides a chance to try another life you could have lived. To see how things would
-                        be if you had made other choices...
-                    </p>
-                </div>
-
-                <!-- Reading Sessions -->
-                <div class="px-6 mb-8">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-sm font-semibold text-black">Reading Sessions</h3>
-                        <button class="text-xs text-black">See All</button>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-xs font-medium text-black">Today</span>
-                                <span class="text-xs text-black">45 min</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs text-black">Pages 176-196</span>
-                                <span class="text-xs text-green-600">+20 pages</span>
-                            </div>
-                        </div>
-                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="text-xs font-medium text-black">Yesterday</span>
-                                <span class="text-xs text-black">30 min</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs text-black">Pages 156-176</span>
-                                <span class="text-xs text-green-600">+20 pages</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Notes & Quotes -->
-                <div class="px-6 mb-8">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-sm font-semibold text-black">Notes & Quotes</h3>
-                        <button class="text-xs text-black">Add New</button>
-                    </div>
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm mb-3">
-                        <div class="flex justify-between items-start mb-2">
-                            <span class="text-xs font-medium text-black">Quote on p.87</span>
-                            <span class="text-xs text-black">3 days ago</span>
-                        </div>
-                        <p class="text-xs text-black italic mb-2">
-                            "The only way to learn is to live."
-                        </p>
-                        <div class="flex space-x-2">
-                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs text-black">inspiration</span>
-                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs text-black">favorite</span>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <div class="flex justify-between items-start mb-2">
-                            <span class="text-xs font-medium text-black">Note on Chapter 5</span>
-                            <span class="text-xs text-black">1 week ago</span>
-                        </div>
-                        <p class="text-xs text-black mb-2">
-                            Interesting parallel between Nora's choices and the quantum physics concept mentioned
-                            earlier.
-                        </p>
-                        <div class="flex space-x-2">
-                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs text-black">analysis</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Reading Stats -->
-                <div class="px-6 mb-20">
-                    <h3 class="text-sm font-semibold text-black mb-2">Reading Stats</h3>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                                </svg>
-                                <span class="text-xs font-medium text-black">Avg. Pages/Day</span>
-                            </div>
-                            <p class="text-lg font-bold text-black">18</p>
-                        </div>
-                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                </svg>
-                                <span class="text-xs font-medium text-black">Total Time</span>
-                            </div>
-                            <p class="text-lg font-bold text-black">7.5 hrs</p>
-                        </div>
-                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M12 20v-6M6 20V10M18 20V4"></path>
-                                </svg>
-                                <span class="text-xs font-medium text-black">Reading Streak</span>
-                            </div>
-                            <p class="text-lg font-bold text-black">5 days</p>
-                        </div>
-                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
-                            <div class="flex items-center space-x-2 mb-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                                </svg>
-                                <span class="text-xs font-medium text-black">Est. Completion</span>
-                            </div>
-                            <p class="text-lg font-bold text-black">6 days</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation Bar -->
-                <div class="navigation-bar">
-                    <div class="grid grid-cols-5 h-full">
-                        <button class="flex flex-col items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                            </svg>
-                            <span class="text-xs mt-1 text-gray-500">Home</span>
-                        </button>
-                        <button class="flex flex-col items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                            </svg>
-                            <span class="text-xs mt-1 text-black">Library</span>
-                        </button>
-                        <button class="flex flex-col items-center justify-center">
-                            <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center -mt-5">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                    fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                </svg>
-                            </div>
-                        </button>
-                        <button class="flex flex-col items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                            </svg>
-                            <span class="text-xs mt-1 text-gray-500">Social</span>
-                        </button>
-                        <button class="flex flex-col items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            <span class="text-xs mt-1 text-gray-500">Profile</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Book Addition Screen -->
         <div class="phone-frame">
             <div class="screen">
@@ -2001,7 +1712,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Pages</label>
-                                    <input type="number" class="input-field" placeholder="Optional">
+                                    <input class="input-field" placeholder="Optional">
                                 </div>
                             </div>
 
@@ -2076,7 +1787,7 @@
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Current Progress</label>
                                     <div class="flex items-center">
-                                        <input type="number" class="input-field w-20 text-center" value="0">
+                                        <input class="input-field w-20 text-center" value="0">
                                         <span class="mx-2 text-sm text-gray-600">of</span>
                                         <span class="text-sm font-medium">496 pages</span>
                                     </div>
@@ -2464,7 +2175,10 @@
             </div>
         </div>
 
+        <div class="phone-frame"></div>
+        <div class="phone-frame"></div>
         <!-- Book Details Screen - Add to Library -->
+
         <div class="phone-frame">
             <div class="screen">
                 <!-- Header Section -->
@@ -2565,7 +2279,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Current Progress</label>
                                 <div class="flex items-center">
-                                    <input type="number" class="input-field w-20 text-center" value="0">
+                                    <input class="input-field w-20 text-center" value="0">
                                     <span class="mx-2 text-sm text-gray-600">of</span>
                                     <span class="text-sm font-medium">496 pages</span>
                                 </div>
@@ -2638,14 +2352,305 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-xs text-gray-500 mb-1">Hours</label>
-                                    <input type="number" min="0" class="input-field" placeholder="0">
+                                    <input min="0" class="input-field" placeholder="0">
                                 </div>
                                 <div>
                                     <label class="block text-xs text-gray-500 mb-1">Minutes</label>
-                                    <input type="number" min="0" max="59" class="input-field" placeholder="0">
+                                    <input min="0" max="59" class="input-field" placeholder="0">
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Book Details Screen -->
+        <div class="phone-frame">
+            <div class="screen">
+                <!-- Header Section (Simplified) -->
+                <div class="px-6 pt-12 pb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Book Cover (Centered and Prominent) -->
+                <div class="px-6 mb-4 flex justify-center">
+                    <div class="w-2/3 max-w-xs">
+                        <div class="aspect-[2/3] rounded-xl overflow-hidden shadow-md">
+                            <img src="https://picsum.photos/300/450?random=10" alt="Book cover"
+                                class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Details -->
+                <div class="px-6 mb-6 text-center">
+                    <h2 class="text-xl font-bold text-black mb-1">The Midnight Library</h2>
+                    <p class="text-sm text-black mb-3">by Matt Haig</p>
+
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="flex items-center text-yellow-500 mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polygon
+                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                                </polygon>
+                            </svg>
+                            <span class="ml-1 text-xs text-black">4.2</span>
+                        </div>
+                        <span class="text-xs text-black mx-2">•</span>
+                        <span class="text-xs text-black">Fiction</span>
+                        <span class="text-xs text-black mx-2">•</span>
+                        <span class="text-xs text-black">288 pages</span>
+                    </div>
+
+                    <div class="mb-5 px-4">
+                        <div class="flex justify-between text-xs text-black mb-1">
+                            <span>Reading Progress</span>
+                            <span>70% (196/288)</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-gray-800 h-2 rounded-full" style="width: 70%"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <button
+                            class="px-3 py-2 bg-gray-800 text-white text-xs rounded-lg flex-grow flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="mr-1">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            Update Progress
+                        </button>
+                        <button class="p-2 border border-gray-300 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                        </button>
+                        <button class="p-2 border border-gray-300 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Format Selection (Cleaner style) -->
+                <div class="px-6 mb-8">
+                    <div class="flex space-x-3">
+                        <button class="flex-1 py-2 bg-gray-800 text-white text-xs rounded-lg">
+                            Physical
+                        </button>
+                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
+                            E-book
+                        </button>
+                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
+                            Audiobook
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Book Synopsis -->
+                <div class="px-6 mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-sm font-semibold text-black">Synopsis</h3>
+                        <button class="text-xs text-black">See More</button>
+                    </div>
+                    <p class="text-xs text-black leading-relaxed">
+                        Between life and death there is a library, and within that library, the shelves go on forever.
+                        Every book provides a chance to try another life you could have lived. To see how things would
+                        be if you had made other choices...
+                    </p>
+                </div>
+
+                <!-- Reading Sessions -->
+                <div class="px-6 mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-sm font-semibold text-black">Reading Sessions</h3>
+                        <button class="text-xs text-black">See All</button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-medium text-black">Today</span>
+                                <span class="text-xs text-black">45 min</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-black">Pages 176-196</span>
+                                <span class="text-xs text-green-600">+20 pages</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-medium text-black">Yesterday</span>
+                                <span class="text-xs text-black">30 min</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-black">Pages 156-176</span>
+                                <span class="text-xs text-green-600">+20 pages</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes & Quotes -->
+                <div class="px-6 mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-sm font-semibold text-black">Notes & Quotes</h3>
+                        <button class="text-xs text-black">Add New</button>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm mb-3">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-medium text-black">Quote on p.87</span>
+                            <span class="text-xs text-black">3 days ago</span>
+                        </div>
+                        <p class="text-xs text-black italic mb-2">
+                            "The only way to learn is to live."
+                        </p>
+                        <div class="flex space-x-2">
+                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs text-black">inspiration</span>
+                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs text-black">favorite</span>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-xs font-medium text-black">Note on Chapter 5</span>
+                            <span class="text-xs text-black">1 week ago</span>
+                        </div>
+                        <p class="text-xs text-black mb-2">
+                            Interesting parallel between Nora's choices and the quantum physics concept mentioned
+                            earlier.
+                        </p>
+                        <div class="flex space-x-2">
+                            <span class="px-2 py-1 bg-gray-100 rounded-full text-xs text-black">analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reading Stats -->
+                <div class="px-6 mb-20">
+                    <h3 class="text-sm font-semibold text-black mb-2">Reading Stats</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
+                                <span class="text-xs font-medium text-black">Avg. Pages/Day</span>
+                            </div>
+                            <p class="text-lg font-bold text-black">18</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                <span class="text-xs font-medium text-black">Total Time</span>
+                            </div>
+                            <p class="text-lg font-bold text-black">7.5 hrs</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M12 20v-6M6 20V10M18 20V4"></path>
+                                </svg>
+                                <span class="text-xs font-medium text-black">Reading Streak</span>
+                            </div>
+                            <p class="text-lg font-bold text-black">5 days</p>
+                        </div>
+                        <div class="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8C6A5B" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <span class="text-xs font-medium text-black">Est. Completion</span>
+                            </div>
+                            <p class="text-lg font-bold text-black">6 days</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Bar -->
+                <div class="navigation-bar">
+                    <div class="grid grid-cols-5 h-full">
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Home</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-black">Library</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center -mt-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </div>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Social</span>
+                        </button>
+                        <button class="flex flex-col items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="text-xs mt-1 text-gray-500">Profile</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -2731,11 +2736,11 @@
                             <div class="flex space-x-4">
                                 <div class="flex-1">
                                     <label class="block text-xs text-gray-500 mb-1">From</label>
-                                    <input type="number" value="176" class="input-field text-black text-sm py-2" />
+                                    <input value="176" class="input-field text-black text-sm py-2" />
                                 </div>
                                 <div class="flex-1">
                                     <label class="block text-xs text-gray-500 mb-1">To</label>
-                                    <input type="number" value="196" class="input-field text-black text-sm py-2" />
+                                    <input value="196" class="input-field text-black text-sm py-2" />
                                 </div>
                             </div>
                         </div>
@@ -2750,7 +2755,7 @@
                                 </div>
                                 <div class="w-1/3">
                                     <div class="flex border border-gray-300 rounded-lg overflow-hidden">
-                                        <input type="number" value="45"
+                                        <input value="45"
                                             class="w-full border-none text-black text-center text-sm py-2" />
                                         <span class="bg-gray-100 px-2 flex items-center text-black text-sm">min</span>
                                     </div>
@@ -2906,12 +2911,12 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs text-black mb-1">From Page</label>
-                            <input type="number" value="176"
+                            <input value="176"
                                 class="w-full py-3 px-4 bg-white border border-gray-200 rounded-xl text-sm text-black" />
                         </div>
                         <div>
                             <label class="block text-xs text-black mb-1">To Page</label>
-                            <input type="number" value="196"
+                            <input value="196"
                                 class="w-full py-3 px-4 bg-white border border-gray-200 rounded-xl text-sm text-black" />
                         </div>
                     </div>
@@ -2927,7 +2932,7 @@
                         <div>
                             <label class="block text-xs text-black mb-1">Duration</label>
                             <div class="flex items-center">
-                                <input type="number" value="45"
+                                <input value="45"
                                     class="w-full py-3 px-4 bg-white border border-gray-200 rounded-l-xl text-sm text-black" />
                                 <span
                                     class="py-3 px-4 bg-gray-100 border border-gray-200 border-l-0 rounded-r-xl text-sm text-black">min</span>
@@ -2999,7 +3004,7 @@
                 <div class="px-6 mb-5">
                     <label class="block text-sm font-medium text-black mb-2">Reading Time</label>
                     <div class="flex items-center">
-                        <input type="number" value="45"
+                        <input value="45"
                             class="w-24 py-3 px-4 bg-white border border-gray-200 rounded-l-xl text-sm text-black" />
                         <span
                             class="py-3 px-4 bg-gray-100 border border-gray-200 border-l-0 rounded-r-xl text-sm text-black">minutes</span>
@@ -3132,19 +3137,100 @@
                             </div>
                         </div>
 
-                        <!-- Progress Section -->
-                        <div class="mb-5">
-                            <label class="block text-xs font-medium text-black mb-2">Current Page</label>
-                            <div class="flex space-x-3">
-                                <div class="flex-grow">
-                                    <input type="number" value="196"
-                                        class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm" />
-                                </div>
-                                <div class="flex items-center space-x-2 text-black">
-                                    <span class="text-sm">of</span>
-                                    <span class="text-sm font-medium">288</span>
+                        <!-- Progress Section Pages-->
+                        <div class="mb-5 flex space-x-4">
+                            <div>
+                                <label class="block text-xs font-medium text-black mb-2">Start page</label>
+                                <div class="flex space-x-3">
+                                    <div class="flex">
+                                        <input value="120"
+                                            class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm" />
+                                    </div>
                                 </div>
                             </div>
+                            <div>
+                                <label class="block text-xs font-medium text-black mb-2">End page</label>
+                                <div class="flex space-x-3">
+                                    <div class="flex">
+                                        <input value="180"
+                                            class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Progress Section Time-->
+                        <div class="mb-5 space-x-4">
+                            <div>
+                                <label class="block text-xs font-medium text-black mb-2">Audiobook Start time</label>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div class="relative">
+                                        <input value="0"
+                                            class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm text-center" />
+                                        <span
+                                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-black">hr</span>
+                                    </div>
+                                    <div class="relative">
+                                        <input value="45"
+                                            class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm text-center" />
+                                        <span
+                                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-black">min</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-black mb-2">Audiobook End time</label>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div class="relative">
+                                        <input value="0"
+                                            class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm text-center" />
+                                        <span
+                                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-black">hr</span>
+                                    </div>
+                                    <div class="relative">
+                                        <input value="45"
+                                            class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm text-center" />
+                                        <span
+                                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-black">min</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-5 flex">
+                            <div>
+                                <label class="block text-xs font-medium text-black mb-2">Time Spent</label>
+                                <div class="flex">
+                                    <input value="40"
+                                        class="w-1/2 bg-gray-50 rounded-lg p-3 text-black text-sm text-center" />
+                                    <span class="text-sm text-black pl-3 pt-3">min</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-grow">
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-1 mb-2">
+                                        <label class="text-xs font-medium text-nowrap text-black">Listening
+                                            Speed</label>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                        </svg>
+                                    </div>
+                                    <select class="w-full p-3 rounded-lg text-sm text-black bg-gray-50">
+                                        <!-- put the option to fine tune -->
+                                        <option>1.0x (Normal)</option>
+                                        <option>1.25x</option>
+                                        <option>1.5x</option>
+                                        <option>1.75x</option>
+                                        <option>2.0x</option>
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
 
                         <!-- Reading Time Section -->
@@ -3152,19 +3238,19 @@
                             <label class="block text-xs font-medium text-black mb-2">Time Spent Reading</label>
                             <div class="grid grid-cols-3 gap-3">
                                 <div class="relative">
-                                    <input type="number" value="0"
+                                    <input value="0"
                                         class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm text-center" />
                                     <span
                                         class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-black">hr</span>
                                 </div>
                                 <div class="relative">
-                                    <input type="number" value="45"
+                                    <input value="45"
                                         class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm text-center" />
                                     <span
                                         class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-black">min</span>
                                 </div>
                                 <div class="relative">
-                                    <input type="number" value="0"
+                                    <input value="0"
                                         class="w-full bg-gray-50 rounded-lg p-3 text-black text-sm text-center" />
                                     <span
                                         class="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-black">sec</span>
@@ -3229,505 +3315,8 @@
             </div>
         </div>
 
-        <!-- Reading Progress Update Screen -->
+        <!-- Create/Edit Reading Session Screen -->
         <div class="phone-frame">
-            <div class="screen">
-                <!-- Header Section -->
-                <div class="px-6 pt-12 pb-4">
-                    <div class="flex items-center justify-between mb-4">
-                        <button class="p-2 rounded-full hover:bg-gray-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M19 12H5M12 19l-7-7 7-7"></path>
-                            </svg>
-                        </button>
-                        <h2 class="text-base font-semibold text-black">Update Progress - RR Extended Claude</h2>
-                        <div class="w-8"></div>
-                    </div>
-                </div>
-
-                <!-- Book Info Summary -->
-                <div class="px-6 mb-4">
-                    <div class="flex space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
-                                <img src="https://picsum.photos/64/96?random=10" alt="Book cover"
-                                    class="w-full h-full object-cover" />
-                            </div>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="font-medium text-black mb-1">The Midnight Library</h3>
-                            <p class="text-xs text-gray-600 mb-1">Matt Haig</p>
-                            <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
-                                <div class="bg-gray-800 h-1 rounded-full" style="width: 70%"></div>
-                            </div>
-                            <p class="text-xs text-gray-600">Current: Page 175 of 250 (70%)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Format Toggle -->
-                <div class="px-6 mb-5">
-                    <div class="flex space-x-3">
-                        <button class="flex-1 py-2 bg-gray-800 text-white text-xs rounded-lg">
-                            Physical
-                        </button>
-                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
-                            E-book
-                        </button>
-                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
-                            Audiobook
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Progress Update Form -->
-                <div class="px-6 mb-5">
-                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-                        <h4 class="text-sm font-medium text-black mb-3">Reading session on March 21, 2025</h4>
-
-                        <!-- Pages Read (Physical/E-book) -->
-                        <div class="mb-4">
-                            <label class="block text-xs font-medium text-black mb-1">Pages Read</label>
-                            <div class="flex space-x-3">
-                                <div class="flex-1">
-                                    <label class="block text-xs text-gray-600 mb-1">From Page</label>
-                                    <input type="number" value="175"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black" />
-                                </div>
-                                <div class="flex-1">
-                                    <label class="block text-xs text-gray-600 mb-1">To Page</label>
-                                    <input type="number" value="195"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black" />
-                                </div>
-                            </div>
-                            <p class="text-xs text-black mt-2">Total pages read: 20</p>
-                        </div>
-
-                        <!-- Time Spent (Hidden for Physical, shown for others) -->
-                        <div class="mb-4">
-                            <label class="block text-xs font-medium text-black mb-1">Time Spent</label>
-                            <div class="flex space-x-3">
-                                <div class="flex-1">
-                                    <input type="number" value="45"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black" />
-                                    <label class="block text-xs text-gray-600 mt-1">minutes</label>
-                                </div>
-                                <div class="flex-1 opacity-30">
-                                    <div class="flex items-center space-x-1 mb-1">
-                                        <label class="text-xs text-gray-600">Listening Speed</label>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <line x1="12" y1="16" x2="12" y2="12"></line>
-                                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                                        </svg>
-                                    </div>
-                                    <select disabled
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black bg-white">
-                                        <option>1.0x (Normal)</option>
-                                        <option>1.25x</option>
-                                        <option>1.5x</option>
-                                        <option>1.75x</option>
-                                        <option>2.0x</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Updated Progress -->
-                        <div class="mb-4">
-                            <div class="flex justify-between text-xs text-black mb-1">
-                                <span>New Progress</span>
-                                <span>78% (195/250)</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
-                                <div class="bg-gray-800 h-2 rounded-full" style="width: 78%"></div>
-                            </div>
-                            <div class="flex">
-                                <div class="grow bg-gray-200 h-6 rounded-l-lg flex items-center justify-start px-2">
-                                    <span class="text-xs text-black">Previous: 70%</span>
-                                </div>
-                                <div class="w-16 bg-gray-800 h-6 rounded-r-lg flex items-center justify-center">
-                                    <span class="text-xs text-white">+8%</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Reading Mood -->
-                        <div class="mb-4">
-                            <label class="block text-xs font-medium text-black mb-2">How was this reading
-                                session?</label>
-                            <div class="grid grid-cols-5 gap-2">
-                                <button class="bg-gray-800 text-white p-2 rounded-lg flex flex-col items-center">
-                                    <span class="text-lg">😍</span>
-                                    <span class="text-xs mt-1">Loved it</span>
-                                </button>
-                                <button
-                                    class="bg-white border border-gray-300 text-black p-2 rounded-lg flex flex-col items-center">
-                                    <span class="text-lg">🙂</span>
-                                    <span class="text-xs mt-1">Good</span>
-                                </button>
-                                <button
-                                    class="bg-white border border-gray-300 text-black p-2 rounded-lg flex flex-col items-center">
-                                    <span class="text-lg">😐</span>
-                                    <span class="text-xs mt-1">Neutral</span>
-                                </button>
-                                <button
-                                    class="bg-white border border-gray-300 text-black p-2 rounded-lg flex flex-col items-center">
-                                    <span class="text-lg">😕</span>
-                                    <span class="text-xs mt-1">Meh</span>
-                                </button>
-                                <button
-                                    class="bg-white border border-gray-300 text-black p-2 rounded-lg flex flex-col items-center">
-                                    <span class="text-lg">😴</span>
-                                    <span class="text-xs mt-1">Boring</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Notes -->
-                        <div class="mb-4">
-                            <label class="block text-xs font-medium text-black mb-1">Session Notes (Optional)</label>
-                            <textarea rows="3" placeholder="Add your thoughts about this reading session..."
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black resize-none">Really enjoying the protagonist's journey. The library concept is fascinating and makes me think about my own choices.</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="px-6 mb-20">
-                    <div class="flex space-x-3">
-                        <button
-                            class="flex-1 py-3 bg-white border border-gray-300 text-black rounded-xl text-sm font-medium">
-                            Cancel
-                        </button>
-                        <button class="flex-1 py-3 bg-gray-800 text-white rounded-xl text-sm font-medium">
-                            Save Progress
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="phone-frame">
-            <!-- Reading Session Feed Screen -->
-            <div class="screen">
-                <!-- Header Section -->
-                <div class="px-6 pt-12 pb-4">
-                    <div class="flex justify-between items-center mb-6">
-                        <div>
-                            <h1 class="text-2xl font-bold text-black">Reading Sessions</h1>
-                            <p class="text-gray-600 text-sm">Your reading journey</p>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <button
-                                class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                    fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                </svg>
-                            </button>
-                            <button
-                                class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                    fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <line x1="4" y1="21" x2="4" y2="14"></line>
-                                    <line x1="4" y1="10" x2="4" y2="3"></line>
-                                    <line x1="12" y1="21" x2="12" y2="12"></line>
-                                    <line x1="12" y1="8" x2="12" y2="3"></line>
-                                    <line x1="20" y1="21" x2="20" y2="16"></line>
-                                    <line x1="20" y1="12" x2="20" y2="3"></line>
-                                    <line x1="1" y1="14" x2="7" y2="14"></line>
-                                    <line x1="9" y1="8" x2="15" y2="8"></line>
-                                    <line x1="17" y1="16" x2="23" y2="16"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Filter Tabs -->
-                    <div class="mb-6">
-                        <div class="flex space-x-2 overflow-x-auto py-1">
-                            <button class="px-4 py-2 bg-gray-800 text-white rounded-full text-sm whitespace-nowrap">
-                                All Sessions
-                            </button>
-                            <button
-                                class="px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-full text-sm whitespace-nowrap">
-                                Private Only
-                            </button>
-                            <button
-                                class="px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-full text-sm whitespace-nowrap">
-                                Public Only
-                            </button>
-                            <button
-                                class="px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-full text-sm whitespace-nowrap">
-                                With Photos
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book Filter Dropdown -->
-                <div class="px-6 mb-4">
-                    <div class="relative">
-                        <select
-                            class="w-full px-4 py-2 text-sm border border-gray-200 rounded-lg appearance-none text-black bg-white">
-                            <option>All Books</option>
-                            <option>The Midnight Library</option>
-                            <option>Dune</option>
-                            <option>The Alchemist</option>
-                            <option>Klara and the Sun</option>
-                        </select>
-                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Date Filter -->
-                <div class="px-6 mb-4">
-                    <div class="flex justify-between">
-                        <div class="text-sm text-black font-medium">Date Range</div>
-                        <button class="text-xs text-black font-medium">Reset</button>
-                    </div>
-                    <div class="mt-2 flex space-x-3">
-                        <div class="flex-1 relative">
-                            <input type="date"
-                                class="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg text-black"
-                                value="2025-03-01">
-                        </div>
-                        <div class="flex-1 relative">
-                            <input type="date"
-                                class="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg text-black"
-                                value="2025-03-21">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Reading Sessions Feed -->
-                <div class="px-6 mb-6">
-                    <div class="text-xs text-black mb-3">21 sessions found</div>
-
-                    <!-- Public Session Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4 overflow-hidden">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div>
-                                    <h3 class="font-medium text-black mb-1">The Midnight Library</h3>
-                                    <p class="text-xs text-gray-600">45 min session • March 21, 2025</p>
-                                </div>
-                                <div class="flex space-x-3">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Public</span>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="1"></circle>
-                                            <circle cx="19" cy="12" r="1"></circle>
-                                            <circle cx="5" cy="12" r="1"></circle>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-between text-xs text-black mb-1">
-                                <span>Pages 175-195</span>
-                                <span>Progress: 78%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-1 mb-3">
-                                <div class="bg-gray-800 h-1 rounded-full" style="width: 78%"></div>
-                            </div>
-
-                            <p class="text-xs text-black mb-3">Really enjoying the protagonist's journey. The library
-                                concept is fascinating and makes me think about my own choices.</p>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <span class="text-lg mr-1">😍</span>
-                                    <span class="text-xs text-gray-600">Loved it</span>
-                                </div>
-                                <div class="flex space-x-3">
-                                    <div class="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="mr-1">
-                                            <path
-                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                                            </path>
-                                        </svg>
-                                        <span class="text-xs text-black">8</span>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="mr-1">
-                                            <path
-                                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-                                            </path>
-                                        </svg>
-                                        <span class="text-xs text-black">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Photo attached to session -->
-                        <div class="w-full h-48 bg-gray-100">
-                            <img src="https://picsum.photos/400/300?random=1" alt="Reading spot"
-                                class="w-full h-full object-cover" />
-                        </div>
-                    </div>
-
-                    <!-- Private Session Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div>
-                                    <h3 class="font-medium text-black mb-1">Dune</h3>
-                                    <p class="text-xs text-gray-600">30 min session • March 20, 2025</p>
-                                </div>
-                                <div class="flex space-x-3">
-                                    <span
-                                        class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Private</span>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="1"></circle>
-                                            <circle cx="19" cy="12" r="1"></circle>
-                                            <circle cx="5" cy="12" r="1"></circle>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-between text-xs text-black mb-1">
-                                <span>Pages 245-265</span>
-                                <span>Progress: 38%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-1 mb-3">
-                                <div class="bg-gray-800 h-1 rounded-full" style="width: 38%"></div>
-                            </div>
-
-                            <p class="text-xs text-black mb-3">Political intrigue is getting more complex. The Bene
-                                Gesserit plans are fascinating but hard to follow sometimes.</p>
-
-                            <div class="flex items-center">
-                                <span class="text-lg mr-1">🙂</span>
-                                <span class="text-xs text-gray-600">Good</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Spoiler Warning Session Card -->
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div>
-                                    <h3 class="font-medium text-black mb-1">The Alchemist</h3>
-                                    <p class="text-xs text-gray-600">25 min session • March 18, 2025</p>
-                                </div>
-                                <div class="flex space-x-3">
-                                    <span
-                                        class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Public</span>
-                                    <button>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <circle cx="12" cy="12" r="1"></circle>
-                                            <circle cx="19" cy="12" r="1"></circle>
-                                            <circle cx="5" cy="12" r="1"></circle>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="flex justify-between text-xs text-black mb-1">
-                                <span>Pages 30-50</span>
-                                <span>Progress: 25%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-1 mb-3">
-                                <div class="bg-gray-800 h-1 rounded-full" style="width: 25%"></div>
-                            </div>
-
-                            <!-- Spoiler warning banner -->
-                            <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3">
-                                <div class="flex items-start">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                        fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="flex-shrink-0 mt-0.5 mr-2">
-                                        <path
-                                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
-                                        </path>
-                                        <line x1="12" y1="9" x2="12" y2="13"></line>
-                                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                                    </svg>
-                                    <div>
-                                        <p class="text-xs font-medium text-amber-800">This session contains spoilers</p>
-                                        <p class="text-xs text-amber-700">Tap to reveal content</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <span class="text-lg mr-1">😐</span>
-                                    <span class="text-xs text-gray-600">Neutral</span>
-                                </div>
-                                <div class="flex space-x-3">
-                                    <div class="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="mr-1">
-                                            <path
-                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-                                            </path>
-                                        </svg>
-                                        <span class="text-xs text-black">5</span>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round" class="mr-1">
-                                            <path
-                                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-                                            </path>
-                                        </svg>
-                                        <span class="text-xs text-black">2</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- New Session FAB -->
-                <div class="fixed bottom-20 right-6">
-                    <button
-                        class="w-14 h-14 rounded-full bg-gray-800 text-white flex items-center justify-center shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="phone-frame">
-            <!-- Create/Edit Reading Session Screen -->
             <div class="screen">
                 <!-- Header Section -->
                 <div class="px-6 pt-12 pb-4">
@@ -3778,12 +3367,12 @@
                         <div class="flex space-x-3">
                             <div class="flex-1">
                                 <label class="block text-xs text-gray-600 mb-1">From Page</label>
-                                <input type="number" value="175"
+                                <input value="175"
                                     class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs text-black" />
                             </div>
                             <div class="flex-1">
                                 <label class="block text-xs text-gray-600 mb-1">To Page</label>
-                                <input type="number" value="195"
+                                <input value="195"
                                     class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs text-black" />
                             </div>
                         </div>
@@ -3793,7 +3382,7 @@
                         <label class="block text-xs font-medium text-black mb-1">Time Spent</label>
                         <div class="flex space-x-3">
                             <div class="flex-1">
-                                <input type="number" value="45"
+                                <input value="45"
                                     class="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs text-black" />
                                 <label class="block text-xs text-gray-600 mt-1">minutes</label>
                             </div>
@@ -3948,8 +3537,191 @@
             </div>
         </div>
 
+        <!-- Reading Progress Update Screen -->
         <div class="phone-frame">
-            <!-- Session Detail with Engagement Screen -->
+            <div class="screen">
+                <!-- Header Section -->
+                <div class="px-6 pt-12 pb-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <h2 class="text-base font-semibold text-black">Update Progress - RR Extended Claude</h2>
+                        <div class="w-8"></div>
+                    </div>
+                </div>
+
+                <!-- Book Info Summary -->
+                <div class="px-6 mb-4">
+                    <div class="flex space-x-4">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-24 rounded-md overflow-hidden shadow-sm">
+                                <img src="https://picsum.photos/64/96?random=10" alt="Book cover"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-medium text-black mb-1">The Midnight Library</h3>
+                            <p class="text-xs text-gray-600 mb-1">Matt Haig</p>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mb-2">
+                                <div class="bg-gray-800 h-1 rounded-full" style="width: 70%"></div>
+                            </div>
+                            <p class="text-xs text-gray-600">Current: Page 175 of 250 (70%)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Format Toggle -->
+                <div class="px-6 mb-5">
+                    <div class="flex space-x-3">
+                        <button class="flex-1 py-2 bg-gray-800 text-white text-xs rounded-lg">
+                            Physical
+                        </button>
+                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
+                            E-book
+                        </button>
+                        <button class="flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg">
+                            Audiobook
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Update Form -->
+                <div class="px-6 mb-5">
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                        <h4 class="text-sm font-medium text-black mb-3">Reading session on March 21, 2025</h4>
+
+                        <!-- Pages Read (Physical/E-book) -->
+                        <div class="mb-4">
+                            <label class="block text-xs font-medium text-black mb-1">Pages Read</label>
+                            <div class="flex space-x-3">
+                                <div class="flex-1">
+                                    <label class="block text-xs text-gray-600 mb-1">From Page</label>
+                                    <input value="175"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black" />
+                                </div>
+                                <div class="flex-1">
+                                    <label class="block text-xs text-gray-600 mb-1">To Page</label>
+                                    <input value="195"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black" />
+                                </div>
+                            </div>
+                            <p class="text-xs text-black mt-2">Total pages read: 20</p>
+                        </div>
+
+                        <!-- Time Spent (Hidden for Physical, shown for others) -->
+                        <div class="mb-4">
+                            <label class="block text-xs font-medium text-black mb-1">Time Spent</label>
+                            <div class="flex space-x-3">
+                                <div class="flex-1">
+                                    <input value="45"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black" />
+                                    <label class="block text-xs text-gray-600 mt-1">minutes</label>
+                                </div>
+                                <div class="flex-1 opacity-30">
+                                    <div class="flex items-center space-x-1 mb-1">
+                                        <label class="text-xs text-gray-600">Listening Speed</label>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                        </svg>
+                                    </div>
+                                    <select disabled
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black bg-white">
+                                        <option>1.0x (Normal)</option>
+                                        <option>1.25x</option>
+                                        <option>1.5x</option>
+                                        <option>1.75x</option>
+                                        <option>2.0x</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Updated Progress -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-xs text-black mb-1">
+                                <span>New Progress</span>
+                                <span>78% (195/250)</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                                <div class="bg-gray-800 h-2 rounded-full" style="width: 78%"></div>
+                            </div>
+                            <div class="flex">
+                                <div class="grow bg-gray-200 h-6 rounded-l-lg flex items-center justify-start px-2">
+                                    <span class="text-xs text-black">Previous: 70%</span>
+                                </div>
+                                <div class="w-16 bg-gray-800 h-6 rounded-r-lg flex items-center justify-center">
+                                    <span class="text-xs text-white">+8%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Reading Mood -->
+                        <div class="mb-4">
+                            <label class="block text-xs font-medium text-black mb-2">How was this reading
+                                session?</label>
+                            <div class="grid grid-cols-5 gap-2">
+                                <button class="bg-gray-800 text-white p-2 rounded-lg flex flex-col items-center">
+                                    <span class="text-lg">😍</span>
+                                    <span class="text-xs mt-1">Loved it</span>
+                                </button>
+                                <button
+                                    class="bg-white border border-gray-300 text-black p-2 rounded-lg flex flex-col items-center">
+                                    <span class="text-lg">🙂</span>
+                                    <span class="text-xs mt-1">Good</span>
+                                </button>
+                                <button
+                                    class="bg-white border border-gray-300 text-black p-2 rounded-lg flex flex-col items-center">
+                                    <span class="text-lg">😐</span>
+                                    <span class="text-xs mt-1">Neutral</span>
+                                </button>
+                                <button
+                                    class="bg-white border border-gray-300 text-black p-2 rounded-lg flex flex-col items-center">
+                                    <span class="text-lg">😕</span>
+                                    <span class="text-xs mt-1">Meh</span>
+                                </button>
+                                <button
+                                    class="bg-white border border-gray-300 text-black p-2 rounded-lg flex flex-col items-center">
+                                    <span class="text-lg">😴</span>
+                                    <span class="text-xs mt-1">Boring</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="mb-4">
+                            <label class="block text-xs font-medium text-black mb-1">Session Notes (Optional)</label>
+                            <textarea rows="3" placeholder="Add your thoughts about this reading session..."
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs text-black resize-none">Really enjoying the protagonist's journey. The library concept is fascinating and makes me think about my own choices.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="px-6 mb-20">
+                    <div class="flex space-x-3">
+                        <button
+                            class="flex-1 py-3 bg-white border border-gray-300 text-black rounded-xl text-sm font-medium">
+                            Cancel
+                        </button>
+                        <button class="flex-1 py-3 bg-gray-800 text-white rounded-xl text-sm font-medium">
+                            Save Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session Detail with Engagement Screen -->
+        <div class="phone-frame">
             <div class="screen">
                 <!-- Header Section -->
                 <div class="px-6 pt-12 pb-4">
@@ -4347,8 +4119,322 @@
             </div>
         </div>
 
+        <!-- Reading Session Feed Screen -->
         <div class="phone-frame">
-            <!-- Quote Post Screen -->
+            <div class="screen">
+                <!-- Header Section -->
+                <div class="px-6 pt-12 pb-4">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h1 class="text-2xl font-bold text-black">Reading Sessions</h1>
+                            <p class="text-gray-600 text-sm">Your reading journey</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button
+                                class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </button>
+                            <button
+                                class="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                                    <line x1="17" y1="16" x2="23" y2="16"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="mb-6">
+                        <div class="flex space-x-2 overflow-x-auto py-1">
+                            <button class="px-4 py-2 bg-gray-800 text-white rounded-full text-sm whitespace-nowrap">
+                                All Sessions
+                            </button>
+                            <button
+                                class="px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-full text-sm whitespace-nowrap">
+                                Private Only
+                            </button>
+                            <button
+                                class="px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-full text-sm whitespace-nowrap">
+                                Public Only
+                            </button>
+                            <button
+                                class="px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-full text-sm whitespace-nowrap">
+                                With Photos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Filter Dropdown -->
+                <div class="px-6 mb-4">
+                    <div class="relative">
+                        <select
+                            class="w-full px-4 py-2 text-sm border border-gray-200 rounded-lg appearance-none text-black bg-white">
+                            <option>All Books</option>
+                            <option>The Midnight Library</option>
+                            <option>Dune</option>
+                            <option>The Alchemist</option>
+                            <option>Klara and the Sun</option>
+                        </select>
+                        <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="black" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Date Filter -->
+                <div class="px-6 mb-4">
+                    <div class="flex justify-between">
+                        <div class="text-sm text-black font-medium">Date Range</div>
+                        <button class="text-xs text-black font-medium">Reset</button>
+                    </div>
+                    <div class="mt-2 flex space-x-3">
+                        <div class="flex-1 relative">
+                            <input type="date"
+                                class="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg text-black"
+                                value="2025-03-01">
+                        </div>
+                        <div class="flex-1 relative">
+                            <input type="date"
+                                class="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg text-black"
+                                value="2025-03-21">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reading Sessions Feed -->
+                <div class="px-6 mb-6">
+                    <div class="text-xs text-black mb-3">21 sessions found</div>
+
+                    <!-- Public Session Card -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4 overflow-hidden">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h3 class="font-medium text-black mb-1">The Midnight Library</h3>
+                                    <p class="text-xs text-gray-600">45 min session • March 21, 2025</p>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <span
+                                        class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Public</span>
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="19" cy="12" r="1"></circle>
+                                            <circle cx="5" cy="12" r="1"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between text-xs text-black mb-1">
+                                <span>Pages 175-195</span>
+                                <span>Progress: 78%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mb-3">
+                                <div class="bg-gray-800 h-1 rounded-full" style="width: 78%"></div>
+                            </div>
+
+                            <p class="text-xs text-black mb-3">Really enjoying the protagonist's journey. The library
+                                concept is fascinating and makes me think about my own choices.</p>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span class="text-lg mr-1">😍</span>
+                                    <span class="text-xs text-gray-600">Loved it</span>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="mr-1">
+                                            <path
+                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-xs text-black">8</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="mr-1">
+                                            <path
+                                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-xs text-black">3</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Photo attached to session -->
+                        <div class="w-full h-48 bg-gray-100">
+                            <img src="https://picsum.photos/400/300?random=1" alt="Reading spot"
+                                class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+
+                    <!-- Private Session Card -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h3 class="font-medium text-black mb-1">Dune</h3>
+                                    <p class="text-xs text-gray-600">30 min session • March 20, 2025</p>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <span
+                                        class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full">Private</span>
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="19" cy="12" r="1"></circle>
+                                            <circle cx="5" cy="12" r="1"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between text-xs text-black mb-1">
+                                <span>Pages 245-265</span>
+                                <span>Progress: 38%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mb-3">
+                                <div class="bg-gray-800 h-1 rounded-full" style="width: 38%"></div>
+                            </div>
+
+                            <p class="text-xs text-black mb-3">Political intrigue is getting more complex. The Bene
+                                Gesserit plans are fascinating but hard to follow sometimes.</p>
+
+                            <div class="flex items-center">
+                                <span class="text-lg mr-1">🙂</span>
+                                <span class="text-xs text-gray-600">Good</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spoiler Warning Session Card -->
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-4">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-3">
+                                <div>
+                                    <h3 class="font-medium text-black mb-1">The Alchemist</h3>
+                                    <p class="text-xs text-gray-600">25 min session • March 18, 2025</p>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <span
+                                        class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Public</span>
+                                    <button>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="1"></circle>
+                                            <circle cx="19" cy="12" r="1"></circle>
+                                            <circle cx="5" cy="12" r="1"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between text-xs text-black mb-1">
+                                <span>Pages 30-50</span>
+                                <span>Progress: 25%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1 mb-3">
+                                <div class="bg-gray-800 h-1 rounded-full" style="width: 25%"></div>
+                            </div>
+
+                            <!-- Spoiler warning banner -->
+                            <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3">
+                                <div class="flex items-start">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="flex-shrink-0 mt-0.5 mr-2">
+                                        <path
+                                            d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                                        </path>
+                                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                    </svg>
+                                    <div>
+                                        <p class="text-xs font-medium text-amber-800">This session contains spoilers</p>
+                                        <p class="text-xs text-amber-700">Tap to reveal content</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <span class="text-lg mr-1">😐</span>
+                                    <span class="text-xs text-gray-600">Neutral</span>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="mr-1">
+                                            <path
+                                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-xs text-black">5</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                            viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="mr-1">
+                                            <path
+                                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-xs text-black">2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Session FAB -->
+                <div class="fixed bottom-20 right-6">
+                    <button
+                        class="w-14 h-14 rounded-full bg-gray-800 text-white flex items-center justify-center shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quote Post Screen -->
+        <div class="phone-frame">
             <div class="screen">
                 <!-- Header Section -->
                 <div class="px-6 pt-12 pb-4">
