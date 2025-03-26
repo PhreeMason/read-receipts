@@ -82,4 +82,6 @@ AntDesign - tablet1 -> Ebook emoji
 Entypo - book -> Physical book emoji
 MaterialCommunityIcons - headphones - audiobook emoji
 
+- Calculate book page based on audiobook percentage.
+
 Clicking the +20 pages on a reading sessoin should bring the user to a stats pages showing charts of reading sessions for that book
