@@ -79,10 +79,8 @@ export type Database = {
         Row: {
           api_id: string | null
           api_source: string | null
-          completion_date: string | null
           cover_image_url: string | null
           created_at: string | null
-          current_position: Json | null
           date_added: string | null
           description: string | null
           edition: Json | null
@@ -100,22 +98,16 @@ export type Database = {
           publisher: string | null
           rating: number | null
           source: Database["public"]["Enums"]["book_source_enum"] | null
-          start_date: string | null
-          status: Database["public"]["Enums"]["book_status_enum"] | null
-          target_completion_date: string | null
           title: string
           total_duration: number | null
           total_pages: number | null
           updated_at: string | null
-          user_id: string | null
         }
         Insert: {
           api_id?: string | null
           api_source?: string | null
-          completion_date?: string | null
           cover_image_url?: string | null
           created_at?: string | null
-          current_position?: Json | null
           date_added?: string | null
           description?: string | null
           edition?: Json | null
@@ -133,22 +125,16 @@ export type Database = {
           publisher?: string | null
           rating?: number | null
           source?: Database["public"]["Enums"]["book_source_enum"] | null
-          start_date?: string | null
-          status?: Database["public"]["Enums"]["book_status_enum"] | null
-          target_completion_date?: string | null
           title: string
           total_duration?: number | null
           total_pages?: number | null
           updated_at?: string | null
-          user_id?: string | null
         }
         Update: {
           api_id?: string | null
           api_source?: string | null
-          completion_date?: string | null
           cover_image_url?: string | null
           created_at?: string | null
-          current_position?: Json | null
           date_added?: string | null
           description?: string | null
           edition?: Json | null
@@ -166,14 +152,10 @@ export type Database = {
           publisher?: string | null
           rating?: number | null
           source?: Database["public"]["Enums"]["book_source_enum"] | null
-          start_date?: string | null
-          status?: Database["public"]["Enums"]["book_status_enum"] | null
-          target_completion_date?: string | null
           title?: string
           total_duration?: number | null
           total_pages?: number | null
           updated_at?: string | null
-          user_id?: string | null
         }
         Relationships: [
           {
@@ -182,13 +164,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "book_api_data"
             referencedColumns: ["api_id", "api_source"]
-          },
-          {
-            foreignKeyName: "books_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
           },
         ]
       }
@@ -218,6 +193,77 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      userbooks: {
+        Row: {
+          completion_date: string | null
+          cover_image_url: string | null
+          current_position: Json | null
+          date_added: string | null
+          edition: Json | null
+          format: Database["public"]["Enums"]["book_format_enum"] | null
+          genres: string[] | null
+          id: string
+          language: string | null
+          publication_date: string | null
+          publisher: string | null
+          rating: number | null
+          start_date: string | null
+          status: Database["public"]["Enums"]["book_status_enum"] | null
+          target_completion_date: string | null
+          total_duration: number | null
+          total_pages: number | null
+          user_id: string | null
+        }
+        Insert: {
+          completion_date?: string | null
+          cover_image_url?: string | null
+          current_position?: Json | null
+          date_added?: string | null
+          edition?: Json | null
+          format?: Database["public"]["Enums"]["book_format_enum"] | null
+          genres?: string[] | null
+          id?: string
+          language?: string | null
+          publication_date?: string | null
+          publisher?: string | null
+          rating?: number | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["book_status_enum"] | null
+          target_completion_date?: string | null
+          total_duration?: number | null
+          total_pages?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          completion_date?: string | null
+          cover_image_url?: string | null
+          current_position?: Json | null
+          date_added?: string | null
+          edition?: Json | null
+          format?: Database["public"]["Enums"]["book_format_enum"] | null
+          genres?: string[] | null
+          id?: string
+          language?: string | null
+          publication_date?: string | null
+          publisher?: string | null
+          rating?: number | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["book_status_enum"] | null
+          target_completion_date?: string | null
+          total_duration?: number | null
+          total_pages?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "userbooks_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

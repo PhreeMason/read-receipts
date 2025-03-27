@@ -13,11 +13,12 @@ const HomeScreen = () => {
                 {/* Header */}
                 <HomeHeader />
 
+                {/* Currently Reading Section */}
+                <CurrentlyReading />
+                
                 {/* Reading Stats */}
                 <ReadingStats />
 
-                {/* Currently Reading Section */}
-                <CurrentlyReading />
 
                 {/* Recently Added Section */}
                 <RecentlyAdded />
