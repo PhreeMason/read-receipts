@@ -5,8 +5,12 @@ import HomeHeader from '@/components/home/Header';
 import CurrentlyReading from '@/components/home/CurrentlyReading';
 import RecentlyAdded from '@/components/home/RecentlyAdded';
 import ReadingStats from '@/components/home/ReadingStats';
+import { useSearchBooksList } from '@/hooks/useBooks';
 
 const HomeScreen = () => {
+    const { data, error } = useSearchBooksList('red rising');
+    console.log('data', data);
+    console.log('error', error);
     return (
         <SafeAreaView style={tw`flex-1 bg-white pt-4`}>
             <ScrollView style={tw`flex-1`}>

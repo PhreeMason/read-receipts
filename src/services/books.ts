@@ -144,4 +144,12 @@ export const getCurrentLocation = async (bookId: string): Promise<string | null>
     if (error) throw error;
     return data?.last_position;
 };
-// bunx supabase gen types --lang=typescript --project-id "nevezioullmxffvdlgyq" --schema public > src/types/supabase.ts
+
+export const searchBookList = async (query: string): Promise<Book[]> => {
+    const { data, error } = await supabase.functions.invoke('search-books', {
+        body: { query: 'red rising' },
+    });
+
+    if (error) throw error;
+    return data;
+};

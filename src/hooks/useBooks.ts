@@ -11,7 +11,8 @@ import {
     fetchBookDetailsWithUserData,
     updateUserBookStatus,
     getCurrentLocation,
-    saveCurrentLocation
+    saveCurrentLocation,
+    searchBookList,
 } from '@/services/books';
 
 export const useGetBookWithSignedUrl = (bookId: string) => {
@@ -215,5 +216,13 @@ export const useSaveCurrentLocation = (bookId: string) => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['book-details', bookId] });
         },
+    });
+};
+
+export const useSearchBooksList = (query: string) => {
+    return useQuery({
+        queryKey: ['books', 'search', query],
+        queryFn: async () => searchBookList(query),
+        staleTime: 1000 * 60 * 5,
     });
 };
