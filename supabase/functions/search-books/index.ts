@@ -123,20 +123,25 @@ Deno.serve(async (req: Request) => {
 
     try {
         // Get the session or user object
-        // const authHeader = req.headers.get('Authorization')!;
-        // const token = authHeader.replace('Bearer ', '');
-        // const { data: userData } = await supabaseClient.auth.getUser(token);
-        // const { data, error } = await supabaseClient.from('profiles').select('*');
+        const authHeader = req.headers.get('Authorization')!;
+        const token = authHeader.replace('Bearer ', '');
+        const { data: userData } = await supabaseClient.auth.getUser(token);
+        const { data: userProfile, error } = await supabaseClient.from('profiles').select('*');
 
-        // if (error) {
-        //   return new Response(JSON.stringify({ error }), {
-        //     headers: { 'Content-Type': 'application/json' },
-        //     status: 500,
-        //   })
-        // }
+        console.log({
+            userData,
+            userProfile,
+            error
+        })
+        if (error) {
+            return new Response(JSON.stringify({ error }), {
+                headers: { 'Content-Type': 'application/json' },
+                status: 500,
+            })
+        }
 
-        // const user = userData.user;
-        // const user_id = user?.id;
+        const user = userData.user;
+        const user_id = user?.id;
 
         // Parse the request body
         const { query } = await req.json();
@@ -163,17 +168,17 @@ Deno.serve(async (req: Request) => {
         const bookList = extractBookListData($);
 
         // After performing the search and before returning the results
-        // const { data, error: saveSearchError } = await supabaseClient
-        //   .from('user_searches')
-        //   .insert({
-        //     user_id: user_id,
-        //     query: query,
-        //     result_count: bookList.length
-        //   });
+        const { data, error: saveSearchError } = await supabaseClient
+            .from('user_searches')
+            .insert({
+                user_id: user_id,
+                query: query,
+                result_count: bookList.length
+            });
 
-        // if (saveSearchError) {
-        //   console.error('Error saving search history:', saveSearchError);
-        // }
+        if (saveSearchError) {
+            console.error('Error saving search history:', saveSearchError);
+        }
 
         return new Response(JSON.stringify({ bookList }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
