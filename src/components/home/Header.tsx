@@ -3,11 +3,12 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useAuth } from '@/providers/AuthProvider';
 import tw from 'twrnc';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import AvatarCircle from '@/components/shared/AvatarCircle';
 
 export default function HomeHeader() {
     const { profile } = useAuth();
 
-    const { full_name, username, avatar_url } = profile || {};
+    const { full_name, username } = profile || {};
 
     // Tuesday March 22
     const date = () => {
@@ -32,15 +33,7 @@ export default function HomeHeader() {
                 <TouchableOpacity style={tw`w-10 h-10 rounded-full items-center justify-center bg-gray-100 mr-4`}>
                     <AntDesign name="search1" size={24} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity style={tw`w-10 h-10 rounded-full bg-gray-200 overflow-hidden`}>
-                    {avatar_url ? (
-                        <Image source={{ uri: avatar_url }} style={tw`w-full h-full`} />
-                    ) : (
-                        <View style={tw`w-full h-full bg-gray-300 items-center justify-center`}>
-                            <Text style={tw`text-gray-600 font-bold`}>{username?.[0]?.toUpperCase() || 'R'}</Text>
-                        </View>
-                    )}
-                </TouchableOpacity>
+                <AvatarCircle />
             </View>
         </View>
     );

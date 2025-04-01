@@ -7,6 +7,8 @@ import { SearchBar } from '@/components/search/SearchBar';
 import { SearchResults } from '@/components/search/SearchResults';
 import { useSearchBooks } from '@/hooks/useBooks';
 import { useDebounce } from '@/hooks/useDebounce';
+import SearchHeader from '@/components/search/SearchHeader';
+import { ScanBarcodeButton } from '@/components/search/ScanBarcodeButton';
 
 export default function SearchScreen() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -17,12 +19,22 @@ export default function SearchScreen() {
     const handleBookPress = (bookId: string) => {
         router.push(`/book/${bookId}/details`);
     };
+
+    const handleScanPress = () => {
+        console.log('Scan Book Barcode button pressed');
+    };
+
     return (
-        <SafeAreaView style={tw`flex-1 justify-center`}>
+        <SafeAreaView style={tw`flex-1 justify-center m-4 gap-4`}>
+            <SearchHeader />
+
             <SearchBar
                 value={searchQuery}
                 onChangeText={setSearchQuery}
             />
+
+            <ScanBarcodeButton onPress={handleScanPress} />
+
             <SearchResults
                 books={books}
                 onBookPress={handleBookPress}
