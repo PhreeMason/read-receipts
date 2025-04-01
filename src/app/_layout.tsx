@@ -8,7 +8,6 @@ import {
     QueryClient,
     QueryClientProvider,
 } from '@tanstack/react-query';
-import { useReactQueryDevTools } from '@dev-plugins/react-query';
 import { ReaderProvider } from '@epubjs-react-native/core';
 import tw, { useDeviceContext } from 'twrnc';
 
@@ -21,7 +20,6 @@ export default function RootLayout() {
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     });
-    useReactQueryDevTools(queryClient)
 
     useEffect(() => {
         if (loaded) {
