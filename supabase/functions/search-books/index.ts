@@ -9,7 +9,7 @@ type BookMetadata = {
     api_source: 'goodreads';
     cover_image_url: string;
     title: string;
-    publication_date: string;
+    publication_date: string | null;
     rating: number | null;
     source: 'api';
     epub_url: string;
@@ -107,7 +107,6 @@ function extractBookListData($: cheerio.CheerioAPI): BookMetadata[] {
             // We're not setting id here as it will be generated when inserting into the database
         });
     });
-    console.log({ bookList });
     return bookList;
 }
 
@@ -116,23 +115,28 @@ Deno.serve(async (req: Request) => {
     // This is needed if you're planning to invoke your function from a browser.  
     if (req.method === 'OPTIONS') { return new Response('ok', { headers: corsHeaders }) }
 
+    const authHeader = req.headers.get('Authorization')!;
+
+    // Create a client with the user's token instead of service role
     const supabaseClient = createClient(
         Deno.env.get('SUPABASE_URL') ?? '',
         Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+        {
+            global: {
+                headers: {
+                    Authorization: authHeader,
+                },
+            },
+        }
     );
 
     try {
         // Get the session or user object
-        const authHeader = req.headers.get('Authorization')!;
         const token = authHeader.replace('Bearer ', '');
-        const { data: userData } = await supabaseClient.auth.getUser(token);
-        const { data: userProfile, error } = await supabaseClient.from('profiles').select('*');
+        const { data: userData, error } = await supabaseClient.auth.getUser(token);
+        const user = userData.user;
+        const user_id = user?.id;
 
-        console.log({
-            userData,
-            userProfile,
-            error
-        })
         if (error) {
             return new Response(JSON.stringify({ error }), {
                 headers: { 'Content-Type': 'application/json' },
@@ -140,8 +144,12 @@ Deno.serve(async (req: Request) => {
             })
         }
 
-        const user = userData.user;
-        const user_id = user?.id;
+        if (!user_id) {
+            return new Response(JSON.stringify({ error: 'Authentication required' }), {
+                headers: { 'Content-Type': 'application/json' },
+                status: 401,
+            });
+        }
 
         // Parse the request body
         const { query } = await req.json();
