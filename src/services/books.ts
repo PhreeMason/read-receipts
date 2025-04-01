@@ -147,7 +147,7 @@ export const getCurrentLocation = async (bookId: string): Promise<string | null>
 
 export const searchBookList = async (query: string): Promise<Book[]> => {
     const { data, error } = await supabase.functions.invoke('search-books', {
-        body: { query: 'red rising' },
+        body: { query },
     });
 
     if (error) throw error;
