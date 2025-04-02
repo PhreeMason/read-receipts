@@ -1,8 +1,10 @@
 // src/components/search/BookCover.tsx
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
-import Entypo from '@expo/vector-icons/Entypo';
+import React from 'react';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import tw from 'twrnc';
+import { SearchBookMetadata } from '@/types/book';
 import Rating from '@/components/shared/Rating';
+import Entypo from '@expo/vector-icons/Entypo';
 
 type BookCoverProps = {
     book: SearchBookMetadata;
@@ -31,13 +33,17 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary }) =>
             />
             {/* Book Information */}
             <View style={tw`ml-3 flex-1`}>
-                <Text style={tw`font-semibold text-black text-base leading-tight`}>
-                    {book.title}
-                </Text>
+                <TouchableOpacity
+                    onPress={onAddToLibrary}>
+                    <Text style={tw`font-semibold text-black text-base leading-tight`}>
+                        {book.title}
+                    </Text>
+                </TouchableOpacity>
+
                 <Text style={tw`text-black text-sm`}>{authorNames}</Text>
                 {seriesInfo ? (
                     <Text style={tw`text-xs text-blue-600`}>{seriesInfo}</Text>
-                ): null}
+                ) : null}
                 {book.rating ? (<Rating rating={book.rating.toFixed(1)} />) : null}
                 <Text style={tw`text-xs text-black mt-1`}>{publicationYear}</Text>
             </View>

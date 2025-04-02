@@ -7,6 +7,7 @@ import { generateUrl, userAgent, corsHeaders } from '../_shared/utils.ts';
 type BookMetadata = {
     api_id: string;
     api_source: 'goodreads';
+    bookUrl: string | null;
     cover_image_url: string;
     title: string;
     publication_date: string | null;
@@ -33,8 +34,10 @@ function extractBookListData($: cheerio.CheerioAPI): BookMetadata[] {
         const goodreadsId = idDiv.attr('id');
 
         // Extract title and series info
+        const bookUrl = $el.find('a.bookTitle').attr('href')?.split('?')[0].replace('/book/show/', '');
         const titleElement = $el.find('.bookTitle span[itemprop="name"]');
         const fullTitle = titleElement.text().trim();
+
 
         // Handle series information if present
         const seriesMatch = fullTitle.match(/^(.*?)\s*\(([^#]+?)\s*#([\d.]+)(?:,.*)?\)$/);
@@ -87,6 +90,7 @@ function extractBookListData($: cheerio.CheerioAPI): BookMetadata[] {
         bookList.push({
             api_id: goodreadsId,
             api_source: 'goodreads',
+            bookUrl,
             cover_image_url: coverImage,
             title,
             publication_date: publicationDate,

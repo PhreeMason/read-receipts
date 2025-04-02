@@ -52,6 +52,7 @@ export type StatusOption = {
 type BookMetadata = {
   api_id: string;
   api_source: 'goodreads';
+  bookUrl: string | null;
   cover_image_url: string;
   title: string;
   publication_date: string | null;
