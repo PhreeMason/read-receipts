@@ -1,12 +1,9 @@
-// src/components/search/SearchResults.tsx
-import React from 'react';
-import { View, FlatList, Text, TouchableOpacity, Image } from 'react-native';
-import tw from 'twrnc';
-import { SearchBookMetadata } from '@/types/book';
-import Rating from '@/components/shared/Rating';
+// src/components/search/BookCover.tsx
+import { View, Text, Image, TouchableOpacity } from 'react-native'
+import React from 'react'
 import Entypo from '@expo/vector-icons/Entypo';
+import Rating from '@/components/shared/Rating';
 
-// TODO: REMOVE BOOKCOVER AND MOVE IT TO ANOTHER COMPONENT
 type BookCoverProps = {
     book: SearchBookMetadata;
     onAddToLibrary?: () => void;
@@ -48,39 +45,6 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary }) =>
             <TouchableOpacity style={tw`self-center p-2 rounded-full hover:bg-gray-100`}>
                 <Entypo name="plus" size={24} color="black" />
             </TouchableOpacity>
-        </View>
-    );
-};
-
-type SearchResultsProps = {
-    books: SearchBookMetadata[];
-    onBookPress: (bookId: string) => void;
-};
-
-export const SearchResults: React.FC<SearchResultsProps> = ({ books, onBookPress }) => {
-    console.log('SearchResults books:', books);
-    if (!books || books.length === 0) {
-        return (
-            <View style={tw`flex-1 items-center justify-center`}>
-                <Text style={tw`text-gray-500 text-lg`}>No results found</Text>
-            </View>
-        );
-    }
-    return (
-        <View style={tw`flex-1`}>
-            <Text style={tw`text-sm text-gray-500 mb-4`}>{`${books?.length} results found`}</Text>
-            <FlatList
-                data={books}
-                numColumns={1}
-                keyExtractor={(item) => item.api_id}
-                renderItem={({ item }) => (
-                    <BookCover
-                        book={item}
-                        onAddToLibrary={() => onBookPress(item.id)}
-                    />
-                )}
-                contentContainerStyle={tw`flex-grow pb-4`}
-            />
         </View>
     );
 };

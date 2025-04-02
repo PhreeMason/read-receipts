@@ -1,21 +1,21 @@
 // src/app/(tabs)/search.tsx
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import tw from 'twrnc';
 import { SearchBar } from '@/components/search/SearchBar';
 import { SearchResults } from '@/components/search/SearchResults';
-import { useSearchBooks } from '@/hooks/useBooks';
 import { useDebounce } from '@/hooks/useDebounce';
 import SearchHeader from '@/components/search/SearchHeader';
 import { ScanBarcodeButton } from '@/components/search/ScanBarcodeButton';
+import { useSearchBooksList } from '@/hooks/useBooks';
 
 export default function SearchScreen() {
     const [searchQuery, setSearchQuery] = useState('');
     const debouncedSearch = useDebounce(searchQuery, 300);
     const router = useRouter();
 
-    const { data: books = [], isLoading } = useSearchBooks(debouncedSearch);
+    const { data: books = [], isLoading } = useSearchBooksList(debouncedSearch.trim());
     const handleBookPress = (bookId: string) => {
         router.push(`/book/${bookId}/details`);
     };
@@ -25,20 +25,22 @@ export default function SearchScreen() {
     };
 
     return (
-        <SafeAreaView style={tw`flex-1 justify-center m-4 gap-4`}>
-            <SearchHeader />
+        <SafeAreaView style={tw`flex-1 bg-white`}>
+            <View style={tw`flex-1 justify-center m-4 gap-4 bg-white`}>
+                <SearchHeader />
 
-            <SearchBar
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-            />
+                <SearchBar
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                />
 
-            <ScanBarcodeButton onPress={handleScanPress} />
+                <ScanBarcodeButton onPress={handleScanPress} />
 
-            <SearchResults
-                books={books}
-                onBookPress={handleBookPress}
-            />
+                <SearchResults
+                    books={books.bookList}
+                    onBookPress={handleBookPress}
+                />
+            </View>
         </SafeAreaView>
     );
 }

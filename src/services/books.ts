@@ -146,6 +146,8 @@ export const getCurrentLocation = async (bookId: string): Promise<string | null>
 };
 
 export const searchBookList = async (query: string): Promise<Book[]> => {
+    if (!query.trim()) return [];
+    // Use Supabase function to search books
     const { data, error } = await supabase.functions.invoke('search-books', {
         body: { query },
     });

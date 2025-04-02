@@ -5,7 +5,7 @@ import tw from 'twrnc';
 
 const SearchHeader = () => {
     return (
-        <View style={tw`flex justify-between items-center flex-row`}>
+        <View style={tw`flex justify-between items-center mb-6 flex-row`}>
             <Text style={tw`text-2xl font-bold text-black`}>Search</Text>
             <AvatarCircle />
         </View>

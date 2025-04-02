@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Image } from 'react-native'
 import tw from 'twrnc'
 import React from 'react'
 import { useAuth } from '@/providers/AuthProvider';
+// import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const AvatarCircle = () => {
     const { profile } = useAuth();

@@ -19,8 +19,7 @@ type BookMetadata = {
         ratings_count: number | null;
         series: string | null;
         series_number: number | null;
-        authors: any[]; // Assuming authors is an array of objects or strings
-    };
+        authors: string[];
 };
 
 function extractBookListData($: cheerio.CheerioAPI): BookMetadata[] {
