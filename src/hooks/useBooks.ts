@@ -10,9 +10,8 @@ import {
     fetch10Books,
     fetchBookDetailsWithUserData,
     updateUserBookStatus,
-    getCurrentLocation,
-    saveCurrentLocation,
     searchBookList,
+    fetchBookData
 } from '@/services/books';
 
 export const useGetBookWithSignedUrl = (bookId: string) => {
@@ -201,24 +200,6 @@ export const useSearchBooks = (query: string) => {
     });
 };
 
-export const useGetCurrentLocation = (bookId: string) => {
-    return useQuery({
-        queryKey: ['books', 'reading'],
-        queryFn: async () => getCurrentLocation(bookId),
-    })
-};
-
-export const useSaveCurrentLocation = (bookId: string) => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: async (location: Location) => saveCurrentLocation(bookId, location),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['book-details', bookId] });
-        },
-    });
-};
-
 export const useSearchBooksList = (query: string) => {
     return useQuery({
         queryKey: ['books', 'search', query],
@@ -226,3 +207,11 @@ export const useSearchBooksList = (query: string) => {
         staleTime: 1000 * 60 * 5,
     });
 };
+
+export const useFetchBookData = (bookId: string) => {
+    return useQuery({
+        queryKey: ['book', bookId],
+        queryFn: async () => fetchBookData(bookId),
+        staleTime: 1000 * 60 * 5,
+    });
+}

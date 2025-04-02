@@ -115,41 +115,20 @@ export const updateUserBookStatus = async (userBookId: string, status: BookStatu
     return data;
 }
 
-export const saveCurrentLocation = async (bookId: string, location: Location) => {
-    const cfi = location.start.cfi;
-    const { data, error } = await supabase
-        .from('user_books')
-        .update({
-            last_position: cfi,
-            reading_progress: Math.round(location.start.percentage * 100)
-        })
-        .eq('book_id', bookId)
-        .select()
-        .single();
-    if (error) throw error;
-    return data;
-};
-
-export const getCurrentLocation = async (bookId: string): Promise<string | null> => {
-    const { profile } = useAuth()
-    const userId = profile?.id
-
-    const { data, error } = await supabase
-        .from('user_books')
-        .select('*')
-        .eq('book_id', bookId)
-        .eq('user_id', userId)
-        .single();
-
-    if (error) throw error;
-    return data?.last_position;
-};
-
 export const searchBookList = async (query: string): Promise<Book[]> => {
     if (!query.trim()) return [];
     // Use Supabase function to search books
     const { data, error } = await supabase.functions.invoke('search-books', {
         body: { query },
+    });
+
+    if (error) throw error;
+    return data;
+};
+
+export const fetchBookData = async (bookId: string): Promise<Book[]> => {
+    const { data, error } = await supabase.functions.invoke('books-data', {
+        body: { bookId },
     });
 
     if (error) throw error;
