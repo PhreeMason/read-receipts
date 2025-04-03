@@ -21,7 +21,6 @@ const HomeScreen = () => {
 
 
                 {/* Recently Added Section */}
-                <RecentlyAdded />
             </ScrollView>
         </SafeAreaView>
     );

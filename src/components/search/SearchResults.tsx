@@ -18,7 +18,6 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ books, onBookPress
             </View>
         );
     }
-    console.log({books})
     return (
         <View style={tw`flex-1`}>
             <Text style={tw`text-sm text-gray-500 mb-4`}>{`${books?.length} results found`}</Text>

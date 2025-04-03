@@ -4,7 +4,10 @@ import { useBookDetails } from '@/hooks/useBooks';
 import { useBookStatus } from '@/hooks/useBookStatus';
 import { Loading } from '@/components/shared/Loading';
 import { useFetchBookData } from '@/hooks/useBooks';
-import { Text } from 'react-native';
+import { SafeAreaView } from 'react-native';
+import AddToLibraryDetails from '@/components/books/AddToLibraryDetails';
+import tw from 'twrnc';
+import { Stack } from 'expo-router';
 
 export default function BookDetailScreen() {
     const { id } = useLocalSearchParams();
@@ -16,14 +19,18 @@ export default function BookDetailScreen() {
     }
 
     const handleAddToLibrary = () => {
-
+        console.log('Add to library clicked');
     };
 
     return (
-        <Text>{
-            JSON.stringify({
-                bookDetails
-            }, null, 2)
-        }</Text>
+        <SafeAreaView style={tw`flex-1 bg-white`}>
+            <Stack.Screen options={{
+                title: "Add to library"
+            }} />
+            <AddToLibraryDetails
+                book={bookDetails}
+                onAddToLibrary={handleAddToLibrary}
+            />
+        </SafeAreaView>
     );
 }        
