@@ -127,7 +127,7 @@ export const searchBookList = async (query: string): Promise<Book[]> => {
 };
 
 export const fetchBookData = async (bookId: string): Promise<Book[]> => {
-    const { data, error } = await supabase.functions.invoke('books-data', {
+    const { data, error } = await supabase.functions.invoke('book-data', {
         body: { bookId },
     });
 

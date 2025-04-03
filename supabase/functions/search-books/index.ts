@@ -21,6 +21,7 @@ type BookMetadata = {
         series: string | null;
         series_number: number | null;
         authors: string[];
+    }
 };
 
 function extractBookListData($: cheerio.CheerioAPI): BookMetadata[] {

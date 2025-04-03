@@ -1,4 +1,4 @@
-import { createClient } from 'jsr:@supabase/supabase-js@2'
+import { createClient, type SupabaseClient } from 'jsr:@supabase/supabase-js@2'
 import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 import axiod from "https://deno.land/x/axiod/mod.ts";
 import { userAgent, corsHeaders } from '../_shared/utils.ts';
@@ -14,7 +14,7 @@ type Book = {
     edition: Record<string, unknown> | null; // JSON type
     epub_path: string | null;
     epub_url: string;
-    format: 'hardcover' | 'paperback' | 'ebook' | 'audiobook' | null; // Enum type
+    format: 'physical' | 'ebook' | 'audiobook' | null; // Enum type
     genres: string[] | null;
     has_user_edits: boolean | null;
     id: string;
@@ -33,44 +33,130 @@ type Book = {
 };
 
 Deno.serve(async (req: Request) => {
-    if (req.method === 'OPTIONS') { return new Response('ok', { headers: corsHeaders }) }
-    // Extract bookId from the request
+    // Handle preflight first
+    if (req.method === 'OPTIONS') {
+        return new Response(null, {
+            status: 204,
+            headers: {
+                ...corsHeaders,
+                'Access-Control-Max-Age': '86400' // Cache preflight response
+            }
+        });
+    }
+
+    console.log("Request received");
+
     const { bookId } = await req.json();
 
     if (!bookId) {
         return new Response(JSON.stringify({ error: 'bookId is required' }), {
-            headers: { 'Content-Type': 'application/json' }
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         });
     }
 
+    const supabaseClient = createClient(
+        Deno.env.get('SUPABASE_URL') ?? '',
+        Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+    );
+
     try {
-        // Fetch the Goodreads page
-        const response = await axiod.get(`https://www.goodreads.com/book/show/${bookId}`, {
-            headers: {
-                'User-Agent': userAgent
-            }
-        });
-        const html = await response.text();
-
-        // Parse HTML with Cheerio
-        const $ = cheerio.load(html);
-
-        // Extract book data
-        const bookData: Book = extractBookData($, bookId);
+        // Race between database lookup and fresh fetch
+        const bookData = await Promise.any([
+            fetchFromDatabase(supabaseClient, bookId),
+            fetchFromGoodreads(bookId, supabaseClient)
+        ]);
 
         return new Response(JSON.stringify(bookData), {
-            headers: { 'Content-Type': 'application/json' },
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200
         });
-    } catch (error) {
+    } catch (error: any) {
         return new Response(JSON.stringify({ error: error.message }), {
             status: 500,
-            headers: { 'Content-Type': 'application/json' }
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         });
     }
 });
 
+async function fetchFromDatabase(supabaseClient: SupabaseClient, bookId: string) {
+    // Check if we have this book in our cache
+    const startTime = performance.now();
+    const { data, error } = await supabaseClient
+        .from('books')
+        .select('*')
+        .eq('api_id', bookId)
+        .single();
+
+    if (error || !data) {
+        return Promise.reject(new Error('Not in database'));
+    }
+
+    console.log(`Book found in database, timing ${performance.now() - startTime}ms`);
+    return data;
+}
+
+async function fetchFromGoodreads(bookId: string, supabaseClient: SupabaseClient) {
+    console.log("Fetching fresh data from Goodreads");
+    const startTime = performance.now();
+
+    // Fetch from Goodreads
+    const { data: html } = await axiod.get(`https://www.goodreads.com/book/show/${bookId}`, {
+        headers: { 'User-Agent': userAgent }
+    });
+
+    // Parse HTML with Cheerio
+    const $ = cheerio.load(html);
+
+    // Extract book data using your existing function
+    const bookData = extractBookData($, bookId);
+
+    // Store in database asynchronously (don't await to return result faster)
+    storeInDatabase(supabaseClient, bookData).catch(err => {
+        console.error("Failed to store in database:", err);
+    });
+    console.log(`Book fetched from goodreads, timing ${performance.now() - startTime}ms`);
+    return bookData;
+}
+
+async function storeInDatabase(supabaseClient: SupabaseClient, bookData: Book) {
+    // Check if book already exists
+    const startTime = performance.now();
+    const { data } = await supabaseClient
+        .from('books')
+        .select('id')
+        .eq('api_id', bookData.api_id)
+        .single();
+
+    if (data) {
+        // Update existing record
+        await supabaseClient
+            .from('books')
+            .update({
+                ...bookData,
+                updated_at: new Date().toISOString()
+            })
+            .eq('id', data.id);
+    } else {
+        // Insert new record
+        const { error } = await supabaseClient
+            .from('books')
+            .insert({
+                ...bookData,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            });
+
+        if (error) {
+            console.error("Error inserting new record:", { error, bookData });
+        }
+    }
+
+    console.log(`Book stored in database, timing ${performance.now() - startTime}ms`);
+
+}
+
 function extractBookData($: cheerio.CheerioAPI, bookId: string) {
+    const startTime = performance.now();
     // Initialize book object with default values
     const book: Book = {
         api_id: bookId,
@@ -85,7 +171,6 @@ function extractBookData($: cheerio.CheerioAPI, bookId: string) {
         format: null,
         genres: [],
         has_user_edits: false,
-        id: bookId,
         isbn10: null,
         isbn13: null,
         language: null,
@@ -126,7 +211,7 @@ function extractBookData($: cheerio.CheerioAPI, bookId: string) {
 
     // Finally, extract from HTML elements as fallback
     extractFromHtml($, book);
-
+    console.log(`Book extracted from parsed data, timing ${performance.now() - startTime}ms`);
     return book;
 }
 
@@ -169,8 +254,8 @@ function extractFromNextData(nextData: any, book: Book) {
         // Format
         if (bookProps.format) {
             const format = bookProps.format.toLowerCase();
-            if (format.includes('hardcover')) book.format = 'hardcover';
-            else if (format.includes('paperback')) book.format = 'paperback';
+            if (format.includes('hardcover')) book.format = 'physical';
+            else if (format.includes('paperback')) book.format = 'physical';
             else if (format.includes('ebook')) book.format = 'ebook';
             else if (format.includes('audio')) book.format = 'audiobook';
         }
@@ -197,7 +282,7 @@ function extractFromNextData(nextData: any, book: Book) {
     }
 }
 
-function extractFromSchema(schema, book: Book) {
+function extractFromSchema(schema: any, book: Book) {
     // Basic info
     if (!book.title && schema.name) {
         book.title = schema.name.replace(/\s*\(.*?\)$/, '');
@@ -221,8 +306,8 @@ function extractFromSchema(schema, book: Book) {
 
     // Format
     if (!book.format && schema.bookFormat) {
-        if (schema.bookFormat === 'Hardcover') book.format = 'hardcover';
-        else if (schema.bookFormat === 'Paperback') book.format = 'paperback';
+        if (schema.bookFormat === 'Hardcover') book.format = 'physical';
+        else if (schema.bookFormat === 'Paperback') book.format = 'physical';
         else if (schema.bookFormat === 'E-book') book.format = 'ebook';
         else if (schema.bookFormat === 'Audiobook') book.format = 'audiobook';
     }
@@ -230,7 +315,7 @@ function extractFromSchema(schema, book: Book) {
     // Author
     if (schema.author && Array.isArray(schema.author)) {
         book.metadata = book.metadata || {};
-        book.metadata.authors = schema.author.map(a => a.name);
+        book.metadata.authors = schema.author.map((a: any) => a.name);
     }
 
     // Rating
@@ -268,7 +353,7 @@ function extractFromHtml($: cheerio.CheerioAPI, book: Book) {
 
     // Genres
     if (book.genres?.length === 0) {
-        $('.BookPageMetadataSection__genres .Button--tag').each((_, el) => {
+        $('.BookPageMetadataSection__genres .Button--tag').each((_: any, el: any) => {
             const genre = $(el).text().trim();
             if (genre) book.genres?.push(genre);
         });
@@ -291,8 +376,8 @@ function extractFromHtml($: cheerio.CheerioAPI, book: Book) {
 
         // Format
         if (!book.format) {
-            if (pagesFormat.includes('Hardcover')) book.format = 'hardcover';
-            else if (pagesFormat.includes('Paperback')) book.format = 'paperback';
+            if (pagesFormat.includes('Hardcover')) book.format = 'physical';
+            else if (pagesFormat.includes('Paperback')) book.format = 'physical';
             else if (pagesFormat.includes('Kindle')) book.format = 'ebook';
             else if (pagesFormat.includes('Audiobook')) book.format = 'audiobook';
         }
@@ -307,7 +392,7 @@ function extractFromHtml($: cheerio.CheerioAPI, book: Book) {
     // Author
     if (!book.metadata?.authors) {
         const authorNames: string[] = [];
-        $('.ContributorLink__name').each((_, el) => {
+        $('.ContributorLink__name').each((_: any, el: any) => {
             const name = $(el).text().trim();
             if (name) authorNames.push(name);
         });

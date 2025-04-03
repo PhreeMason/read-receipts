@@ -194,6 +194,33 @@ export type Database = {
         }
         Relationships: []
       }
+      user_searches: {
+        Row: {
+          created_at: string | null
+          id: string
+          query: string
+          result_count: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          query: string
+          result_count: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          query?: string
+          result_count?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       userbooks: {
         Row: {
           completion_date: string | null
@@ -287,9 +314,9 @@ export type Database = {
     Enums: {
       annotation_type: "highlight" | "mark" | "underline"
       book_format_enum: "physical" | "ebook" | "audio"
-      book_source_enum: "api" | "user_created"
+      book_source_enum: "api" | "user_created" | "goodreads" | "googlebooks"
       book_status: "to-read" | "reading" | "read" | "did-not-finish"
-      book_status_enum: "tbr" | "current" | "completed" | "dnf"
+      book_status_enum: "tbr" | "current" | "completed" | "dnf" | "pause"
     }
     CompositeTypes: {
       [_ in never]: never
