@@ -55,8 +55,13 @@ Deno.serve(async (req: Request) => {
     }
 
     const supabaseClient = createClient(
-        Deno.env.get('SUPABASE_URL') ?? '',
-        Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+        Deno.env.get('SUPABASE_URL')!,
+        Deno.env.get('SUPABASE_ANON_KEY')!,
+        {
+            global: {
+                headers: { Authorization: req.headers.get('Authorization')! },
+            },
+        }
     );
 
     try {
@@ -95,6 +100,26 @@ async function fetchFromDatabase(supabaseClient: SupabaseClient, bookId: string)
     return data;
 }
 
+async function storeInDatabase(supabaseClient: SupabaseClient, bookData: Book) {
+    // Check if book already exists
+    const startTime = performance.now();
+    const { error } = await supabaseClient
+        .from('books')
+        .upsert({
+            ...bookData,
+            updated_at: new Date().toISOString()
+        }, {
+            onConflict: 'api_id',
+            returning: 'minimal',
+            ignoreDuplicates: false
+        });
+
+    if (error) {
+        console.error("Error inserting new record:", { error, bookData });
+    }
+    console.log(`Book stored in database, timing ${performance.now() - startTime}ms`);
+}
+
 async function fetchFromGoodreads(bookId: string, supabaseClient: SupabaseClient) {
     console.log("Fetching fresh data from Goodreads");
     const startTime = performance.now();
@@ -118,43 +143,6 @@ async function fetchFromGoodreads(bookId: string, supabaseClient: SupabaseClient
     return bookData;
 }
 
-async function storeInDatabase(supabaseClient: SupabaseClient, bookData: Book) {
-    // Check if book already exists
-    const startTime = performance.now();
-    const { data } = await supabaseClient
-        .from('books')
-        .select('id')
-        .eq('api_id', bookData.api_id)
-        .single();
-
-    if (data) {
-        // Update existing record
-        await supabaseClient
-            .from('books')
-            .update({
-                ...bookData,
-                updated_at: new Date().toISOString()
-            })
-            .eq('id', data.id);
-    } else {
-        // Insert new record
-        const { error } = await supabaseClient
-            .from('books')
-            .insert({
-                ...bookData,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString()
-            });
-
-        if (error) {
-            console.error("Error inserting new record:", { error, bookData });
-        }
-    }
-
-    console.log(`Book stored in database, timing ${performance.now() - startTime}ms`);
-
-}
-
 function extractBookData($: cheerio.CheerioAPI, bookId: string) {
     const startTime = performance.now();
     // Initialize book object with default values
@@ -174,7 +162,9 @@ function extractBookData($: cheerio.CheerioAPI, bookId: string) {
         isbn10: null,
         isbn13: null,
         language: null,
-        metadata: {},
+        metadata: {
+            extraction_method: 'html',
+        },
         publication_date: null,
         publisher: null,
         rating: null,
@@ -234,6 +224,7 @@ function extractFromNextData(nextData: any, book: Book) {
         }
 
         if (!bookProps) return;
+        if (book.metadata) book.metadata.extraction_method = 'next_data';
 
         // Extract book properties
         if (bookProps.title) book.title = bookProps.title.replace(/\s*\(.*?\)$/, '');
@@ -242,14 +233,19 @@ function extractFromNextData(nextData: any, book: Book) {
         }
         if (bookProps.description) book.description = bookProps.description;
         if (bookProps.numPages) book.total_pages = bookProps.numPages;
-        if (bookProps.isbn10) book.isbn10 = bookProps.isbn10;
-        if (bookProps.isbn13) book.isbn13 = bookProps.isbn13;
         if (bookProps.language) book.language = bookProps.language;
         if (bookProps.publisher) book.publisher = bookProps.publisher;
         if (bookProps.publicationDate) {
             book.publication_date = formatDate(bookProps.publicationDate);
         }
         if (bookProps.rating) book.rating = parseFloat(bookProps.rating);
+
+        const identifiers = nextData?.props?.pageProps?.bookDetails?.details?.details?.identifiers;
+        // ISBN
+        if (identifiers) {
+            book.isbn10 = identifiers.isbn10 || book.isbn10;
+            book.isbn13 = identifiers.isbn13 || book.isbn13;
+        }
 
         // Format
         if (bookProps.format) {
@@ -284,6 +280,8 @@ function extractFromNextData(nextData: any, book: Book) {
 
 function extractFromSchema(schema: any, book: Book) {
     // Basic info
+    if (book.metadata) book.metadata.extraction_method = 'schema';
+
     if (!book.title && schema.name) {
         book.title = schema.name.replace(/\s*\(.*?\)$/, '');
     }
@@ -412,7 +410,21 @@ function extractFromHtml($: cheerio.CheerioAPI, book: Book) {
             book.metadata.series = seriesMatch[1];
         }
     }
+
+    // ISBN
+    if (!book.isbn10 || !book.isbn13) {
+        // Fallback to HTML scraping if not found in JSON
+        const isbnSection = $('[data-testid="bookDetails"]').text();
+
+        // Match ISBN patterns (ISBN-10: 10 digits, ISBN-13: 978/979 prefix + 10 digits)
+        const isbn10Match = isbnSection.match(/ISBN-10: (\d{10})/);
+        const isbn13Match = isbnSection.match(/ISBN-13: (\d{13})/);
+
+        if (isbn10Match) book.isbn10 = isbn10Match[1];
+        if (isbn13Match) book.isbn13 = isbn13Match[1];
+    }
 }
+
 
 function formatDate(dateString: string) {
     try {
