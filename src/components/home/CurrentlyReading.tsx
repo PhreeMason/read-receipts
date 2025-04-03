@@ -1,7 +1,6 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import React from 'react'
 import tw from 'twrnc';
-import { BookCard } from '@/components/book/BookCard';
 import { useBooksByStatus } from '@/hooks/useBooks';
 import { router } from 'expo-router';
 
@@ -27,11 +26,6 @@ const CurrentlyReading = () => {
         {currentlyReading.map(item => {
           const book = item.book;
           const bookId = book.id;
-          return <BookCard
-            key={book.id}
-            book={{ ...book, reading_progress: item.reading_progress }}
-            onPress={() => router.push(`/book/${bookId}/details`)}
-          />
         })}
       </ScrollView>
     </View>

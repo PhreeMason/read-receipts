@@ -2,7 +2,6 @@
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useBookDetails } from '@/hooks/useBooks';
 import { useBookStatus } from '@/hooks/useBookStatus';
-import { BookDetailPresentation } from '@/components/book/BookDetailPresentation';
 import { Loading } from '@/components/shared/Loading';
 import { useFetchBookData } from '@/hooks/useBooks';
 import { Text } from 'react-native';

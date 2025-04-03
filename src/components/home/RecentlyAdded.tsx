@@ -1,7 +1,6 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import React from 'react'
 import tw from 'twrnc';
-import { BookCard } from '@/components/book/BookCard';
 import { useRecentlyAddedBooks } from '@/hooks/useBooks';
 import { router } from 'expo-router';
 
@@ -25,11 +24,6 @@ const RecentlyAdded = () => {
                 style={tw`mt-4 pl-4`}
             >
                 {recentlyAdded.map(({ book }) => (
-                    <BookCard
-                        key={book.id}
-                        book={book}
-                        onPress={() => router.push(`/book/${book.id}/details`)}
-                    />
                 ))}
             </ScrollView>
         </View>
