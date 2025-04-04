@@ -9,10 +9,11 @@ import Entypo from '@expo/vector-icons/Entypo';
 type BookCoverProps = {
     book: SearchBookMetadata;
     onAddToLibrary?: () => void;
+    onTextClick?: (text: string) => void;
 };
 
-export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary }) => {
-    const authorNames = book.metadata.authors.map(author => author.name || author).join(', ');
+export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTextClick }) => {
+    const authorNames = book.metadata.authors.map((author) => author.name || author);
     const publicationYear = book.publication_date
         ? new Date(book.publication_date).getFullYear()
         : null;
@@ -24,7 +25,9 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary }) =>
     const isInLibrary = false; // This should be replaced with actual library check logic
 
     return (
-        <View style={tw`rounded-xl p-3 mb-4 shadow-md flex-row`}>
+        <TouchableOpacity style={tw`rounded-xl p-3 mb-4 shadow-md flex-row`}
+            onPress={onAddToLibrary}
+        >
             {/* Book Cover Image */}
             <Image
                 source={{ uri: book.cover_image_url }}
@@ -33,16 +36,24 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary }) =>
             />
             {/* Book Information */}
             <View style={tw`ml-3 flex-1`}>
-                <TouchableOpacity
-                    onPress={onAddToLibrary}>
+                <View
+                >
                     <Text style={tw`font-semibold text-black text-base leading-tight`}>
                         {book.title}
                     </Text>
-                </TouchableOpacity>
+                </View>
 
-                <Text style={tw`text-black text-sm`}>{authorNames}</Text>
+                <View style={tw`text-black text-sm`}>
+                    {authorNames.map((name, index) => (
+                        <Text key={`${index}-${name}`} style={tw`mr-1`}
+                            onPress={() => onTextClick?.(name)}
+                        >
+                            {name}
+                        </Text>
+                    ))}
+                </View>
                 {seriesInfo ? (
-                    <Text style={tw`text-xs text-blue-600`}>{seriesInfo}</Text>
+                    <Text style={tw`text-xs text-blue-600`} onPress={() => onTextClick?.(seriesInfo.split(',')[0])}>{seriesInfo}</Text>
                 ) : null}
                 {book.rating ? (<Rating rating={book.rating.toFixed(1)} />) : null}
                 <Text style={tw`text-xs text-black mt-1`}>{publicationYear}</Text>
@@ -51,6 +62,6 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary }) =>
             <TouchableOpacity style={tw`self-center p-2 rounded-full hover:bg-gray-100`}>
                 <Entypo name="plus" size={24} color="black" />
             </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
     );
 };

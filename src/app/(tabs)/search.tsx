@@ -24,6 +24,11 @@ export default function SearchScreen() {
         console.log('Scan Book Barcode button pressed');
     };
 
+    const searchText = (query: string) => {
+        const trimmedQuery = query.trim();
+        setSearchQuery(trimmedQuery);
+    }
+
     return (
         <SafeAreaView style={tw`flex-1 bg-white`}>
             <View style={tw`flex-1 justify-center m-4 gap-4 bg-white`}>
@@ -39,6 +44,7 @@ export default function SearchScreen() {
                 <SearchResults
                     books={books.bookList}
                     onBookPress={handleBookPress}
+                    onTextClick={searchText}
                 />
             </View>
         </SafeAreaView>

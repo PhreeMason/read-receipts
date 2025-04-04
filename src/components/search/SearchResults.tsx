@@ -8,9 +8,10 @@ import { BookCover } from '@/components/search/BookCover';
 type SearchResultsProps = {
     books: SearchBookMetadata[];
     onBookPress: (bookId: string) => void;
+    onTextClick: (text: string) => void;
 };
 
-export const SearchResults: React.FC<SearchResultsProps> = ({ books, onBookPress }) => {
+export const SearchResults: React.FC<SearchResultsProps> = ({ books, onBookPress, onTextClick }) => {
     if (!books || books.length === 0) {
         return (
             <View style={tw`flex-1 items-center justify-center`}>
@@ -29,6 +30,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({ books, onBookPress
                     <BookCover
                         book={item}
                         onAddToLibrary={() => onBookPress(item.bookUrl)}
+                        onTextClick={onTextClick}
                     />
                 )}
                 contentContainerStyle={tw`flex-grow pb-4`}
