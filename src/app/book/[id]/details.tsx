@@ -25,7 +25,7 @@ export default function BookDetailScreen() {
     return (
         <SafeAreaView style={tw`flex-1 bg-white`}>
             <Stack.Screen options={{
-                title: "Add to library"
+                title: "Add To Library"
             }} />
             <AddToLibraryDetails
                 book={bookDetails}
