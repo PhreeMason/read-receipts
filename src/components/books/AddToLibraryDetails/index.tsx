@@ -12,7 +12,7 @@ import AddToLibraryButton from './AddToLibraryButton';
 
 const AddToLibraryDetails = ({ book = {}, onClose = () => { }, onAddToLibrary = () => { } }) => {
   const [status, setStatus] = useState('tbr');
-  const [format, setFormat] = useState('physical');
+  const [formats, setFormats] = useState(['physical']);
   const [currentPage, setCurrentPage] = useState('0');
   const [startDate, setStartDate] = useState(new Date());
   const [targetDate, setTargetDate] = useState(new Date());
@@ -48,7 +48,7 @@ const AddToLibraryDetails = ({ book = {}, onClose = () => { }, onAddToLibrary = 
     const bookData = {
       ...book,
       status,
-      format,
+      formats,
       currentPage: status === 'current' ? parseInt(currentPage) : 0,
       startDate: status === 'current' ? startDate : null,
       targetDate: status === 'current' ? targetDate : null,
@@ -91,11 +91,11 @@ const AddToLibraryDetails = ({ book = {}, onClose = () => { }, onAddToLibrary = 
           )}
 
           <FormatSelector
-            format={format}
-            setFormat={setFormat}
+            formats={formats}
+            setFormats={setFormats}
           />
 
-          {format === 'audio' && (
+          {formats.includes('audio') && (
             <AudioDuration
               hours={hours}
               setHours={setHours}
