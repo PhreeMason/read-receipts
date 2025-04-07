@@ -3,6 +3,7 @@ import supabase from '@/lib/supabase';
 import { getPublicUrl } from '@/utils/supabase-storage';
 import { useAuth } from '@/providers/AuthProvider';
 import { Location } from '@epubjs-react-native/core';
+import { mockBookSearchResponse } from '@/services/mocks';
 
 export const searchBooks = async (query: string): Promise<Book[]> => {
     if (!query.trim()) return [];
@@ -118,12 +119,14 @@ export const updateUserBookStatus = async (userBookId: string, status: BookStatu
 export const searchBookList = async (query: string): Promise<Book[]> => {
     if (!query.trim()) return [];
     // Use Supabase function to search books
-    const { data, error } = await supabase.functions.invoke('search-books', {
-        body: { query },
-    });
+    // const { data, error } = await supabase.functions.invoke('search-books', {
+    //     body: { query },
+    // });
 
-    if (error) throw error;
-    return data;
+    // if (error) throw error;
+    // return data;
+    await Promise.resolve()
+    return mockBookSearchResponse;
 };
 
 export const fetchBookData = async (bookId: string): Promise<Book[]> => {

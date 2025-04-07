@@ -5,6 +5,7 @@ import tw from 'twrnc';
 import { SearchBookMetadata } from '@/types/book';
 import Rating from '@/components/shared/Rating';
 import Entypo from '@expo/vector-icons/Entypo';
+import { BookStatusActionButton } from '@/components/shared/BookStatusActionButton'
 
 type BookCoverProps = {
     book: SearchBookMetadata;
@@ -59,9 +60,7 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTe
                 <Text style={tw`text-xs text-black mt-1`}>{publicationYear}</Text>
             </View>
 
-            <TouchableOpacity style={tw`self-center p-2 rounded-full hover:bg-gray-100`}>
-                <Entypo name="plus" size={24} color="black" />
-            </TouchableOpacity>
+            <BookStatusActionButton bookId={book.bookUrl} />
         </TouchableOpacity>
     );
 };
