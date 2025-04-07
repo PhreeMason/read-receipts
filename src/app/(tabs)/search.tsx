@@ -17,7 +17,7 @@ export default function SearchScreen() {
 
     const { data: books = [], isLoading } = useSearchBooksList(debouncedSearch.trim());
     const handleBookPress = (bookId: string) => {
-        router.push(`/book/${bookId}/details`);
+        router.push(`/book/${bookId}/add`);
     };
 
     const handleScanPress = () => {
