@@ -8,12 +8,21 @@ import React from 'react';
 import tw from 'twrnc';
 
 const statusToIcon = {
-    default: <FontAwesome name="bookmark-o" size={24} color="gray" />, // light-gray
-    tbr: <FontAwesome name="bookmark" size={24} color="gray" />, // dark gray
-    current: <FontAwesome5 name="book-reader" size={24} color="bluee" />, // light blue
-    completed: <Feather name="book" size={24} color="green" />, // light green
-    dnf: <Entypo name="cross" size={24} color="red" />, // dnf red
-    pause: <FontAwesome6 name="pause" size={24} color="amber" /> // yellow/amber
+    default: <FontAwesome name="bookmark-o" size={12} color="rgb(107, 112, 128)" />,
+    tbr: <FontAwesome name="bookmark" size={12} color="rgb(156, 123, 175)" />,
+    current: <FontAwesome5 name="book-reader" size={12} color="rgb(96, 125, 250)" />,
+    completed: <Feather name="book" size={12} color="rgb(74, 222, 128)" />, // TODO: get thicker book
+    dnf: <Entypo name="cross" size={13} color="rgb(248, 113, 113)" />, // TODO: get bigger X
+    pause: <FontAwesome6 name="pause" size={12} color="rgb(251, 191, 36)" />
+}
+
+const statusStyle = {
+    default: 'border-gray-500 bg-gray-50',
+    tbr: 'border-gray-500 bg-gray-50 px-2.5',
+    current: 'border-blue-500 bg-blue-50',
+    completed: 'border-green-500 bg-green-50',
+    dnf: 'border-red-500 bg-red-50 px-2.2',
+    pause: 'border-amber-500 bg-amber-50 px-3',
 }
 
 const getBookStatus = (bookId) => {
@@ -23,18 +32,15 @@ const getBookStatus = (bookId) => {
     ]
 }
 
-
 type BookStatusActionButtonProps = {
     bookId: string;
 }
 
 export const BookStatusActionButton: React.FC<BookStatusActionButtonProps> = ({ bookId }) => {
-    console.log({bookId})
     const bookStatus = getBookStatus(bookId)
-    console.log({bookStatus})
     const icon = bookStatus ? statusToIcon[bookStatus] : statusToIcon.default
     return (
-        <TouchableOpacity style={tw`self-center p-2 rounded-full hover:bg-gray-100`}>
+        <TouchableOpacity style={tw`self-center p-2 border rounded-full ${statusStyle[bookStatus]}`}>
             {icon}
         </TouchableOpacity>
     )
