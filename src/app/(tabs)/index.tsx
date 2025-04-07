@@ -4,7 +4,6 @@ import tw from 'twrnc';
 import HomeHeader from '@/components/home/Header';
 import CurrentlyReading from '@/components/home/CurrentlyReading';
 import RecentlyAdded from '@/components/home/RecentlyAdded';
-import ReadingStats from '@/components/home/ReadingStats';
 
 const HomeScreen = () => {
     return (
@@ -17,8 +16,6 @@ const HomeScreen = () => {
                 <CurrentlyReading />
                 
                 {/* Reading Stats */}
-                <ReadingStats />
-
 
                 {/* Recently Added Section */}
             </ScrollView>
