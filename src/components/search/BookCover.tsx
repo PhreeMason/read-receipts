@@ -1,6 +1,6 @@
 // src/components/search/BookCover.tsx
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Platform } from 'react-native';
 import tw from 'twrnc';
 import { SearchBookMetadata } from '@/types/book';
 import Rating from '@/components/shared/Rating';
@@ -24,7 +24,8 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTe
 
     // Check if book is already in library (placeholder - implement actual check)
     const isInLibrary = false; // This should be replaced with actual library check logic
-
+    const shadowStyle =
+        Platform.OS === 'ios' ? 'shadow' : 'shadow-md shadow-black/60';
     return (
         <TouchableOpacity style={tw`rounded-xl p-3 mb-4 shadow-md flex-row`}
             onPress={onAddToLibrary}
@@ -32,7 +33,7 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTe
             {/* Book Cover Image */}
             <Image
                 source={{ uri: book.cover_image_url }}
-                style={tw`w-16 h-24 rounded-lg shadow-sm`}
+                style={tw`w-16 h-24 rounded-lg ${shadowStyle}`}
                 resizeMode="cover"
             />
             {/* Book Information */}
