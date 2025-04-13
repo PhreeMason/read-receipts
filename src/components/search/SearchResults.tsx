@@ -1,13 +1,13 @@
 // src/components/search/SearchResults.tsx
 import React from 'react';
-import { View, FlatList, Text, TouchableOpacity, Image } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import tw from 'twrnc';
-import { SearchBookMetadata } from '@/types/book';
+import { BookMetadata } from '@/types/book';
 import { BookCover } from '@/components/search/BookCover';
 
 type SearchResultsProps = {
-    books: SearchBookMetadata[];
-    onBookPress: (bookId: string) => void;
+    books: BookMetadata[] | undefined;
+    onBookPress: (bookId: string | null) => void;
     onTextClick: (text: string) => void;
 };
 

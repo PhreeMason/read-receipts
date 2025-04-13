@@ -2,18 +2,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, Platform } from 'react-native';
 import tw from 'twrnc';
-import { SearchBookMetadata } from '@/types/book';
+import { BookMetadata } from '@/types/book';
 import Rating from '@/components/shared/Rating';
-import Entypo from '@expo/vector-icons/Entypo';
 import { BookStatusActionButton } from '@/components/shared/BookStatusActionButton'
+import { mediumShadow } from '@/utils/constants';
 
 type BookCoverProps = {
-    book: SearchBookMetadata;
+    book: BookMetadata;
     onAddToLibrary?: () => void;
     onTextClick?: (text: string) => void;
 };
 
 export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTextClick }) => {
+    // @ts-ignore  Property 'name' does not exist on type 'string'
     const authorNames = book.metadata.authors.map((author) => author.name || author);
     const publicationYear = book.publication_date
         ? new Date(book.publication_date).getFullYear()
@@ -24,16 +25,14 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTe
 
     // Check if book is already in library (placeholder - implement actual check)
     const isInLibrary = false; // This should be replaced with actual library check logic
-    const shadowStyle =
-        Platform.OS === 'ios' ? 'shadow' : 'shadow-md shadow-black/60';
     return (
-        <TouchableOpacity style={tw`rounded-xl p-3 mb-4 shadow-md flex-row`}
+        <TouchableOpacity style={tw.style(`rounded-xl p-3 mb-4 flex-row`, mediumShadow)}
             onPress={onAddToLibrary}
         >
             {/* Book Cover Image */}
             <Image
                 source={{ uri: book.cover_image_url }}
-                style={tw`w-16 h-24 rounded-lg ${shadowStyle}`}
+                style={tw.style(`w-16 h-24 rounded-lg`, mediumShadow)}
                 resizeMode="cover"
             />
             {/* Book Information */}
@@ -46,7 +45,7 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTe
                 </View>
 
                 <View style={tw`text-black text-sm`}>
-                    {authorNames.map((name, index) => (
+                    {authorNames.map((name: string, index: number) => (
                         <Text key={`${index}-${name}`} style={tw`mr-1`}
                             onPress={() => onTextClick?.(name)}
                         >
@@ -61,7 +60,7 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTe
                 <Text style={tw`text-xs text-black mt-1`}>{publicationYear}</Text>
             </View>
 
-            <BookStatusActionButton bookId={book.bookUrl} />
+            {book.bookUrl && <BookStatusActionButton bookId={book.bookUrl} />}
         </TouchableOpacity>
     );
 };

@@ -3,13 +3,14 @@ import { View, Text, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import tw from 'twrnc';
 import { Book } from '@/types/book';
+import { mediumShadow } from '@/utils/constants';
 
 type BookCoverProps = {
     imageUrl: string;
 }
 
 const BookCover: React.FC<BookCoverProps> = ({ imageUrl }) => (
-    <View style={tw`w-24 h-36 rounded-md overflow-hidden shadow-md`}>
+    <View style={tw.style(`w-24 h-36 rounded-md overflow-hidden`, mediumShadow)}>
         <Image
             source={{ uri: imageUrl }}
             style={tw`w-full h-full`}
