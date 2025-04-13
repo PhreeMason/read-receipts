@@ -2,25 +2,25 @@ import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 import tw from 'twrnc';
 
-type AudioDurationProps = {
-    hours: string;
-    setHours: (value: string) => void;
-    minutes: string;
-    setMinutes: (value: string) => void;
+type AudioProgressProps = {
+    currentHours: string;
+    setCurrentHours: (value: string) => void;
+    currentMinutes: string;
+    setCurrentMinutes: (value: string) => void;
 }
 
-const AudioDuration: React.FC<AudioDurationProps> = ({ hours, setHours, minutes, setMinutes }) => {
+const AudioProgress: React.FC<AudioProgressProps> = ({ currentHours, setCurrentHours, currentMinutes, setCurrentMinutes }) => {
     return (
         <View style={tw`gap-4 mt-4`}>
-            <Text style={tw`block text-sm font-medium text-gray-700 mb-1`}>Audiobook Total Time</Text>
+            <Text style={tw`block text-sm font-medium text-gray-700 mb-1`}>Current Audiobook Progress</Text>
             <View style={tw`flex flex-row gap-4`}>
                 <View>
                     <Text style={tw`text-xs text-gray-500 mb-1`}>Hours</Text>
                     <TextInput
                         style={tw`border border-gray-300 rounded-lg p-2`}
                         placeholder="0"
-                        value={hours}
-                        onChangeText={setHours}
+                        value={currentHours}
+                        onChangeText={setCurrentHours}
                         keyboardType="numeric"
                     />
                 </View>
@@ -29,8 +29,8 @@ const AudioDuration: React.FC<AudioDurationProps> = ({ hours, setHours, minutes,
                     <TextInput
                         style={tw`border border-gray-300 rounded-lg p-2`}
                         placeholder="0"
-                        value={minutes}
-                        onChangeText={setMinutes}
+                        value={currentMinutes}
+                        onChangeText={setCurrentMinutes}
                         keyboardType="numeric"
                     />
                 </View>
@@ -39,4 +39,4 @@ const AudioDuration: React.FC<AudioDurationProps> = ({ hours, setHours, minutes,
     );
 };
 
-export default AudioDuration;
+export default AudioProgress;

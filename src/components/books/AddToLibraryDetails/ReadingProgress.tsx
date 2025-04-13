@@ -1,9 +1,23 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Platform } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import tw from 'twrnc';
 
-const ReadingProgress = ({
+type ReadingProgressProps = {
+    currentPage: string;
+    setCurrentPage: (pageNumber: string) => void;
+    totalPages: number | null;
+    startDate: Date;
+    targetDate: Date;
+    showStartDatePicker: boolean;
+    showTargetDatePicker: boolean;
+    setShowStartDatePicker: (toggle: boolean) => void;
+    setShowTargetDatePicker: (toggle: boolean) => void;
+    onDateChange: (event: DateTimePickerEvent, selectedDate: Date | undefined, dateType: string) => void;
+    formatDate: (date: Date) => string;
+}
+
+const ReadingProgress: React.FC<ReadingProgressProps> = ({
     currentPage,
     setCurrentPage,
     totalPages,
