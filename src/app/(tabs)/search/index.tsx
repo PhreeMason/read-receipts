@@ -15,13 +15,13 @@ export default function SearchScreen() {
     const debouncedSearch = useDebounce(searchQuery, 300);
     const router = useRouter();
 
-    const { data: books = [], isLoading } = useSearchBooksList(debouncedSearch.trim());
-    const handleBookPress = (bookId: string) => {
-        router.push(`/book/${bookId}/add`);
-    };
+    const { data: books, isLoading } = useSearchBooksList(debouncedSearch.trim());
 
-    const handleScanPress = () => {
-        console.log('Scan Book Barcode button pressed');
+    const handleBookPress = (bookId: string | null) => {
+        if (!bookId) {
+            return
+        }
+        router.push(`/book/${bookId}/add`);
     };
 
     const searchText = (query: string) => {
@@ -30,23 +30,21 @@ export default function SearchScreen() {
     }
 
     return (
-        <SafeAreaView style={tw`flex-1 bg-white`}>
-            <View style={tw`flex-1 justify-center m-4 gap-4 bg-white`}>
-                <SearchHeader />
+        <View style={tw`flex-1 justify-center p-4 gap-4 bg-white`}>
+            <SearchHeader />
 
-                <SearchBar
-                    value={searchQuery}
-                    onChangeText={setSearchQuery}
-                />
+            <SearchBar
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+            />
 
-                <ScanBarcodeButton onPress={handleScanPress} />
+            <ScanBarcodeButton />
 
-                <SearchResults
-                    books={books.bookList}
-                    onBookPress={handleBookPress}
-                    onTextClick={searchText}
-                />
-            </View>
-        </SafeAreaView>
+            <SearchResults
+                books={books?.bookList}
+                onBookPress={handleBookPress}
+                onTextClick={searchText}
+            />
+        </View>
     );
 }
