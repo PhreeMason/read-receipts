@@ -2,10 +2,11 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import tw from 'twrnc';
+import { StatusEnum } from '@/types/book';
 
 const StatusSelector = ({ status, setStatus }: {
-    status: string;
-    setStatus: (status: string) => void;
+    status: StatusEnum;
+    setStatus: (status: StatusEnum) => void;
 }) => {
     return (
         <View>

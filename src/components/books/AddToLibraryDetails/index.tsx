@@ -57,13 +57,13 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
             currentPercentage: 0
         }
     });
-    useSyncAudioPercentage();
-
+    // useSyncAudioPercentage();
+    console.log({ errors })
     const status = watch('status');
     const format = watch('format');
     // Format date for display
     const formatDate = (date: Date) => {
-        return date.toISOString().split('T')[0];
+        return date?.toISOString().split('T')[0] || '';
     };
 
     const onSubmit = (data: FormData) => {
