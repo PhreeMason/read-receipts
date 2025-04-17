@@ -2,49 +2,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import supabase from '../lib/supabase';
 import { uploadEpub, getSignedEpubUrl, getPublicUrl } from '../utils/supabase-storage';
-import { Book, BookStatus, UserBook } from '@/types/book';
+import { Book } from '@/types/book';
 import { Location } from '@epubjs-react-native/core';
 import {
     searchBooks,
     getBookById,
     fetch10Books,
-    fetchBookDetailsWithUserData,
-    updateUserBookStatus,
     searchBookList,
     fetchBookData
 } from '@/services/books';
-
-export const useGetBookWithSignedUrl = (bookId: string) => {
-    return useQuery({
-        queryKey: ['book', bookId],
-        queryFn: async () => {
-            const book = await getBookById(bookId);
-            if (!book) throw new Error('Book not found');
-
-            const signedUrl = await getPublicUrl(book.epub_path);
-            return { ...book, epub_url: signedUrl };
-        },
-        staleTime: 1000 * 60 * 60, // 1 hour
-    });
-};
-
-export const useBooksByStatus = (status: BookStatus) => {
-    return useQuery({
-        queryKey: ['books', status],
-        queryFn: async () => {
-            const { data, error } = await supabase
-                .from('user_books')
-                .select(`
-                    *,
-                    book:books(*)
-                `)
-                .eq('status', status)
-                .order('created_at', { ascending: false });
-            if (error) throw error;
-            return data;
-        },
-    });
-};
 
 /**
  * Returns user books except the ones with status 'did-not-finish'
@@ -99,19 +65,6 @@ export const useBookStatusHistory = (userBookId: string) => {
     });
 };
 
-export const useUpdateBookStatus = () => {
-    const queryClient = useQueryClient();
-
-    return useMutation({
-        mutationFn: ({ userBookId, status }: { userBookId: string; status: BookStatus }) =>
-            updateUserBookStatus(userBookId, status),
-        onSuccess: ({ id: userBookId, book_id: bookId }) => {
-            queryClient.invalidateQueries({ queryKey: ['book-status-history', userBookId] });
-            queryClient.invalidateQueries({ queryKey: ['user-book', bookId] });
-        },
-    });
-};
-
 // Update reading progress
 export const useUpdateReadingProgress = () => {
     const queryClient = useQueryClient();
@@ -139,15 +92,6 @@ export const useUpdateReadingProgress = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['books', 'reading'] });
         },
-    });
-};
-
-
-export const useBookDetails = (bookId: string) => {
-    return useQuery({
-        queryKey: ['book-details', bookId],
-        queryFn: async () => fetchBookDetailsWithUserData(bookId),
-        staleTime: 1000 * 60 * 60, // 1 hour
     });
 };
 
