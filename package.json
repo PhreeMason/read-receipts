@@ -4,13 +4,15 @@
     "version": "1.0.0",
     "scripts": {
         "start": "expo start",
-        "local": "npx supabase start && expo start --offline",
+        "local": "supabase start && expo start --offline",
         "android": "expo start --android",
         "ios": "expo start --ios",
         "web": "expo start --web",
         "test": "jest --watchAll",
         "lint": "expo lint",
-        "genTypes": "npx supabase gen types --lang=typescript --project-id \"nevezioullmxffvdlgyq\" --schema public > src/types/supabase.ts"
+        "supabase": "node_modules/supabase/bin/supabase",
+        "genTypes": "npx supabase gen types --lang=typescript --project-id \"nevezioullmxffvdlgyq\" --schema public > src/types/supabase.ts",
+        "genTypes:local": "node_modules/supabase/bin/supabase gen types typescript --local > src/types/supabase.ts"
     },
     "jest": {
         "preset": "jest-expo"
