@@ -16,10 +16,10 @@ Deno.serve(async (req) => {
         });
     }
     console.log("Request received");
-    const { bookId } = await req.json();
-    if (!bookId) {
+    const { api_id } = await req.json();
+    if (!api_id) {
         return new Response(JSON.stringify({
-            error: 'bookId is required'
+            error: 'api_id is required'
         }), {
             headers: {
                 ...corsHeaders,
@@ -37,8 +37,8 @@ Deno.serve(async (req) => {
     try {
         // Race between database lookup and fresh fetch
         const bookData = await Promise.any([
-            fetchFromDatabase(supabaseClient, bookId),
-            fetchFromGoodreads(bookId, supabaseClient)
+            fetchFromDatabase(supabaseClient, api_id),
+            fetchFromGoodreads(api_id, supabaseClient)
         ]);
         return new Response(JSON.stringify(bookData), {
             headers: {
@@ -59,10 +59,10 @@ Deno.serve(async (req) => {
         });
     }
 });
-async function fetchFromDatabase(supabaseClient: SupabaseClient, bookId: string): Book {
+async function fetchFromDatabase(supabaseClient: SupabaseClient, api_id: string): Book {
     // Check if we have this book in our cache
     const startTime = performance.now();
-    const { data, error } = await supabaseClient.from('books').select('*').eq('api_id', bookId).single();
+    const { data, error } = await supabaseClient.from('books').select('*').eq('api_id', api_id).single();
     if (error || !data) {
         return Promise.reject(new Error('Not in database'));
     }
@@ -88,11 +88,11 @@ async function storeInDatabase(supabaseClient: SupabaseClient, bookData: Book) {
     }
     console.log(`Book stored in database, timing ${performance.now() - startTime}ms`);
 }
-async function fetchFromGoodreads(bookId: string, supabaseClient: SupabaseClient): Book {
+async function fetchFromGoodreads(api_id: string, supabaseClient: SupabaseClient): Book {
     console.log("Fetching fresh data from Goodreads");
     const startTime = performance.now();
     // Fetch from Goodreads
-    const { data: html } = await axiod.get(`https://www.goodreads.com/book/show/${bookId}`, {
+    const { data: html } = await axiod.get(`https://www.goodreads.com/book/show/${api_id}`, {
         headers: {
             'User-Agent': userAgent
         }
@@ -100,19 +100,19 @@ async function fetchFromGoodreads(bookId: string, supabaseClient: SupabaseClient
     // Parse HTML with Cheerio
     const $ = cheerio.load(html);
     // Extract book data using your existing function
-    const bookData = extractBookData($, bookId);
+    const bookData = extractBookData($, api_id);
     // Store in database asynchronously (don't await to return result faster)
-    storeInDatabase(supabaseClient, bookData).catch((err) => {
+    await storeInDatabase(supabaseClient, bookData).catch((err) => {
         console.error("Failed to store in database:", err);
     });
     console.log(`Book fetched from goodreads, timing ${performance.now() - startTime}ms`);
     return bookData;
 }
-function extractBookData($: cheerio.CheerioAPI, bookId: string) {
+function extractBookData($: cheerio.CheerioAPI, api_id: string) {
     const startTime = performance.now();
     // Initialize book object with default values
     const book: Book = {
-        api_id: bookId,
+        api_id: api_id,
         api_source: 'goodreads',
         cover_image_url: null,
         created_at: new Date().toISOString(),
