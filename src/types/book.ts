@@ -1,56 +1,19 @@
-import { Tables } from '@/types/supabase'
-export type BookStatus = 'to-read' | 'reading' | 'read' | 'did-not-finish';
-
-export interface UserBook {
-    id: string;
-    user_id: string;
-    book_id: string;
-    status: BookStatus;
-    reading_progress: number | null;
-    last_position: string | null;
-    created_at: string;
-    updated_at: string;
-}
-
-export interface StatusHistory {
-    id: string;
-    user_book_id: string;
-    status: BookStatus;
-    progress: number | null;
-    changed_at: string;
-    note: string | null;
-}
-
-export interface BookStatusDates {
-    started_at: string | null;
-    finished_at: string | null;
-    dnf_at: string | null;
-    added_at: string;
-}
+import { Tables, TablesInsert } from '@/types/supabase'
 
 export type Book = Tables<'books'>
+export type BookInsert = TablesInsert<'books'>
 
-export type ReadingStatus = 'currently-reading' | 'want-to-read' | 'finished' | 'paused';
-
-export type StatusOption = {
-    id: ReadingStatus;
-    label: string;
-    description: string;
-    icon: any; // Lucide icon component
-    color: string;
-    bgColor: string;
-    actionLabel: string;
-}
+export type BookFormat = Book['format']
 
 export type BookMetadata = {
     api_id: string;
-    api_source: 'goodreads';
+    api_source: string;
     bookUrl: string | null;
     cover_image_url: string;
     title: string;
     publication_date: string | null;
     rating: number | null;
-    source: 'api';
+    source: string;
     epub_url: string;
     metadata: {
         goodreads_id: string;
@@ -58,6 +21,11 @@ export type BookMetadata = {
         ratings_count: number | null;
         series: string | null;
         series_number: number | null;
-        authors: string[];
+        authors: string[] | { name: string }[];
     };
 };
+
+export type StatusEnum = "tbr" | "current" | "completed" | "dnf" | 'paused';
+
+export type UserBook = Tables<'user_books'>
+export type UserBookInsert = TablesInsert<'user_books'>
