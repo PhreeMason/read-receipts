@@ -24,6 +24,7 @@ const RecentlyAdded = () => {
                 style={tw`mt-4 pl-4`}
             >
                 {recentlyAdded.map(({ book }) => (
+                    <Text>hi</Text>
                 ))}
             </ScrollView>
         </View>
