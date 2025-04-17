@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import tw from 'twrnc';
-import { Book } from '@/types/book';
+import { BookInsert } from '@/types/book';
 import { mediumShadow } from '@/utils/constants';
+import { formatAutorName } from '@/utils/helpers';
 
 type BookCoverProps = {
     imageUrl: string;
@@ -36,7 +37,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating }) => (
 );
 
 type BookHeaderProps = {
-    book: Book;
+    book: BookInsert;
 }
 
 const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
@@ -53,7 +54,7 @@ const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
     const shouldShowToggle = authors.length > 2;
 
     return (
-        <View style={tw`flex-row space-x-4 mb-6`}>
+        <View style={tw`flex-row gap-4 mb-6`}>
             <View style={tw`flex-shrink-0`}>
                 <BookCover imageUrl={cover_image_url || ''} />
             </View>
@@ -62,7 +63,7 @@ const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
                 <Text style={tw`font-bold text-lg text-black mb-1`}>{title}</Text>
 
                 <View style={tw`flex-col mb-2`}>
-                    {displayedAuthors.map((name: string) => (
+                    {displayedAuthors.map(formatAutorName).map((name: string) => (
                         <Text style={tw`text-gray-600 text-sm`} key={name}>{name}</Text>
                     ))}
 

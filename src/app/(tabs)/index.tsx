@@ -13,8 +13,8 @@ const HomeScreen = () => {
                 <HomeHeader />
 
                 {/* Currently Reading Section */}
-                <CurrentlyReading />
-                
+                {/* <CurrentlyReading /> */}
+
                 {/* Reading Stats */}
 
                 {/* Recently Added Section */}

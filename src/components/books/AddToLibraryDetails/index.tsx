@@ -1,92 +1,81 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Platform } from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { View, Text, TextInput, ScrollView } from 'react-native';
 import tw from 'twrnc';
 import BookHeader from './BookHeader';
 import BookDescription from './BookDescription';
 import StatusSelector from './StatusSelector';
 import ReadingProgress from './ReadingProgress';
-import FormatSelector from './FormatSelector';
+import Formatelector from './FormatSelector';
 import AudioDuration from './AudioDuration';
 import NotesInput from './NotesInput';
 import AddToLibraryButton from './AddToLibraryButton';
 import AudioProgress from './AudioProgress';
-import { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { Book } from '@/types/book';
+import { UserBookInsert, StatusEnum, BookInsert } from '@/types/book';
+import { useSyncAudioPercentage } from './hooks';
 
-type StatusEnum = "tbr" | "current" | "completed" | "dnf";
+type BookAndUserBook = BookInsert & UserBookInsert;
 
-type UserBook = {
-    status: StatusEnum;
-    formats: string[];
-    currentPage: number;
-    startDate: Date | null;
-    targetDate: Date | null;
-    duration: { hours: number; minutes: number } | null;
-    currentAudioProgress: { hours: number; minutes: number; } | null;
-    currentPercentage: number | null;
-    note: string;
-}
+type AddToLibraryBookInsert = Omit<BookAndUserBook, 'book_id' | 'user_id'>
 
 type AddToLibraryDetailsProps = {
-    book: Book;
-    onAddToLibrary: (userbook: UserBook) => void;
-
+    book: BookInsert;
+    onAddToLibrary: (data: AddToLibraryBookInsert) => void;
 }
 
-const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddToLibrary = (userBook: UserBook) => { } }) => {
-    const [status, setStatus] = useState<StatusEnum>('tbr');
-    const [formats, setFormats] = useState(['physical']);
-    const [currentPage, setCurrentPage] = useState('0');
-    const [startDate, setStartDate] = useState(new Date());
-    const [targetDate, setTargetDate] = useState(new Date());
-    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
-    const [showTargetDatePicker, setShowTargetDatePicker] = useState(false);
-    const [hours, setHours] = useState('0');
-    const [minutes, setMinutes] = useState('0');
-    const [currentHours, setCurrentHours] = useState('0');
-    const [currentMinutes, setCurrentMinutes] = useState('0');
-    const [currentPercentage, setCurrentPercentage] = useState('0');
-    const [note, setNote] = useState('');
+const formSchema = z.object({
+    status: z.enum(['tbr', 'current', 'completed']),
+    format: z.array(z.enum(['physical', 'ebook', 'audio'])).min(1),
+    currentPage: z.coerce.number().int().min(0).optional(),
+    totalPage: z.coerce.number().int().positive(),
+    startDate: z.date().optional(),
+    targetDate: z.date().optional(),
+    hours: z.coerce.number().int().min(0).max(99),
+    minutes: z.coerce.number().int().min(0).max(59),
+    currentHours: z.coerce.number().int().min(0).max(99),
+    currentMinutes: z.coerce.number().int().min(0).max(59),
+    currentPercentage: z.coerce.number().int().min(0).max(100).optional(),
+    note: z.string().optional()
+});
 
+type FormData = z.infer<typeof formSchema>;
+
+const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddToLibrary }) => {
+    const { control, setValue, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            status: 'tbr',
+            format: ['physical'],
+            totalPage: book.total_pages || 1,
+            currentPage: 0,
+            hours: 0,
+            minutes: 0,
+            currentHours: 0,
+            currentMinutes: 0,
+            currentPercentage: 0
+        }
+    });
+    useSyncAudioPercentage();
+
+    const status = watch('status');
+    const format = watch('format');
     // Format date for display
     const formatDate = (date: Date) => {
         return date.toISOString().split('T')[0];
     };
 
-    // Handle date change
-    const onDateChange = (event: DateTimePickerEvent, selectedDate: Date | undefined, dateType: string) => {
-        if (Platform.OS === 'android') {
-            setShowStartDatePicker(false);
-            setShowTargetDatePicker(false);
-        }
+    const onSubmit = (data: FormData) => {
+        onAddToLibrary({
+            ...data,
+            // @ts-ignore
+            format: data.format,
+            start_date: status === 'current' && data.startDate ? data.startDate.toISOString() : null,
+            target_completion_date: status === 'current' && data.targetDate ? data.targetDate.toISOString() : null,
 
-        if (selectedDate) {
-            if (dateType === 'start') {
-                setStartDate(selectedDate);
-            } else {
-                setTargetDate(selectedDate);
-            }
-        }
+        });
     };
-
-    // Handle add to library
-    const handleAddToLibrary = () => {
-        const bookData = {
-            ...book,
-            status,
-            formats,
-            currentPage: status === 'current' ? parseInt(currentPage) : 0,
-            startDate: status === 'current' ? startDate : null,
-            targetDate: status === 'current' ? targetDate : null,
-            duration: formats.includes('audio') ? { hours: parseInt(hours), minutes: parseInt(minutes) } : null,
-            currentAudioProgress: formats.includes('audio') && status === 'current' ? { hours: parseInt(currentHours), minutes: parseInt(currentMinutes) } : null,
-            currentPercentage: formats.includes('ebook') && status === 'current' ? parseInt(currentPercentage) : null,
-            note
-        };
-
-        onAddToLibrary(bookData);
-    };
-
     return (
         <ScrollView style={tw`flex-1 bg-white`}>
             <View style={tw`px-6 pb-6 mt-4`}>
@@ -95,66 +84,93 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
                 <BookDescription book={book} />
 
                 <View style={tw`gap-5`}>
-                    <StatusSelector
-                        status={status}
-                        setStatus={setStatus}
+                    <Controller
+                        control={control}
+                        name="status"
+                        render={({ field: { onChange, value } }: {
+                            field: {
+                                onChange: (value: StatusEnum) => void;
+                                value: StatusEnum;
+                            };
+                        }) => (
+                            <StatusSelector
+                                status={value}
+                                setStatus={onChange}
+                            />
+                        )}
+                    />
+
+                    <Controller
+                        control={control}
+                        name="format"
+                        render={({ field: { onChange, value } }: {
+                            field: {
+                                onChange: (value: string[]) => void;
+                                value: string[];
+                            };
+                        }) => (
+                            <Formatelector
+                                formats={value}
+                                setFormats={onChange}
+                            />
+                        )}
                     />
 
                     {status === 'current' && (
                         <ReadingProgress
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                            totalPages={book.total_pages}
-                            startDate={startDate}
-                            targetDate={targetDate}
-                            showStartDatePicker={showStartDatePicker}
-                            setShowStartDatePicker={setShowStartDatePicker}
-                            showTargetDatePicker={showTargetDatePicker}
-                            setShowTargetDatePicker={setShowTargetDatePicker}
-                            onDateChange={onDateChange}
+                            control={control}
+                            errors={errors}
+                            setValue={setValue}
                             formatDate={formatDate}
                         />
+
                     )}
 
-                    {status === 'current' && formats.includes('audio') && (
+                    {status === 'current' && format.includes('audio') && (
                         <AudioProgress
-                            currentHours={currentHours}
-                            setCurrentHours={setCurrentHours}
-                            currentMinutes={currentMinutes}
-                            setCurrentMinutes={setCurrentMinutes}
+                            control={control}
+                            errors={errors}
                         />
+
                     )}
 
-                    {status === 'current' && formats.includes('ebook') && (
-                        <View style={tw`gap-4 mt-4`}>
-                            <Text style={tw`block text-sm font-medium text-gray-700 mb-1`}>Current Ebook Progress (%)</Text>
-                            <TextInput
-                                style={tw`border border-gray-300 rounded-lg p-2`}
-                                placeholder="0"
-                                value={currentPercentage}
-                                onChangeText={setCurrentPercentage}
-                                keyboardType="numeric"
-                            />
-                        </View>
+
+                    {format.includes('audio') && (
+                        <AudioDuration control={control} errors={errors} />
+
                     )}
 
-                    <FormatSelector
-                        formats={formats}
-                        setFormats={setFormats}
+                    {(status === 'current' && format.includes('ebook')) ? (
+                        <Controller
+                            control={control}
+                            name="currentPercentage"
+                            render={({ field: { onChange, value } }) => (
+                                <View style={tw`gap-4 mt-4`}>
+                                    <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Current Ebook Progress (%)</Text>
+                                    <TextInput
+                                        style={tw`border border-gray-300 rounded-lg p-2 w-50px`}
+                                        placeholder="0"
+                                        value={value?.toString()}
+                                        onChangeText={onChange}
+                                        keyboardType="numeric"
+                                    />
+                                    {errors.currentPercentage && (
+                                        <Text style={tw`text-red-500 text-xs mt-1`}>{errors.currentPercentage.message}</Text>
+                                    )}
+                                </View>
+                            )}
+                        />
+                    ) : null}
+
+                    <Controller
+                        control={control}
+                        name="note"
+                        render={({ field: { onChange, value } }) => (
+                            <NotesInput note={value || ''} setNote={onChange} />
+                        )}
                     />
 
-                    {formats.includes('audio') && (
-                        <AudioDuration
-                            hours={hours}
-                            setHours={setHours}
-                            minutes={minutes}
-                            setMinutes={setMinutes}
-                        />
-                    )}
-
-                    <NotesInput note={note} setNote={setNote} />
-
-                    <AddToLibraryButton onPress={handleAddToLibrary} />
+                    <AddToLibraryButton onPress={handleSubmit(onSubmit)} />
                 </View>
             </View>
         </ScrollView>

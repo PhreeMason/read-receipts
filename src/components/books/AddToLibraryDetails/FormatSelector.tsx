@@ -22,7 +22,7 @@ const FormatSelector: React.FC<FormatSelectorProps> = ({ formats, setFormats }) 
     };
     return (
         <View>
-            <Text style={tw`block text-sm font-medium text-gray-700 mb-1`}>Format *</Text>
+            <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Format *</Text>
             <View style={tw`flex flex-row gap-4 mt-1`}>
                 <TouchableOpacity
                     style={tw`${formats.includes('physical') ? 'bg-gray-200 border-gray-400' : 'bg-white border-gray-300'} border rounded-lg py-3 px-2 flex-grow`}

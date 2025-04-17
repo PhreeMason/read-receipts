@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, useWindowDimensions } from 'react-native';
 import HTML from 'react-native-render-html';
 import tw from 'twrnc';
-import { Book } from '@/types/book';
+import { BookInsert } from '@/types/book';
 
-const BookDescription = ({ book }: { book: Book }) => {
+const BookDescription = ({ book }: { book: BookInsert }) => {
     const [expanded, setExpanded] = useState(false);
     const { width } = useWindowDimensions();
 
