@@ -214,3 +214,66 @@ export const mockBookSearchResponse = {
         }
     ]
 }
+
+export const mockBookDataResponse = {
+    "api_id": "68428.Mistborn",
+    "api_source": "goodreads",
+    "cover_image_url": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1617768316i/68428.jpg",
+    "created_at": "2025-04-17T15:39:41.335Z",
+    "date_added": "2025-04-17T15:39:41.335Z",
+    "description": `<b>\n  <i>What if the whole world were a dead,
+     blasted wasteland?</i>\n</b><br /><br /><b>Mistborn</b><br />For a thousand years the ash fell and no flowers bloomed. For a thousand years the Skaa slaved in misery and lived in fear. For a thousand years the Lord Ruler,
+     the \"Sliver of Infinity,\" reigned with absolute power and ultimate terror,
+     divinely invincible. Then,
+     when hope was so long lost that not even its memory remained,
+     a terribly scarred,
+     heart-broken half-Skaa rediscovered it in the depths of the Lord Ruler's most hellish prison. Kelsier \"snapped\" and found in himself the powers of a Mistborn. A brilliant thief and natural leader,
+     he turned his talents to the ultimate caper,
+     with the Lord Ruler himself as the mark.<br /><br />Kelsier recruited the underworld's elite,
+     the smartest and most trustworthy allomancers,
+     each of whom shares one of his many powers,
+     and all of whom relish a high-stakes challenge. Then Kelsier reveals his ultimate dream,
+     not just the greatest heist in history,
+     but the downfall of the divine despot.<br /><br />But even with the best criminal crew ever assembled,
+     Kel's plan looks more like the ultimate long shot,
+     until luck brings a ragged girl named Vin into his life. Like him,
+     she's a half-Skaa orphan,
+     but she's lived a much harsher life. Vin has learned to expect betrayal from everyone she meets. She will have to learn trust if Kel is to help her master powers of which she never dreamed.<br /><br />Brandon Sanderson,
+     fantasy's newest master tale-spinner and author of the acclaimed debut <i>Elantris</i>,
+     dares to turn a genre on its head by asking a simple question: What if the prophesied hero failed to defeat the Dark Lord? The answer will be found in the Mistborn Trilogy,
+     a saga of surprises that begins with the book in your hands. Fantasy will never be the same again.`,
+    "edition": null,
+    "epub_path": null,
+    "epub_url": "",
+    "format": "physical",
+    "genres": [
+        "Fantasy",
+        "Fiction",
+        "High Fantasy",
+        "Audiobook",
+        "Epic Fantasy",
+        "Magic",
+        "Adult"
+        // TODO: ignore the text "...more" in the genres
+    ],
+    "has_user_edits": false,
+    "isbn10": null,
+    "isbn13": "9780765311788",
+    "language": "English",
+    "metadata": {
+        "extraction_method": "schema",
+        "authors": ["Brandon Sanderson"],
+        "rating_count": 853204,
+        "review_count": 68946,
+        "awards": "Tähtifantasia Award (2018), Prix Elbakin.net Meilleur roman fantasy traduit (2010)",
+        "series": "The Mistborn Saga"
+    },
+    "publication_date": "2006-07-17T00:00:00.000Z",
+    "publisher": null,
+    "rating": 4.49,
+    "source": "goodreads",
+    "title": "Mistborn: The Final Empire",
+    "total_duration": null,
+    "total_pages": 541,
+    "updated_at": "2025-04-17T15:39:41.335Z"
+}
