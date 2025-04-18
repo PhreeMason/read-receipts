@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION store_book_with_authors(
     book_data JSONB
-) RETURNS void AS $$
+) RETURNS TEXT AS $$
 DECLARE
     inserted_book_id TEXT;
     inserted_author_id TEXT;
@@ -68,5 +68,8 @@ BEGIN
             DO NOTHING;
         END LOOP;
     END IF;
+    
+    -- Return the book ID
+    RETURN inserted_book_id;
 END;
 $$ LANGUAGE plpgsql;
