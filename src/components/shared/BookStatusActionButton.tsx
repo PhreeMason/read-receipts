@@ -3,9 +3,11 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Feather from '@expo/vector-icons/Feather';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import React from 'react';
+import { useFetchBookStatusHistory } from '@/hooks/useBooks';
 import tw from 'twrnc';
+import { Loading } from '@/components/shared/Loading';
 
 const statusToIcon = {
     default: <FontAwesome name="bookmark-o" size={12} color="rgb(107, 112, 128)" />,
@@ -25,19 +27,19 @@ const statusStyle = {
     pause: 'border-amber-500 bg-amber-50 px-3',
 }
 
-const getBookStatus = (bookId: string) => {
-    const statuses = ["tbr", "current", "completed", "dnf", "pause"]
-    return statuses[
-        Math.floor(Math.random() * statuses.length)
-    ]
-}
-
 type BookStatusActionButtonProps = {
-    bookId: string;
+    book_api_id: string;
 }
 
-export const BookStatusActionButton: React.FC<BookStatusActionButtonProps> = ({ bookId }) => {
-    const bookStatus = getBookStatus(bookId)
+export const BookStatusActionButton: React.FC<BookStatusActionButtonProps> = ({ book_api_id }) => {
+    const { data: bookStatusHistory, isLoading } = useFetchBookStatusHistory(book_api_id)
+    if (isLoading) {
+        return (
+            <Loading size="small" />
+        )
+    }
+
+    const bookStatus = bookStatusHistory?.status || 'default';
     // @ts-ignore
     const icon = bookStatus ? statusToIcon[bookStatus] : statusToIcon.default
     return (

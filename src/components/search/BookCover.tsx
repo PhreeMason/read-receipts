@@ -61,7 +61,7 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTe
                 <Text style={tw`text-xs text-black mt-1`}>{publicationYear}</Text>
             </View>
 
-            {book.bookUrl && <BookStatusActionButton bookId={book.bookUrl} />}
+            {book.bookUrl && <BookStatusActionButton book_api_id={book.bookUrl} />}
         </TouchableOpacity>
     );
 };

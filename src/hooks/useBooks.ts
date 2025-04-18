@@ -4,6 +4,7 @@ import {
     searchBookList,
     fetchBookData,
     addBookToLibrary,
+    getBookStatusHistory
 } from '@/services/books';
 import { BookAndUserBookInsert } from '@/types/book';
 import { useAuth } from '@/providers/AuthProvider';
@@ -25,6 +26,19 @@ export const useFetchBookData = (bookId: string) => {
     });
 }
 
+export const useFetchBookStatusHistory = (api_id: string) => {
+    const { profile: user } = useAuth();
+    return useQuery({
+        queryKey: ['bookStatusHistory', api_id, user?.id],
+        queryFn: async () => {
+            if (!user?.id) return null;
+            return getBookStatusHistory(api_id, user.id);
+        },
+        staleTime: 1000 * 60 * 5,
+        enabled: !!user?.id,
+    });
+}
+
 export const useSaveUserBook = () => {
     const queryClient = useQueryClient();
     const { profile: user } = useAuth();
@@ -36,7 +50,9 @@ export const useSaveUserBook = () => {
             return addBookToLibrary(separatedUserBookInfo, user.id);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['books', 'userbooks', 'bookStatusHistory'] });
+            queryClient.invalidateQueries({ queryKey: ['books'] });
+            queryClient.invalidateQueries({ queryKey: ['bookStatusHistory'] });
+            queryClient.invalidateQueries({ queryKey: ['userbooks'] });
         }
     })
 }
