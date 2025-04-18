@@ -254,7 +254,6 @@ export const mockBookDataResponse = {
         "Epic Fantasy",
         "Magic",
         "Adult"
-        // TODO: ignore the text "...more" in the genres
     ],
     "has_user_edits": false,
     "isbn10": null,
