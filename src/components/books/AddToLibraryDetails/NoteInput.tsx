@@ -2,18 +2,18 @@ import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 import tw from 'twrnc';
 
-type NotesInputProps = {
+type NoteInputProps = {
     note: string;
     setNote: (text: string) => void;
 }
 
-const NotesInput: React.FC<NotesInputProps> = ({ note, setNote }) => {
+const NoteInput: React.FC<NoteInputProps> = ({ note, setNote }) => {
     return (
         <View>
-            <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Notes</Text>
+            <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Note</Text>
             <TextInput
                 style={tw`border border-gray-300 rounded-lg p-3 h-24`}
-                placeholder="Add your notes about this book..."
+                placeholder="Add a note about this book..."
                 multiline
                 value={note}
                 onChangeText={setNote}
@@ -22,4 +22,4 @@ const NotesInput: React.FC<NotesInputProps> = ({ note, setNote }) => {
     );
 };
 
-export default NotesInput;
+export default NoteInput;
