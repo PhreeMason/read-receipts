@@ -247,7 +247,6 @@ export type Database = {
           created_at: string | null
           id: string
           status: Database["public"]["Enums"]["book_status_enum"] | null
-          updated_at: string | null
           user_id: string
         }
         Insert: {
@@ -255,7 +254,6 @@ export type Database = {
           created_at?: string | null
           id: string
           status?: Database["public"]["Enums"]["book_status_enum"] | null
-          updated_at?: string | null
           user_id: string
         }
         Update: {
@@ -263,7 +261,6 @@ export type Database = {
           created_at?: string | null
           id?: string
           status?: Database["public"]["Enums"]["book_status_enum"] | null
-          updated_at?: string | null
           user_id?: string
         }
         Relationships: [
@@ -285,11 +282,10 @@ export type Database = {
       }
       books: {
         Row: {
-          api_id: string | null
+          api_id: string
           api_source: string | null
           cover_image_url: string | null
           created_at: string | null
-          date_added: string | null
           description: string | null
           edition: Json | null
           format: Database["public"]["Enums"]["book_format_enum"] | null
@@ -308,11 +304,10 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
-          api_id?: string | null
+          api_id: string
           api_source?: string | null
           cover_image_url?: string | null
           created_at?: string | null
-          date_added?: string | null
           description?: string | null
           edition?: Json | null
           format?: Database["public"]["Enums"]["book_format_enum"] | null
@@ -331,11 +326,10 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
-          api_id?: string | null
+          api_id?: string
           api_source?: string | null
           cover_image_url?: string | null
           created_at?: string | null
-          date_added?: string | null
           description?: string | null
           edition?: Json | null
           format?: Database["public"]["Enums"]["book_format_enum"] | null
@@ -392,7 +386,7 @@ export type Database = {
           date_added: string | null
           format: Database["public"]["Enums"]["book_format_enum"][] | null
           genres: string[] | null
-          notes: string | null
+          note: string | null
           rating: number | null
           start_date: string | null
           target_completion_date: string | null
@@ -409,7 +403,7 @@ export type Database = {
           date_added?: string | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           genres?: string[] | null
-          notes?: string | null
+          note?: string | null
           rating?: number | null
           start_date?: string | null
           target_completion_date?: string | null
@@ -426,7 +420,7 @@ export type Database = {
           date_added?: string | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           genres?: string[] | null
-          notes?: string | null
+          note?: string | null
           rating?: number | null
           start_date?: string | null
           target_completion_date?: string | null
@@ -494,6 +488,10 @@ export type Database = {
       generate_prefixed_id: {
         Args: { prefix: string }
         Returns: string
+      }
+      store_book_with_authors: {
+        Args: { book_data: Json }
+        Returns: undefined
       }
     }
     Enums: {

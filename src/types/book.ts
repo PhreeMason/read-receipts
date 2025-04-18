@@ -1,7 +1,22 @@
-import { Tables, TablesInsert } from '@/types/supabase'
+import {
+    Tables,
+    TablesInsert
+} from '@/types/supabase'
 
 export type Book = Tables<'books'>
 export type BookInsert = TablesInsert<'books'>
+
+export type UserBook = Tables<'user_books'>
+export type UserBookInsert = TablesInsert<'user_books'>
+
+export type BookStatusHistory = Tables<'book_status_history'>
+export type BookStatusHistoryInsert = TablesInsert<'book_status_history'>
+
+export type Author = Tables<'authors'>
+export type AuthorInsert = TablesInsert<'authors'>
+
+export type BookAuthor = Tables<'book_authors'>
+export type BookAuthorInsert = TablesInsert<'book_authors'>
 
 export type BookFormat = Book['format']
 
@@ -25,7 +40,16 @@ export type BookMetadata = {
     };
 };
 
-export type StatusEnum = "tbr" | "current" | "completed" | "dnf" | 'paused';
+export type StatusEnum = "tbr" | "current" | "completed" | "dnf" | 'pause';
 
-export type UserBook = Tables<'user_books'>
-export type UserBookInsert = TablesInsert<'user_books'>
+export type BookAndUserBookInsert = UserBookInsert & BookInsert &
+{
+    status: StatusEnum;
+    currentHours: number;
+    currentMinutes: number;
+    currentPage: number;
+    hours: number;
+    minutes: number;
+};
+export type Profile = Tables<'profiles'>
+

@@ -3,12 +3,9 @@ type Book = {
     api_id: string | null;
     api_source: string | null;
     cover_image_url: string | null;
-    created_at: string | null;
-    date_added: string | null;
+    created_at: Date | null;
     description: string | null;
     edition: Record<string, unknown> | null; // JSON type
-    epub_path: string | null;
-    epub_url: string;
     format: 'physical' | 'ebook' | 'audiobook' | null; // Enum type
     genres: string[] | null;
     has_user_edits: boolean | null;
@@ -24,5 +21,5 @@ type Book = {
     title: string;
     total_duration: number | null;
     total_pages: number | null;
-    updated_at: string | null;
+    updated_at: Date | null;
 };
