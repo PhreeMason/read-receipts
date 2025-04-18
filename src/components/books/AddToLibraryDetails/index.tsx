@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -57,7 +57,7 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
             currentPercentage: 0
         }
     });
-    // useSyncAudioPercentage();
+    useSyncAudioPercentage({ setValue, watch });
     console.log({ errors })
     const status = watch('status');
     const format = watch('format');
@@ -68,6 +68,7 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
 
     const onSubmit = (data: FormData) => {
         onAddToLibrary({
+            ...book,
             ...data,
             // @ts-ignore
             format: data.format,
