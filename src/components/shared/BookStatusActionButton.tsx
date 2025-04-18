@@ -25,7 +25,7 @@ const statusStyle = {
     pause: 'border-amber-500 bg-amber-50 px-3',
 }
 
-const getBookStatus = (bookId) => {
+const getBookStatus = (bookId: string) => {
     const statuses = ["tbr", "current", "completed", "dnf", "pause"]
     return statuses[
         Math.floor(Math.random() * statuses.length)
@@ -38,8 +38,10 @@ type BookStatusActionButtonProps = {
 
 export const BookStatusActionButton: React.FC<BookStatusActionButtonProps> = ({ bookId }) => {
     const bookStatus = getBookStatus(bookId)
+    // @ts-ignore
     const icon = bookStatus ? statusToIcon[bookStatus] : statusToIcon.default
     return (
+        // @ts-ignore
         <TouchableOpacity style={tw`self-center p-2 border rounded-full ${statusStyle[bookStatus]}`}>
             {icon}
         </TouchableOpacity>
