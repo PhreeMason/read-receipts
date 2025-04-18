@@ -70,24 +70,25 @@ async function fetchFromDatabase(supabaseClient: SupabaseClient, api_id: string)
     return data;
 }
 async function storeInDatabase(supabaseClient: SupabaseClient, bookData: Book) {
-    // Check if book already exists
     const startTime = performance.now();
-    const { error } = await supabaseClient.from('books').upsert({
-        ...bookData,
-        updated_at: new Date().toISOString()
-    }, {
-        onConflict: 'api_id',
-        returning: 'minimal',
-        ignoreDuplicates: false
-    });
-    if (error) {
-        console.error("Error inserting new record:", {
-            error,
-            bookData
+    try {
+        // Call the database function with the book data
+        const { error } = await supabaseClient.rpc('store_book_with_authors', {
+            book_data: bookData
         });
+
+        if (error) {
+            console.error("Error storing book and authors:", error);
+            throw error;
+        }
+
+        console.log(`Book and authors stored in database, timing ${performance.now() - startTime}ms`);
+    } catch (err) {
+        console.error("Failed to store in database:", err);
+        throw err;
     }
-    console.log(`Book stored in database, timing ${performance.now() - startTime}ms`);
 }
+
 async function fetchFromGoodreads(api_id: string, supabaseClient: SupabaseClient): Book {
     console.log("Fetching fresh data from Goodreads");
     const startTime = performance.now();
@@ -101,6 +102,9 @@ async function fetchFromGoodreads(api_id: string, supabaseClient: SupabaseClient
     const $ = cheerio.load(html);
     // Extract book data using your existing function
     const bookData = extractBookData($, api_id);
+    if (bookData.genres) {
+        bookData.genres = bookData.genres.filter(g => !g.includes('more'))
+    }
     // Store in database asynchronously (don't await to return result faster)
     await storeInDatabase(supabaseClient, bookData).catch((err) => {
         console.error("Failed to store in database:", err);
@@ -108,6 +112,7 @@ async function fetchFromGoodreads(api_id: string, supabaseClient: SupabaseClient
     console.log(`Book fetched from goodreads, timing ${performance.now() - startTime}ms`);
     return bookData;
 }
+
 function extractBookData($: cheerio.CheerioAPI, api_id: string) {
     const startTime = performance.now();
     // Initialize book object with default values
@@ -115,12 +120,8 @@ function extractBookData($: cheerio.CheerioAPI, api_id: string) {
         api_id: api_id,
         api_source: 'goodreads',
         cover_image_url: null,
-        created_at: new Date().toISOString(),
-        date_added: new Date().toISOString(),
         description: null,
         edition: null,
-        epub_path: null,
-        epub_url: '',
         format: null,
         genres: [],
         has_user_edits: false,
@@ -137,7 +138,6 @@ function extractBookData($: cheerio.CheerioAPI, api_id: string) {
         title: '',
         total_duration: null,
         total_pages: null,
-        updated_at: new Date().toISOString()
     };
     // Try to extract from NEXT_DATA script first (best data source)
     const nextDataScript = $('#__NEXT_DATA__').text();
@@ -213,8 +213,9 @@ function extractFromNextData(nextData, book: Book) {
         }
         // Genres
         if (bookProps.genres && Array.isArray(bookProps.genres)) {
-            book.genres = bookProps.genres.map((g) => g?.name || g);
+            book.genres = bookProps.genres.map((g) => g?.name || g) || [];
         }
+
         // Additional metadata
         book.metadata = book.metadata || {};
         // Authors
@@ -356,13 +357,6 @@ function extractFromHtml($: cheerio.CheerioAPI, book: Book) {
     }
 }
 function formatDate(dateString: string): string {
-    try {
-        const date = new Date(dateString);
-        if (!isNaN(date.getTime())) {
-            return date.toISOString();
-        }
-        return dateString;
-    } catch (e) {
-        return dateString;
-    }
+    const date = new Date(dateString);
+    return date;
 }
