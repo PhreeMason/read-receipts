@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, Text, TouchableOpacity, useWindowDimensions } from 'react-native';
 import HTML from 'react-native-render-html';
 import tw from 'twrnc';
 import { BookInsert } from '@/types/book';
-
-const MemoizedRenderHtml = React.memo(HTML);
 
 const BookDescription = ({ book }: { book: BookInsert }) => {
     const [expanded, setExpanded] = useState(false);
@@ -14,10 +12,13 @@ const BookDescription = ({ book }: { book: BookInsert }) => {
         return null;
     }
 
-    return (
-        <View style={tw`mb-6`}>
-            <MemoizedRenderHtml
-                source={{ html: expanded ? book.description : book.description.substring(0, 150) + '...' }}
+    const text = book.description
+    // Memoize the HTML component to prevent re-renders when other state changes
+    const htmlContent = useMemo(() => {
+        const content = expanded ? text : text.substring(0, 150) + '...';
+        return (
+            <HTML
+                source={{ html: content }}
                 contentWidth={width - 48}
                 tagsStyles={{
                     p: { fontSize: 14, color: '#374151', lineHeight: 20 },
@@ -25,6 +26,12 @@ const BookDescription = ({ book }: { book: BookInsert }) => {
                     br: { height: 12 }
                 }}
             />
+        );
+    }, [book.description, expanded, width]);
+
+    return (
+        <View style={tw`mb-6`}>
+            {htmlContent}
             <TouchableOpacity onPress={() => setExpanded(!expanded)}>
                 <Text style={tw`text-sm font-semibold underline text-gray-800 mt-1`}>
                     {expanded ? 'Read less' : 'Read more'}
