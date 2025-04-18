@@ -1,4 +1,4 @@
-import { Book, BookInsert, BookMetadata, UserBook } from '@/types/book';
+import { Book, BookInsert, BookMetadata, UserBook, AddToLibraryData, Profile } from '@/types/book';
 import supabase from '@/lib/supabase';
 
 export const searchBooks = async (query: string): Promise<Book[]> => {
@@ -67,4 +67,22 @@ export const fetchBookData = async (api_id: string): Promise<BookInsert> => {
     return data;
     // await Promise.resolve()
     // return mockBookDataResponse;
+};
+
+export const addBookToLibrary = async (addToLibraryDetails: AddToLibraryData, user_id: Profile['id']) => {
+    const {
+        book,
+        bookStatusHistory,
+        userBooks
+    } = addToLibraryDetails
+
+    const { data, error } = await supabase
+        .rpc('add_book_to_library', {
+            book_data: book,
+            book_status_history_data: bookStatusHistory,
+            user_books_data: userBooks,
+            user_id: user_id
+        });
+    if (error) throw error;
+    return data;
 };

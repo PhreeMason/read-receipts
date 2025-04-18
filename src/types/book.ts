@@ -50,6 +50,12 @@ export type BookAndUserBookInsert = UserBookInsert & BookInsert &
     currentPage: number;
     hours: number;
     minutes: number;
+    currentPercentage: number;
 };
 export type Profile = Tables<'profiles'>
 
+export type AddToLibraryData = {
+    book: BookInsert,
+    bookStatusHistory: Omit<BookStatusHistory, 'id' | 'created_at'>,
+    userBooks: UserBookInsert
+}

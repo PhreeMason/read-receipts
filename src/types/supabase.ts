@@ -252,7 +252,7 @@ export type Database = {
         Insert: {
           book_id: string
           created_at?: string | null
-          id: string
+          id?: string
           status?: Database["public"]["Enums"]["book_status_enum"] | null
           user_id: string
         }
@@ -383,6 +383,7 @@ export type Database = {
           cover_image_url: string | null
           current_audio_time: number | null
           current_page: number | null
+          current_percentage: number | null
           date_added: string | null
           format: Database["public"]["Enums"]["book_format_enum"][] | null
           genres: string[] | null
@@ -400,6 +401,7 @@ export type Database = {
           cover_image_url?: string | null
           current_audio_time?: number | null
           current_page?: number | null
+          current_percentage?: number | null
           date_added?: string | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           genres?: string[] | null
@@ -417,6 +419,7 @@ export type Database = {
           cover_image_url?: string | null
           current_audio_time?: number | null
           current_page?: number | null
+          current_percentage?: number | null
           date_added?: string | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           genres?: string[] | null
@@ -485,13 +488,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_book_to_library: {
+        Args: {
+          book_data: Json
+          book_status_history_data: Json
+          user_books_data: Json
+          user_id: string
+        }
+        Returns: string
+      }
       generate_prefixed_id: {
         Args: { prefix: string }
         Returns: string
       }
       store_book_with_authors: {
         Args: { book_data: Json }
-        Returns: undefined
+        Returns: string
       }
     }
     Enums: {

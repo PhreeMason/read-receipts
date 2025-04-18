@@ -10,19 +10,17 @@ import StatusSelector from './StatusSelector';
 import ReadingProgress from './ReadingProgress';
 import Formatelector from './FormatSelector';
 import AudioDuration from './AudioDuration';
-import NotesInput from './NotesInput';
+import NoteInput from './NoteInput';
 import AddToLibraryButton from './AddToLibraryButton';
 import AudioProgress from './AudioProgress';
-import { UserBookInsert, StatusEnum, BookInsert } from '@/types/book';
+import { StatusEnum, BookInsert, BookAndUserBookInsert } from '@/types/book';
 import { useSyncAudioPercentage } from './hooks';
-
-type BookAndUserBook = BookInsert & UserBookInsert;
-
-type AddToLibraryBookInsert = Omit<BookAndUserBook, 'book_id' | 'user_id'>
 
 type AddToLibraryDetailsProps = {
     book: BookInsert;
-    onAddToLibrary: (data: AddToLibraryBookInsert) => void;
+    onAddToLibrary: (data: BookAndUserBookInsert) => void;
+    saving: boolean;
+    saved: boolean;
 }
 
 const formSchema = z.object({
@@ -58,7 +56,6 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
         }
     });
     useSyncAudioPercentage({ setValue, watch });
-    console.log({ errors })
     const status = watch('status');
     const format = watch('format');
     // Format date for display
@@ -167,7 +164,7 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
                         control={control}
                         name="note"
                         render={({ field: { onChange, value } }) => (
-                            <NotesInput note={value || ''} setNote={onChange} />
+                            <NoteInput note={value || ''} setNote={onChange} />
                         )}
                     />
 
