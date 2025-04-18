@@ -387,13 +387,14 @@ export type Database = {
           book_id: string
           completion_date: string | null
           cover_image_url: string | null
+          current_audio_time: number | null
+          current_page: number | null
           date_added: string | null
           format: Database["public"]["Enums"]["book_format_enum"][] | null
           genres: string[] | null
           notes: string | null
           rating: number | null
           start_date: string | null
-          status: Database["public"]["Enums"]["book_status_enum"] | null
           target_completion_date: string | null
           total_duration: number | null
           total_pages: number | null
@@ -403,13 +404,14 @@ export type Database = {
           book_id: string
           completion_date?: string | null
           cover_image_url?: string | null
+          current_audio_time?: number | null
+          current_page?: number | null
           date_added?: string | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           genres?: string[] | null
           notes?: string | null
           rating?: number | null
           start_date?: string | null
-          status?: Database["public"]["Enums"]["book_status_enum"] | null
           target_completion_date?: string | null
           total_duration?: number | null
           total_pages?: number | null
@@ -419,13 +421,14 @@ export type Database = {
           book_id?: string
           completion_date?: string | null
           cover_image_url?: string | null
+          current_audio_time?: number | null
+          current_page?: number | null
           date_added?: string | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           genres?: string[] | null
           notes?: string | null
           rating?: number | null
           start_date?: string | null
-          status?: Database["public"]["Enums"]["book_status_enum"] | null
           target_completion_date?: string | null
           total_duration?: number | null
           total_pages?: number | null
