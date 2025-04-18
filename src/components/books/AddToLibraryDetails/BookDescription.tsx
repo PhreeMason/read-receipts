@@ -4,6 +4,8 @@ import HTML from 'react-native-render-html';
 import tw from 'twrnc';
 import { BookInsert } from '@/types/book';
 
+const MemoizedRenderHtml = React.memo(HTML);
+
 const BookDescription = ({ book }: { book: BookInsert }) => {
     const [expanded, setExpanded] = useState(false);
     const { width } = useWindowDimensions();
@@ -14,7 +16,7 @@ const BookDescription = ({ book }: { book: BookInsert }) => {
 
     return (
         <View style={tw`mb-6`}>
-            <HTML
+            <MemoizedRenderHtml
                 source={{ html: expanded ? book.description : book.description.substring(0, 150) + '...' }}
                 contentWidth={width - 48}
                 tagsStyles={{
@@ -24,7 +26,7 @@ const BookDescription = ({ book }: { book: BookInsert }) => {
                 }}
             />
             <TouchableOpacity onPress={() => setExpanded(!expanded)}>
-                <Text style={tw`text-sm font-medium text-gray-800 mt-1`}>
+                <Text style={tw`text-sm font-semibold underline text-gray-800 mt-1`}>
                     {expanded ? 'Read less' : 'Read more'}
                 </Text>
             </TouchableOpacity>
