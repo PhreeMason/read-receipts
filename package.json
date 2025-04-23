@@ -12,6 +12,7 @@
         "lint": "expo lint",
         "lint:fix": "eslint . --fix",
         "supabase": "node_modules/supabase/bin/supabase",
+        "supabase:functions:serve": "node_modules/supabase/bin/supabase functions serve",
         "genTypes": "npx supabase gen types --lang=typescript --project-id \"nevezioullmxffvdlgyq\" --schema public > src/types/supabase.ts",
         "genTypes:local": "node_modules/supabase/bin/supabase gen types typescript --local > src/types/supabase.ts"
     },
