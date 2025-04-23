@@ -18,6 +18,15 @@ export type AuthorInsert = TablesInsert<'authors'>
 export type BookAuthor = Tables<'book_authors'>
 export type BookAuthorInsert = TablesInsert<'book_authors'>
 
+export type BookReview = Tables<'book_reviews'>
+export type BookReviewInsert = TablesInsert<'book_reviews'>
+
+export type BookNote = Tables<'book_notes'>
+export type BookNoteInsert = TablesInsert<'book_notes'>
+
+export type BookReadingLog = Tables<'book_reading_logs'>
+export type BookReadingLogInsert = TablesInsert<'book_reading_logs'>
+
 export type BookFormat = Book['format']
 
 export type BookMetadata = {

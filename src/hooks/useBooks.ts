@@ -4,9 +4,10 @@ import {
     searchBookList,
     fetchBookData,
     addBookToLibrary,
-    getBookStatusHistory
+    getBookStatusHistory,
+    getBooksByStatus
 } from '@/services/books';
-import { BookAndUserBookInsert } from '@/types/book';
+import { BookAndUserBookInsert, BookStatusHistory } from '@/types/book';
 import { useAuth } from '@/providers/AuthProvider';
 import { separateBookData } from '@/utils/helpers';
 
@@ -56,3 +57,18 @@ export const useSaveUserBook = () => {
         }
     })
 }
+
+export const useGetBooksByStatus = (status: BookStatusHistory['status']) => {
+    const { profile: user } = useAuth();
+    const userId = user?.id;
+    
+    return useQuery({
+        queryKey: ['bookStatusHistory', userId, status],
+        queryFn: async () => {
+            if (!userId) return null;
+            return getBooksByStatus(status, userId);
+        },
+        staleTime: 1000 * 60 * 5,
+        enabled: !!userId,
+    });
+};
