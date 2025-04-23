@@ -9,6 +9,7 @@ import {
     QueryClientProvider,
 } from '@tanstack/react-query';
 import tw, { useDeviceContext } from 'twrnc';
+import Toast from 'react-native-toast-message';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,6 +40,7 @@ export default function RootLayout() {
                     <Stack.Screen name="+not-found" />
                 </Stack>
             </QueryClientProvider>
+            <Toast />
         </AuthProvider>
     );
 }

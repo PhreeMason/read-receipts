@@ -9,6 +9,7 @@ import { Stack } from 'expo-router';
 import { BookAndUserBookInsert } from '@/types/book';
 import { useSaveUserBook } from '@/hooks/useBooks';
 import { useState } from 'react';
+import Toast from 'react-native-toast-message';
 
 export default function BookDetailScreen() {
     const { id } = useLocalSearchParams();
@@ -24,13 +25,33 @@ export default function BookDetailScreen() {
     }
 
     const handleAddToLibrary = (data: BookAndUserBookInsert) => {
+        setSaving(true);
         saveUserBook(data, {
             onSuccess: () => {
                 // router.back();
                 console.log('Book added to library successfully');
+                Toast.show({
+                    type: 'success',
+                    text1: 'Book added to library',
+                    autoHide: true,
+                    visibilityTime: 2000,
+                    position: 'top',
+                    onHide: () => {
+                        setSaved(true);
+                        setSaving(false);
+                        router.back();
+                    }
+                });
             },
             onError: (error) => {
                 console.error('Error adding book to library:', error);
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error adding book to library',
+                    text2: error.message,
+                });
+                setSaving(false);
+                setSaved(false);
             }
         })
     };
