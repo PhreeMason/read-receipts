@@ -376,6 +376,54 @@ export type Database = {
         }
         Relationships: []
       }
+      user_activity: {
+        Row: {
+          activity_type: string
+          book_id: string | null
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          record_id: string
+          table_name: string
+          user_id: string
+        }
+        Insert: {
+          activity_type: string
+          book_id?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          record_id: string
+          table_name: string
+          user_id: string
+        }
+        Update: {
+          activity_type?: string
+          book_id?: string | null
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          record_id?: string
+          table_name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_activity_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_activity_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_books: {
         Row: {
           book_id: string
@@ -500,6 +548,22 @@ export type Database = {
       generate_prefixed_id: {
         Args: { prefix: string }
         Returns: string
+      }
+      get_books_by_status: {
+        Args: {
+          p_status: Database["public"]["Enums"]["book_status_enum"]
+          p_user_id: string
+        }
+        Returns: Json
+      }
+      get_user_book_activity: {
+        Args: { user_id: string }
+        Returns: {
+          activity_id: string
+          activity_created_at: string
+          status_history: Json
+          book_details: Json
+        }[]
       }
       store_book_with_authors: {
         Args: { book_data: Json }
