@@ -63,7 +63,6 @@ function extractBookListData($: cheerio.CheerioAPI): BookMetadata[] {
         // Extract cover image
         let coverImage = $el.find('img.bookCover').attr('src');
         if (coverImage.includes("nophoto")) {
-            console.log({ coverImage })
             coverImage = null
         }
 
