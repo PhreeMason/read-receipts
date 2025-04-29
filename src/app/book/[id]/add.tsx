@@ -28,8 +28,6 @@ export default function BookDetailScreen() {
         setSaving(true);
         saveUserBook(data, {
             onSuccess: () => {
-                // router.back();
-                console.log('Book added to library successfully');
                 Toast.show({
                     type: 'success',
                     text1: 'Book added to library',

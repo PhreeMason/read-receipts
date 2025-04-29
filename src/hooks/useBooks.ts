@@ -61,14 +61,14 @@ export const useSaveUserBook = () => {
 export const useGetBooksByStatus = (status: BookStatusHistory['status']) => {
     const { profile: user } = useAuth();
     const userId = user?.id;
-    
+
     return useQuery({
         queryKey: ['bookStatusHistory', userId, status],
         queryFn: async () => {
             if (!userId) return null;
             return getBooksByStatus(status, userId);
         },
-        staleTime: 1000 * 60 * 5,
+        // staleTime: 1000 * 60 * 5,
         enabled: !!userId,
     });
 };

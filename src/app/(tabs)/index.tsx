@@ -4,6 +4,8 @@ import tw from 'twrnc';
 import HomeHeader from '@/components/home/Header';
 import CurrentlyReading from '@/components/home/CurrentlyReading';
 import RecentlyAdded from '@/components/home/RecentlyAdded';
+import Toast from 'react-native-toast-message';
+import { Button } from 'react-native'
 
 const HomeScreen = () => {
     return (
@@ -13,7 +15,7 @@ const HomeScreen = () => {
                 <HomeHeader />
 
                 {/* Currently Reading Section */}
-                {/* <CurrentlyReading /> */}
+                <CurrentlyReading />
 
                 {/* Reading Stats */}
 

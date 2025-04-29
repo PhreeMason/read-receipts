@@ -10,7 +10,12 @@ import {
 } from '@tanstack/react-query';
 import tw, { useDeviceContext } from 'twrnc';
 import Toast from 'react-native-toast-message';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import utc from 'dayjs/plugin/utc';
+import dayjs from 'dayjs';
 
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 

@@ -276,3 +276,57 @@ export const mockBookDataResponse = {
     "total_pages": 541,
     "updated_at": "2025-04-17T15:39:41.335Z"
 }
+
+export const addToLibraryBookData = {
+    "api_id": "13521459-red-country",
+    "api_source": "goodreads",
+    "cover_image_url": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1333663008i/13521459.jpg",
+    "description": "They burned her home.<br />They stole her brother and sister.<br />But vengeance is following.<br /><br />Shy South hoped to bury her bloody past and ride away smiling, but she'll have to sharpen up some bad old ways to get her family back, and she's not a woman to flinch from what needs doing. She sets off in pursuit with only a pair of oxen and her cowardly old step father Lamb for company. But it turns out Lamb's buried a bloody past of his own. And out in the lawless Far Country the past never stays buried.<br /><br />Their journey will take them across the barren plains to a frontier town gripped by gold fever, through feud, duel and massacre, high into the unmapped mountains to a reckoning with the Ghosts. Even worse, it will force them into an alliance with Nicomo Cosca, infamous soldier of fortune, and his feckless lawyer Temple, two men no one should ever have to trust . . . <br />RED COUNTRY takes place in the same world as the First Law trilogy, <em>Best Served Cold,</em> and <em>The Heroes</em>. This novel also sees the return of one of Abercrombie's most beloved characters.",
+    "edition": null,
+    "format": [
+        "physical",
+        "ebook",
+        "audio"
+    ],
+    "genres": [
+        "Fantasy",
+        "Fiction",
+        "Audiobook",
+        "Westerns",
+        "Epic Fantasy",
+        "Dark Fantasy",
+        "High Fantasy"
+    ],
+    "has_user_edits": false,
+    "isbn10": null,
+    "isbn13": "9780316214445",
+    "language": "English",
+    "metadata": {
+        "extraction_method": "schema",
+        "authors": [
+            "Joe Abercrombie"
+        ],
+        "rating_count": 59888,
+        "review_count": 3795,
+        "awards": "Locus Award Best Fantasy Novel (2013), David Gemmell Legend Award (2013), Premio Ignotus Mejor novela extranjera (Best Foreign Novel) (2014), British Fantasy Award Best Fantasy Novel (Robert Holdstock Award) (2013), David Gemmell Ravenheart Award (2013), Goodreads Choice Award Fantasy (2012)",
+        "series": "First Law World"
+    },
+    "publication_date": "2012-10-18T00:00:00.000Z",
+    "publisher": null,
+    "rating": 4.31,
+    "source": "goodreads",
+    "title": "Red Country",
+    "total_duration": null,
+    "total_pages": 469,
+    "status": "current",
+    "currentPage": 0,
+    "totalPage": 469,
+    "hours": 19,
+    "minutes": 53,
+    "currentHours": 17,
+    "currentMinutes": 43,
+    "currentPercentage": 89,
+    "note": "This is my least favorite of all his books so far.",
+    "start_date": null,
+    "target_completion_date": null
+}

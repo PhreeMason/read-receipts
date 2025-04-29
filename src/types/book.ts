@@ -68,3 +68,12 @@ export type AddToLibraryData = {
     bookStatusHistory: Omit<BookStatusHistory, 'id' | 'created_at'>,
     userBooks: UserBookInsert
 }
+
+export type BookStatusResponse = Book & {
+    user_book: UserBook[];
+    status: BookStatusHistory[];
+    authors: Author[];
+    log: BookReadingLog[];
+    review: BookReview[];
+    note: BookNote[];
+}

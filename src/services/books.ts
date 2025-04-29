@@ -1,4 +1,4 @@
-import { Book, BookInsert, BookMetadata, UserBook, AddToLibraryData, Profile, BookStatusHistory, Author, BookNote, BookReadingLog, BookReview } from '@/types/book';
+import { Book, BookInsert, BookMetadata, UserBook, AddToLibraryData, Profile, BookStatusHistory, BookStatusResponse } from '@/types/book';
 import supabase from '@/lib/supabase';
 
 export const getUserBookStatus = async (bookId: string, userId: string): Promise<UserBook> => {
@@ -57,7 +57,7 @@ export const fetchBookData = async (api_id: string): Promise<BookInsert> => {
     // return mockBookDataResponse;
 };
 
-export const addBookToLibrary = async (addToLibraryDetails: AddToLibraryData, user_id: Profile['id']) => {
+export const addBookToLibrary = async (addToLibraryDetails: AddToLibraryData, userId: Profile['id']) => {
     const {
         book,
         bookStatusHistory,
@@ -69,71 +69,24 @@ export const addBookToLibrary = async (addToLibraryDetails: AddToLibraryData, us
             book_data: book,
             book_status_history_data: bookStatusHistory,
             user_books_data: userBooks,
-            user_id: user_id
+            user_id: userId
         });
     if (error) throw error;
     return data;
 };
 
 export const getBooksByStatus =
-    async (status: BookStatusHistory['status'], userId: string): Promise<{
-        book: Book & { authors: Author[] } | null;
-        log: BookReadingLog | null;
-        review: BookReview | null;
-        note: BookNote | null;
-        userBook: UserBook | null;
-    }[]> => {
-        const { data, error } = await supabase
-            .from('book_status_history')
-            .select(`
-                    *,
-                    book:book_id (
-                        *,
-                        authors (
-                            *
-                        )
-                    ),
-                    log:book_reading_log!book_reading_log_book_id_fkey (
-                        *
-                    ),
-                    review:book_reviews!book_reviews_book_id_fkey (
-                        *
-                    ),
-                    note:book_notes!book_notes_book_id_fkey (
-                        *
-                    ),
-                    userBook:user_book!user_book_book_id_fkey (
-                        *
-                    )
-                `)
-            .eq('user_id', userId)
-            .eq('status', status)
-            .order('created_at', { ascending: false }) // Order by most recent
-            .returns<
-                {
-                    book: Book & { authors: Author[] } | null;
-                    log: BookReadingLog[] | null;
-                    review: BookReview[] | null;
-                    note: BookNote[] | null;
-                    userBook: UserBook[] | null;
-                }[]
-            >();
+    async (status: BookStatusHistory['status'], userId: string): Promise<BookStatusResponse[]> => {
+
+        const { data, error } = await supabase.rpc('get_books_by_status', {
+            p_status: status,
+            p_user_id: userId
+        })
 
         if (error) {
             console.error('Error fetching books:', error);
             throw error;
         }
 
-        // Process the data to return the desired structure
-        const books = data.map((item) => ({
-            book: item.book,
-            authors: item.book?.authors || [],
-            status: item, // The most recent book_status_history entry
-            log: item.log && item.log.length > 0 ? item.log[0] : null, // Most recent log
-            review: item.review && item.review.length > 0 ? item.review[0] : null, // Most recent review
-            note: item.note && item.note.length > 0 ? item.note[0] : null, // Most recent note
-            userBook: item.userBook && item.userBook.length > 0 ? item.userBook[0] : null, // userBook row
-        }));
-
-        return books;
+        return data;
     }
