@@ -12,14 +12,14 @@ import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 
 export default function BookDetailScreen() {
-    const { id } = useLocalSearchParams();
+    const { api_id } = useLocalSearchParams();
     const { mutate: saveUserBook } = useSaveUserBook();
     const router = useRouter();
 
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
 
-    const { data: bookDetails, isLoading: isLoadingBook } = useFetchBookData(id as string);
+    const { data: bookDetails, isLoading: isLoadingBook } = useFetchBookData(api_id as string);
     if (isLoadingBook || !bookDetails) {
         return <Loading />;
     }
