@@ -17,7 +17,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onPress }) => {
         <TouchableOpacity
             key={book.id}
             style={tw.style(`w-36 flex-shrink-0`, mediumShadow)}
-            onPress={() => onPress(book.id)}
+            onPress={() => onPress(book.api_id)}
         >
             <View style={tw`h-full flex flex-col rounded-lg shadow-sm bg-white`}>
                 <View style={tw`relative`}>
