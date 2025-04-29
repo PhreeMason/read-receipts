@@ -15,7 +15,6 @@ Deno.serve(async (req) => {
             }
         });
     }
-    console.log("Request received");
     const { api_id } = await req.json();
     if (!api_id) {
         return new Response(JSON.stringify({

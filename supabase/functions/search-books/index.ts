@@ -61,7 +61,11 @@ function extractBookListData($: cheerio.CheerioAPI): BookMetadata[] {
         });
 
         // Extract cover image
-        const coverImage = $el.find('img.bookCover').attr('src');
+        let coverImage = $el.find('img.bookCover').attr('src');
+        if (coverImage.includes("nophoto")) {
+            console.log({ coverImage })
+            coverImage = null
+        }
 
         // Extract rating
         const ratingText = $el.find('span.minirating').text().trim();
