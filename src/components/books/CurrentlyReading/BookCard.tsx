@@ -21,7 +21,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onPress }) => {
         >
             <View style={tw`h-full flex flex-col rounded-lg shadow-sm bg-white`}>
                 <View style={tw`relative`}>
-                    <View style={tw`w-full h-48 overflow-hidden rounded-t-lg`}>
+                    <View style={tw`w-full h-55 overflow-hidden rounded-t-lg`}>
                         <Image
                             source={{ uri: book.cover_image_url || '' }}
                             style={tw`w-full h-full`}
