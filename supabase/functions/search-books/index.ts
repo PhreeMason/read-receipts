@@ -117,7 +117,7 @@ function extractBookListData($: cheerio.CheerioAPI): BookMetadata[] {
 
 Deno.serve(async (req: Request) => {
     if (req.method === 'OPTIONS') { return new Response('ok', { headers: corsHeaders }) }
-
+    const startTime = performance.now();
     const authHeader = req.headers.get('Authorization')!;
 
     // Create a client with the user's token instead of service role
@@ -163,20 +163,51 @@ Deno.serve(async (req: Request) => {
                 status: 400,
             });
         }
-
+        console.log(`Searching for books now ${performance.now() - startTime}ms`);
         const scrapeUrl = generateUrl(query);
+        const scrapeUrl2 = `${scrapeUrl}&page=2`;
+        const scrapeUrl3 = `${scrapeUrl}&page=3`;
 
         // Fetch and parse HTML from Goodreads
-        const { data: html } = await axiod.get(scrapeUrl, {
+        const request1 = axiod.get(scrapeUrl, {
+            headers: {
+                'User-Agent': userAgent
+            }
+        });
+        const request2 = axiod.get(scrapeUrl2, {
+            headers: {
+                'User-Agent': userAgent
+            }
+        });
+        const request3 = axiod.get(scrapeUrl3, {
             headers: {
                 'User-Agent': userAgent
             }
         });
 
-        const $ = cheerio.load(html);
-        // Select each book entry from the search results
+        const results = await Promise.allSettled([request1, request2, request3])
+        console.log(`Searching complete ${performance.now() - startTime}ms`);
 
-        const bookList = extractBookListData($);
+        const books = []
+        const ids = new Set()
+        results.forEach(result => {
+            if (result.status !== 'fulfilled') {
+                return;
+            }
+            const { value: { data: html } } = result;
+            const $ = cheerio.load(html);
+            const bookList = extractBookListData($);
+
+            bookList.forEach(book => {
+                if (!ids.has(book.api_id)) {
+                    books.push(book)
+                }
+                ids.add(book.api_id)
+            })
+        })
+
+        console.log(`Extraction complete ${performance.now() - startTime}ms`);
+
 
         // After performing the search and before returning the results
         const { data, error: saveSearchError } = await supabaseClient
@@ -184,14 +215,14 @@ Deno.serve(async (req: Request) => {
             .insert({
                 user_id: user_id,
                 query: query,
-                result_count: bookList.length
+                result_count: books.length
             });
 
         if (saveSearchError) {
             console.error('Error saving search history:', saveSearchError);
         }
 
-        return new Response(JSON.stringify({ bookList }), {
+        return new Response(JSON.stringify({ bookList: books }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 200,
         });
