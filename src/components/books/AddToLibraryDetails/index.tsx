@@ -30,9 +30,9 @@ const formSchema = z.object({
     totalPage: z.coerce.number().int().positive(),
     startDate: z.date().optional(),
     targetDate: z.date().optional(),
-    hours: z.coerce.number().int().min(0).max(99),
+    hours: z.coerce.number().int().min(0),
     minutes: z.coerce.number().int().min(0).max(59),
-    currentHours: z.coerce.number().int().min(0).max(99),
+    currentHours: z.coerce.number().int().min(0),
     currentMinutes: z.coerce.number().int().min(0).max(59),
     currentPercentage: z.coerce.number().int().min(0).max(100).optional(),
     note: z.string().optional()

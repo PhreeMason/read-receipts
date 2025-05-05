@@ -2,7 +2,7 @@
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Loading } from '@/components/shared/Loading';
 import { useFetchBookData } from '@/hooks/useBooks';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AddToLibraryDetails from '@/components/books/AddToLibraryDetails';
 import tw from 'twrnc';
 import { Stack } from 'expo-router';

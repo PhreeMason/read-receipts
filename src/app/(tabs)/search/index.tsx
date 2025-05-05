@@ -1,6 +1,6 @@
 // src/app/(tabs)/search.tsx
 import React, { useState } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import tw from 'twrnc';
 import { SearchBar } from '@/components/search/SearchBar';
@@ -30,7 +30,7 @@ export default function SearchScreen() {
     }
 
     return (
-        <View style={tw`flex-1 justify-center p-4 gap-4 bg-white`}>
+        <SafeAreaView style={tw`flex-1 justify-center p-4 gap-4 bg-white`}>
             <Header title="Search" />
 
             <SearchBar
@@ -45,6 +45,6 @@ export default function SearchScreen() {
                 onBookPress={handleBookPress}
                 onTextClick={searchText}
             />
-        </View>
+        </SafeAreaView>
     );
 }
