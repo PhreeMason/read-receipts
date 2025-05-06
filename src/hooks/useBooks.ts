@@ -5,7 +5,8 @@ import {
     fetchBookData,
     addBookToLibrary,
     getBookStatusHistory,
-    getBooksByStatus
+    getBooksByStatus,
+    getReadingLogs
 } from '@/services/books';
 import { BookAndUserBookInsert, BookStatusHistory } from '@/types/book';
 import { useAuth } from '@/providers/AuthProvider';
@@ -72,3 +73,20 @@ export const useGetBooksByStatus = (status: BookStatusHistory['status']) => {
         enabled: !!userId,
     });
 };
+
+export const useGetReadingLogs = (bookId: string) => {
+    const { profile: user } = useAuth();
+    const userId = user?.id;
+
+
+    return useQuery({
+        queryKey: ['readingLogss', bookId, userId],
+        queryFn: async () => {
+            if (bookId === 'last') return ({})
+            if (!userId) return null;
+            return getReadingLogs(bookId, userId);
+        },
+        // staleTime: 1000 * 60 * 5,
+        enabled: !!userId,
+    });
+}

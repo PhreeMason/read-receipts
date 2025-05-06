@@ -90,3 +90,32 @@ export const getBooksByStatus =
 
         return data;
     }
+
+export const getReadingLogs = async (bookID: string, userId: string): Promise<any> => {
+    const userBook = supabase
+        .from('user_books')
+        .select('*')
+        .eq('book_id', bookID)
+        .eq('user_id', userId)
+        .single();
+
+    const readingLogs = supabase
+        .from('book_reading_logs')
+        .select('*')
+        .eq('book_id', bookID)
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+
+    const primises = await Promise.allSettled([userBook, readingLogs])
+
+    const userBookData = primises[0].status === 'fulfilled' ? primises[0].value.data : null;
+    const readingLogsData = primises[1].status === 'fulfilled' ? primises[1].value.data : null;
+    if (!userBookData) {
+        throw new Error('User book data not found');
+    }
+    if (!readingLogsData) {
+        throw new Error('Reading logs data not found');
+    }
+
+    return ({ userBookData, readingLogsData });
+}
