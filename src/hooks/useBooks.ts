@@ -78,7 +78,6 @@ export const useGetReadingLogs = (bookId: string) => {
     const { profile: user } = useAuth();
     const userId = user?.id;
 
-
     return useQuery({
         queryKey: ['readingLogss', bookId, userId],
         queryFn: async () => {
