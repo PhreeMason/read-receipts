@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Button } from 'react-native';
+import { View, Text, ScrollView, Button, TextInput } from 'react-native';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,8 +17,9 @@ import {
     SessionSummary,
     StepIndicator,
     FormError,
-} from './utils';
-import type { BookFormat } from '@/types/book';
+    ReadingLocation,
+} from './form-components';
+import type { BookFormat, BookReadingLogInsert } from '@/types/book';
 
 const feelsWithEmoji = [
     { name: 'swooning', emoji: '😍' },
@@ -59,20 +60,45 @@ const formSchema = z.object({
     currentMinutes: z.coerce.number().int().min(0).max(59),
     emotionalState: z.array(feels).optional(),
     note: z.string().optional(),
+    readingLocation: z.string().optional(),
     duration: z.coerce.number().int().min(0).optional(),
     listeningSpeed: z.coerce.number().min(0.5).max(3).optional(),
     rating: z.coerce.number().int().min(0).max(5).optional(),
     currentPercentage: z.coerce.number().int().min(0).max(100).optional(),
 });
 
-type FormData = z.infer<typeof formSchema>;
+export type FormData = z.infer<typeof formSchema>;
+
+type LogDataNoUserId = Omit<BookReadingLogInsert, 'user_id' | 'book_id' | 'id'>;
+
+export function transformLogFormData(formData: FormData): LogDataNoUserId {
+    // Handle audio time conversion only for audio format
+    const audioEndTime = formData.format.includes('audio')
+        ? (formData.currentHours * 60) + formData.currentMinutes
+        : null;
+
+    return {
+        format: formData.format,
+        date: formData.date.toISOString(),
+        start_page: formData.startPage,
+        end_page: formData.endPage,
+        emotional_state: formData.emotionalState,
+        note: formData.note,
+        reading_location: formData.readingLocation,
+        listening_speed: formData.listeningSpeed,
+        rating: formData.rating,
+        current_percentage: formData.currentPercentage,
+        audio_end_time: audioEndTime,
+        audio_start_time: formData.format.includes('audio') ? 0 : null
+    };
+}
 
 // Helper Components
 
 const ReadingLogsForm = () => {
     const { data: lastReadingLog, isLoading } = useGetReadingLogs('last');
     const [currentStep, setCurrentStep] = useState(0);
-
+    const { prevHours, prevMinutes } = lastReadingLog || { prevHours: 0, prevMinutes: 0 };
     // Form steps configuration
     const formSteps = [
         { title: "Format", description: "Select format and date" },
@@ -122,6 +148,8 @@ const ReadingLogsForm = () => {
 
     const onSubmit = (data: FormData) => {
         console.log('Form Data:', data);
+        const transformedData = transformLogFormData(data);
+        console.log('Transformed Data:', transformedData);
         // Handle form submission - e.g., save to database, display success message
         // You could add API calls here
     };
@@ -182,7 +210,7 @@ const ReadingLogsForm = () => {
             case 0:
                 return (
                     <View style={tw`px-4`}>
-                        <Text style={tw`text-lg font-semibold mb-4`}>What format are you reading?</Text>
+                        <Text style={tw`text-lg font-semibold mb-4`}>What format(s) are you reading?</Text>
 
                         <Controller
                             control={control}
@@ -194,7 +222,7 @@ const ReadingLogsForm = () => {
                                             key={format}
                                             format={format}
                                             // @ts-ignore 
-                                            selected={value.includes(format)}
+                                            selected={(value || []).includes(format)}
                                             onToggle={() => toggleFormat(format, value, onChange)}
                                         />
                                     ))}
@@ -230,6 +258,27 @@ const ReadingLogsForm = () => {
                             />
                         )}
 
+                        <View style={tw`mb-4`}>
+                            <Text style={tw`mb-2`}>Current Percentage</Text>
+                            <Controller
+                                control={control}
+                                name="currentPercentage"
+                                render={({ field: { onChange, value } }) => (
+                                    <View style={tw`flex-row items-center`}>
+                                        <TextInput
+                                            style={tw`p-3 border border-gray-300 rounded-lg w-25`}
+                                            keyboardType="numeric"
+                                            value={value?.toString() || ''}
+                                            onChangeText={(text) => onChange(text)}
+                                            placeholder="0"
+                                        />
+                                        <Text style={tw`text-gray-500 text-lg ml-1`}>%</Text>
+                                    </View>
+                                )}
+                            />
+                            <FormError error={errors.currentPercentage} />
+                        </View>
+
                         {isAudiobook && (
                             <AudiobookProgress
                                 control={control}
@@ -237,6 +286,8 @@ const ReadingLogsForm = () => {
                                 currentHours={watch('currentHours')}
                                 currentMinutes={watch('currentMinutes')}
                                 listeningSpeed={watch('listeningSpeed')}
+                                prevHours={prevHours}
+                                prevMinutes={prevMinutes}
                             />
                         )}
                     </View>
@@ -257,6 +308,11 @@ const ReadingLogsForm = () => {
                                     error={errors.emotionalState}
                                 />
                             )}
+                        />
+
+                        <ReadingLocation
+                            control={control}
+                            error={errors.readingLocation}
                         />
 
                         <NotesInput
@@ -331,6 +387,5 @@ const ReadingLogsForm = () => {
 
 export default ReadingLogsForm;
 
-// TODO: Format(s)
 // TODO: put audio start time and audio end time
 // TODO: Feelings should be 3 per row

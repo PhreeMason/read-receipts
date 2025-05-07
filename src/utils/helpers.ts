@@ -1,7 +1,8 @@
 import {
     BookAndUserBookInsert,
-    AddToLibraryData
+    AddToLibraryData,
 } from '@/types/book';
+
 
 export const formatAutorName = (author: string | { name: string }) => {
     if (typeof author === 'string') {

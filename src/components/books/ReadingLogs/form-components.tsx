@@ -4,6 +4,7 @@ import Slider from '@react-native-community/slider';
 import { Controller } from 'react-hook-form';
 import tw from 'twrnc';
 import React, { useState } from 'react';
+import { Entypo } from '@expo/vector-icons';
 
 type StepIndicatorProps = {
     index: number;
@@ -119,67 +120,86 @@ export const PhysicalBookProgress: React.FC<PhysicalBookProgressProps> = ({ cont
     <View>
         <Text style={tw`text-lg font-semibold mb-4`}>Track Pages Read</Text>
 
-        <View style={tw`mb-4`}>
-            <Text style={tw`mb-2`}>Starting Page</Text>
-            <Controller
-                control={control}
-                name="startPage"
-                render={({ field: { onChange, value } }) => (
-                    <TextInput
-                        style={tw`p-3 border border-gray-300 rounded-lg`}
-                        keyboardType="numeric"
-                        value={value?.toString() || ''}
-                        onChangeText={(text) => onChange(text)}
-                        placeholder="0"
-                    />
-                )}
-            />
-            <FormError error={errors.startPage} />
+        <View style={tw`flex-row mb-6`}>
+            <View style={tw`flex-1 mr-2`}>
+                <Text style={tw`mb-2`}>Starting Page</Text>
+                <Controller
+                    control={control}
+                    name="startPage"
+                    render={({ field: { onChange, value } }) => (
+                        <TextInput
+                            style={tw`p-3 border border-gray-300 rounded-lg`}
+                            keyboardType="numeric"
+                            value={value?.toString() || ''}
+                            onChangeText={(text) => onChange(text)}
+                            placeholder="0"
+                        />
+                    )}
+                />
+                <FormError error={errors.startPage} />
+            </View>
+
+            <View style={tw`flex-1 ml-2`}>
+                <Text style={tw`mb-2`}>Ending Page</Text>
+                <Controller
+                    control={control}
+                    name="endPage"
+                    render={({ field: { onChange, value } }) => (
+                        <TextInput
+                            style={tw`p-3 border border-gray-300 rounded-lg`}
+                            keyboardType="numeric"
+                            value={value?.toString() || ''}
+                            onChangeText={(text) => onChange(text)}
+                            placeholder="0"
+                        />
+                    )}
+                />
+                <FormError error={errors.endPage} />
+            </View>
         </View>
 
-        <View style={tw`mb-4`}>
-            <Text style={tw`mb-2`}>Ending Page</Text>
-            <Controller
-                control={control}
-                name="endPage"
-                render={({ field: { onChange, value } }) => (
-                    <TextInput
-                        style={tw`p-3 border border-gray-300 rounded-lg`}
-                        keyboardType="numeric"
-                        value={value?.toString() || ''}
-                        onChangeText={(text) => onChange(text)}
-                        placeholder="0"
-                    />
-                )}
-            />
-            <FormError error={errors.endPage} />
-        </View>
-
-        {startPage && endPage && endPage >= startPage && (
+        {(startPage && endPage && endPage >= startPage) ? (
             <View style={tw`p-3 bg-gray-100 rounded-lg mb-4`}>
                 <Text style={tw`text-center`}>
                     You read {endPage - startPage} pages in this session
                 </Text>
             </View>
-        )}
+        ) : null}
     </View>
 );
 
 type AudiobookProgressProps = {
     control: any;
     errors: {
+        prevHours?: { message?: string };
+        prevMinutes?: { message?: string };
         currentHours?: { message?: string };
         currentMinutes?: { message?: string };
         listeningSpeed?: { message?: string };
     };
+    prevHours?: number;
+    prevMinutes?: number;
+    prevSpeed?: number;
     currentHours: number;
     currentMinutes: number;
     listeningSpeed?: number;
 };
 
-export const AudiobookProgress: React.FC<AudiobookProgressProps> = ({ control, errors, currentHours, currentMinutes, listeningSpeed }) => (
+export const AudiobookProgress: React.FC<AudiobookProgressProps> = ({ control, errors, prevHours, prevMinutes, listeningSpeed }) => (
     <View>
         <Text style={tw`text-lg font-semibold mb-4`}>Track Listening Time</Text>
+
+        {prevHours || prevMinutes ? <View style={tw`flex-row mb-4`}>
+            {prevHours ? <View style={tw`flex-1 mr-2`}>
+                <Text style={tw`mb-2`}>Previous hours</Text>
+                <Text>{prevHours}</Text>
+            </View> : null}
+
+            {prevMinutes ? <View style={tw.style(`flex-1 ${prevHours && 'ml-2'}`)}>
+                <Text style={tw`mb-2`}>Previous Minutes</Text>
+                <Text>{prevMinutes}</Text>
+            </View> : null}
+        </View> : null}
 
         <View style={tw`flex-row mb-4`}>
             <View style={tw`flex-1 mr-2`}>
@@ -228,8 +248,8 @@ export const AudiobookProgress: React.FC<AudiobookProgressProps> = ({ control, e
                     <Slider
                         style={tw`h-10 w-full`}
                         minimumValue={0.5}
-                        maximumValue={2.5}
-                        step={0.25}
+                        maximumValue={3.0}
+                        step={0.10}
                         value={value}
                         onValueChange={onChange}
                         minimumTrackTintColor="#007AFF"
@@ -269,7 +289,7 @@ export const EmotionSelector: React.FC<EmotionSelectorProps> = ({ emotions, sele
                 {emotions.map((feel) => (
                     <TouchableOpacity
                         key={feel.name}
-                        style={tw`m-1 p-2 rounded-lg ${selectedEmotions.includes(feel.name) ? 'bg-blue-100 border border-blue-500' : 'bg-gray-100 border border-gray-300'}`}
+                        style={tw`m-1 w-30 p-2 rounded-lg ${(selectedEmotions || []).includes(feel.name) ? 'bg-blue-100 border border-blue-500' : 'bg-gray-50 border border-gray-100'}`}
                         onPress={() => toggleEmotion(feel.name)}
                     >
                         <Text style={tw`text-center text-xl`}>{feel.emoji}</Text>
@@ -281,6 +301,32 @@ export const EmotionSelector: React.FC<EmotionSelectorProps> = ({ emotions, sele
         </View>
     );
 };
+
+type ReadingLocationProps = {
+    control: any;
+    error?: { message?: string };
+}
+
+export const ReadingLocation: React.FC<ReadingLocationProps> = ({ control, error }) => {
+    return (
+        <View style={tw`mb-4`}>
+            <Text style={tw`mb-2 text-lg font-semibold`}>Reading Location</Text>
+            <Controller
+                control={control}
+                name="readingLocation"
+                render={({ field: { onChange, value } }) => (
+                    <TextInput
+                        style={tw`p-3 border border-gray-300 rounded-lg`}
+                        value={value || ''}
+                        onChangeText={onChange}
+                        placeholder="Where did you read?"
+                    />
+                )}
+            />
+            <FormError error={error} />
+        </View>
+    )
+}
 
 type NotesInputProps = {
     control: any;
@@ -320,14 +366,14 @@ export const RatingSelector: React.FC<RatingSelectorProps> = ({ control, value, 
             control={control}
             name="rating"
             render={({ field: { onChange, value } }) => (
-                <View style={tw`flex-row justify-between`}>
+                <View style={tw`px-6 flex-row justify-between`}>
                     {[1, 2, 3, 4, 5].map((rating) => (
                         <TouchableOpacity
                             key={rating}
-                            style={tw`items-center justify-center h-12 w-12 rounded-full ${value >= rating ? 'bg-yellow-400' : 'bg-gray-200'}`}
+                            style={tw`items-center justify-center`}
                             onPress={() => onChange(rating)}
                         >
-                            <Text style={tw`text-lg`}>★</Text>
+                            <Entypo name="star" size={30} color={`${value >= rating ? 'rgb(250, 204, 21)' : 'gray'}`} />
                         </TouchableOpacity>
                     ))}
                 </View>
@@ -348,6 +394,7 @@ type SessionSummaryProps = {
         listeningSpeed?: number;
         emotionalState?: string[];
         rating?: number;
+        readingLocation?: string;
         note?: string;
     };
     feelsWithEmoji: Emotion[];
@@ -394,6 +441,21 @@ export const SessionSummary: React.FC<SessionSummaryProps> = ({ data, feelsWithE
                     </View>
                 </>
             )}
+
+            {data.startPage && data.endPage ? (
+                <View style={tw`flex-row justify-between mb-2`}>
+                    <Text style={tw`font-semibold`}>Pages:</Text>
+                    <Text>{data.startPage} - {data.endPage} ({data.endPage - data.startPage} pages)</Text>
+                </View>
+            ) : null}
+
+
+            {data.readingLocation ? (
+                <View style={tw`flex-row justify-between mb-2`}>
+                    <Text style={tw`font-semibold`}>Location:</Text>
+                    <Text>{data.readingLocation}</Text>
+                </View>
+            ) : null}
 
             {data.emotionalState && data.emotionalState.length > 0 ? (
                 <View style={tw`flex-row justify-between mb-2`}>

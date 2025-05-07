@@ -127,16 +127,18 @@ export type Database = {
           audio_start_time: number | null
           book_id: string
           created_at: string | null
+          current_percentage: number | null
           date: string | null
           duration: number | null
-          emotional_state: string | null
+          emotional_state: string[] | null
           end_page: number | null
           format: Database["public"]["Enums"]["book_format_enum"][] | null
           id: string
           listening_speed: number | null
-          notes: string | null
+          note: string | null
           pages_read: number | null
           rating: number | null
+          reading_location: string | null
           start_page: number | null
           updated_at: string | null
           user_id: string
@@ -146,16 +148,18 @@ export type Database = {
           audio_start_time?: number | null
           book_id: string
           created_at?: string | null
+          current_percentage?: number | null
           date?: string | null
           duration?: number | null
-          emotional_state?: string | null
+          emotional_state?: string[] | null
           end_page?: number | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           id: string
           listening_speed?: number | null
-          notes?: string | null
+          note?: string | null
           pages_read?: number | null
           rating?: number | null
+          reading_location?: string | null
           start_page?: number | null
           updated_at?: string | null
           user_id: string
@@ -165,16 +169,18 @@ export type Database = {
           audio_start_time?: number | null
           book_id?: string
           created_at?: string | null
+          current_percentage?: number | null
           date?: string | null
           duration?: number | null
-          emotional_state?: string | null
+          emotional_state?: string[] | null
           end_page?: number | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           id?: string
           listening_speed?: number | null
-          notes?: string | null
+          note?: string | null
           pages_read?: number | null
           rating?: number | null
+          reading_location?: string | null
           start_page?: number | null
           updated_at?: string | null
           user_id?: string

@@ -330,3 +330,26 @@ export const addToLibraryBookData = {
     "start_date": null,
     "target_completion_date": null
 }
+
+export const mockReadingLogFormData = {
+    "format": [
+        "ebook",
+        "physical",
+        "audio"
+    ],
+    "date": "2025-05-06T17:00:48.917Z",
+    "startPage": 1,
+    "endPage": 10,
+    "currentHours": 1,
+    "currentMinutes": 11,
+    "emotionalState": [
+        "tense",
+        "teary-eyed",
+        "hot & bothered"
+    ],
+    "note": "This is something new",
+    "readingLocation": "Bedroom",
+    "listeningSpeed": 1.1,
+    "rating": 4,
+    "currentPercentage": 89
+}
