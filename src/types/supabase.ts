@@ -433,17 +433,11 @@ export type Database = {
       user_books: {
         Row: {
           book_id: string
-          completion_date: string | null
           cover_image_url: string | null
-          current_audio_time: number | null
-          current_page: number | null
-          current_percentage: number | null
           date_added: string | null
           format: Database["public"]["Enums"]["book_format_enum"][] | null
           genres: string[] | null
-          note: string | null
           rating: number | null
-          start_date: string | null
           target_completion_date: string | null
           total_duration: number | null
           total_pages: number | null
@@ -451,17 +445,11 @@ export type Database = {
         }
         Insert: {
           book_id: string
-          completion_date?: string | null
           cover_image_url?: string | null
-          current_audio_time?: number | null
-          current_page?: number | null
-          current_percentage?: number | null
           date_added?: string | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           genres?: string[] | null
-          note?: string | null
           rating?: number | null
-          start_date?: string | null
           target_completion_date?: string | null
           total_duration?: number | null
           total_pages?: number | null
@@ -469,17 +457,11 @@ export type Database = {
         }
         Update: {
           book_id?: string
-          completion_date?: string | null
           cover_image_url?: string | null
-          current_audio_time?: number | null
-          current_page?: number | null
-          current_percentage?: number | null
           date_added?: string | null
           format?: Database["public"]["Enums"]["book_format_enum"][] | null
           genres?: string[] | null
-          note?: string | null
           rating?: number | null
-          start_date?: string | null
           target_completion_date?: string | null
           total_duration?: number | null
           total_pages?: number | null
@@ -539,7 +521,44 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      user_book_current_state: {
+        Row: {
+          book_id: string | null
+          cover_image_url: string | null
+          current_audio_time: number | null
+          current_page: number | null
+          current_percentage: number | null
+          current_status: Database["public"]["Enums"]["book_status_enum"] | null
+          date_added: string | null
+          description: string | null
+          format: Database["public"]["Enums"]["book_format_enum"][] | null
+          genres: string[] | null
+          latest_note: string | null
+          rating: number | null
+          status_changed_at: string | null
+          target_completion_date: string | null
+          title: string | null
+          total_duration: number | null
+          total_pages: number | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_books_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_books_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       add_book_to_library: {
@@ -561,6 +580,15 @@ export type Database = {
           p_user_id: string
         }
         Returns: Json
+      }
+      get_reading_progress: {
+        Args: { p_user_id: string; p_book_id: string }
+        Returns: {
+          current_percentage: number
+          current_page: number
+          current_audio_time: number
+          last_updated: string
+        }[]
       }
       get_user_book_activity: {
         Args: { user_id: string }
