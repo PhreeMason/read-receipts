@@ -31,7 +31,7 @@ export const uploadAvatar = async (asset: ImagePickerAsset, userId: string) => {
         });
 
         // Upload to Supabase Storage
-        const { data, error } = await supabase.storage
+        const { error } = await supabase.storage
             .from(AVATAR_BUCKET_NAME)
             .upload(fileName, decode(base64), {
                 contentType: asset.mimeType || 'image/jpeg',

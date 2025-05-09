@@ -7,7 +7,7 @@ type ReadingLogProps = {
     bookID: string;
 }
 
-type ReadingLogItem = {
+export type ReadingLogItem = {
     id: string;
     time: string;
     duration: string;
@@ -16,10 +16,9 @@ type ReadingLogItem = {
 }
 
 const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID }) => {
-    const { data: readingLogs, isLoading } = useGetReadingLogs(bookID);
+    const { data: readingLogs } = useGetReadingLogs(bookID);
     console.log({ readingLogs })
-    const Logs: ReadingLogItem[] = []
-
+    
     // get first log from user book
     return (
         <View style={tw`mb-8`}>

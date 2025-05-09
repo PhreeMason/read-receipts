@@ -1,6 +1,6 @@
 // src/components/search/BookCover.tsx
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import tw from 'twrnc';
 import { BookMetadata } from '@/types/book';
 import Rating from '@/components/shared/Rating';
@@ -24,8 +24,6 @@ export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTe
         ? `${book.metadata.series}${book.metadata.series_number ? ` #${book.metadata.series_number}` : ''}`
         : null;
 
-    // Check if book is already in library (placeholder - implement actual check)
-    const isInLibrary = false; // This should be replaced with actual library check logic
     return (
         <TouchableOpacity style={tw.style(`rounded-xl p-3 mb-4 flex-row`, mediumShadow)}
             onPress={onAddToLibrary}

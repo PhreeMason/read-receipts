@@ -45,7 +45,7 @@ const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
 
     const { title, cover_image_url, rating, metadata, genres, total_pages, publication_date } = book;
     // @ts-ignore
-    let { authors, rating_count, review_count } = metadata || {};
+    let { authors, rating_count } = metadata || {};
     authors = authors ?? [];
 
     const toggleAuthorsExpanded = () => setAuthorsExpanded(!authorsExpanded);

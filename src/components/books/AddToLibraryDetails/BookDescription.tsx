@@ -8,13 +8,13 @@ const BookDescription = ({ book }: { book: BookInsert }) => {
     const [expanded, setExpanded] = useState(false);
     const { width } = useWindowDimensions();
 
-    if (!book.description) {
-        return null;
-    }
 
     const text = book.description
     // Memoize the HTML component to prevent re-renders when other state changes
     const htmlContent = useMemo(() => {
+        if (!text) {
+            return null;
+        }
         const content = expanded ? text : text.substring(0, 150) + '...';
         return (
             <HTML
@@ -27,7 +27,12 @@ const BookDescription = ({ book }: { book: BookInsert }) => {
                 }}
             />
         );
-    }, [book.description, expanded, width]);
+    }, [expanded, width, text]);
+
+    if (!book.description) {
+        return null;
+    }
+
 
     return (
         <View style={tw`mb-6`}>

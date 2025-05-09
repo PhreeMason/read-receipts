@@ -18,7 +18,7 @@ export const uploadImageToSupabase = async (
     const filename = `${path || 'avatar'}-${Date.now()}.${asset.uri.split('.').pop()}`;
 
     // Upload to Supabase
-    const { data, error } = await supabase
+    const { error } = await supabase
       .storage
       .from(bucket)
       .upload(filename, atob(base64), {

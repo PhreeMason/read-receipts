@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 import HomeHeader from '@/components/home/Header';
 import CurrentlyReading from '@/components/home/CurrentlyReading';
-import RecentlyAdded from '@/components/home/RecentlyAdded';
 
 const HomeScreen = () => {
     return (

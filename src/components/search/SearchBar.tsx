@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
+import { View, TextInput } from 'react-native';
 import tw from 'twrnc';
-import Svg, { Circle, Line, Rect } from 'react-native-svg';
+import Svg, { Circle, Line } from 'react-native-svg';
 
 type SearchBarProps = {
     value: string;

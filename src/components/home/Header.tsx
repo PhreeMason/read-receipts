@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useAuth } from '@/providers/AuthProvider';
 import tw from 'twrnc';
 import AntDesign from '@expo/vector-icons/AntDesign';
