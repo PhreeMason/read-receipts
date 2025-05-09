@@ -2,9 +2,12 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import tw from 'twrnc';
 import React from 'react'
 import { useGetReadingLogs } from '@/hooks/useBooks';
+import { Link } from 'expo-router';
+import { UserBook } from '@/types/book';
 
 type ReadingLogProps = {
     bookID: string;
+    hideSeeAll?: boolean;
 }
 
 export type ReadingLogItem = {
@@ -15,18 +18,20 @@ export type ReadingLogItem = {
     minutes_listened: string;
 }
 
-const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID }) => {
+const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID, hideSeeAll }) => {
     const { data: readingLogs } = useGetReadingLogs(bookID);
     console.log({ readingLogs })
-    
+
     // get first log from user book
     return (
         <View style={tw`mb-8`}>
             <View style={tw`flex-row justify-between mb-2`}>
                 <Text style={tw`text-sm font-semibold text-black`}>Reading Sessions</Text>
-                <TouchableOpacity>
-                    <Text style={tw`text-xs text-black underline`}>See All</Text>
-                </TouchableOpacity>
+                {hideSeeAll ? <Link href={`/book/${bookID}/reading-log`} asChild>
+                    <TouchableOpacity>
+                        <Text style={tw`text-xs text-black underline`}>See All</Text>
+                    </TouchableOpacity>
+                </Link> : null}
             </View>
             <View style={tw`gap-3`}>
                 <View style={tw`flex bg-white rounded-xl p-3 border border-gray-100 shadow-sm`}>
