@@ -1,4 +1,14 @@
-import { BookInsert, BookMetadata, UserBook, AddToLibraryData, Profile, BookStatusHistory, BookStatusResponse } from '@/types/book';
+import {
+    BookInsert,
+    BookMetadata,
+    UserBook,
+    AddToLibraryData,
+    Profile,
+    BookStatusHistory,
+    BookStatusResponse,
+    UserBookCurrentState,
+    ReadingProgress
+} from '@/types/book';
 import supabase from '@/lib/supabase';
 
 export const getUserBookStatus = async (bookId: string, userId: string): Promise<UserBook> => {
@@ -119,3 +129,41 @@ export const getReadingLogs = async (bookID: string, userId: string): Promise<an
 
     return ({ userBookData, readingLogsData });
 }
+
+export const getUserBookCurrentStateData = async (userId: string, bookId: string): Promise<UserBookCurrentState | null> => {
+    const { data, error } = await supabase
+        .from('user_book_current_state') // This is the name of your SQL view
+        .select('*')
+        .eq('user_id', userId)
+        .eq('book_id', bookId)
+        .single(); // Expects a single row or zero rows
+
+    if (error) {
+        // 'PGRST116' is the code for "Query returned 0 rows" when .single() is used.
+        // In this case, it means no current state record exists for this user/book, which is not an application error.
+        if (error.code === 'PGRST116') {
+            return null;
+        }
+        // For other errors, log and re-throw.
+        console.error('Error fetching user book current state:', error);
+        throw error;
+    }
+    return data;
+};
+
+
+export const getBookReadingProgress = async (userId: string, bookId: string): Promise<ReadingProgress | null> => {
+    const { data, error } = await supabase.rpc('get_reading_progress', {
+        p_user_id: userId,
+        p_book_id: bookId,
+    });
+
+    if (error) {
+        console.error('Error fetching book reading progress:', error);
+        throw error;
+    }
+
+    // The RPC function `get_reading_progress` returns TABLE(...), which results in an array.
+    // Since it has a LIMIT 1, it will be an array of 0 or 1 elements.
+    return data && data.length > 0 ? data[0] : null;
+};

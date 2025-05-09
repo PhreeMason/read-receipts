@@ -6,7 +6,9 @@ import {
     addBookToLibrary,
     getBookStatusHistory,
     getBooksByStatus,
-    getReadingLogs
+    getReadingLogs,
+    getBookReadingProgress,
+    getUserBookCurrentStateData,
 } from '@/services/books';
 import { BookAndUserBookInsert, BookStatusHistory } from '@/types/book';
 import { useAuth } from '@/providers/AuthProvider';
@@ -84,6 +86,36 @@ export const useGetReadingLogs = (bookId: string) => {
             if (bookId === 'last') return ({})
             if (!userId) return null;
             return getReadingLogs(bookId, userId);
+        },
+        // staleTime: 1000 * 60 * 5,
+        enabled: !!userId,
+    });
+}
+
+export const useGetBookReadingProgress = (bookId: string) => {
+    const { profile: user } = useAuth();
+    const userId = user?.id;
+
+    return useQuery({
+        queryKey: ['bookReadingProgress', bookId, userId],
+        queryFn: async () => {
+            if (!userId) return null;
+            return getBookReadingProgress(bookId, userId);
+        },
+        // staleTime: 1000 * 60 * 5,
+        enabled: !!userId,
+    });
+}
+
+export const useGetUserBookCurrentStateData = (bookId: string) => {
+    const { profile: user } = useAuth();
+    const userId = user?.id;
+
+    return useQuery({
+        queryKey: ['userBookCurrentStateData', bookId, userId],
+        queryFn: async () => {
+            if (!userId) return null;
+            return getUserBookCurrentStateData(bookId, userId);
         },
         // staleTime: 1000 * 60 * 5,
         enabled: !!userId,
