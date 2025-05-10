@@ -1,5 +1,5 @@
 // Type for the book schema
-type Book = {
+export type Book = {
     api_id: string | null;
     api_source: string | null;
     cover_image_url: string | null;

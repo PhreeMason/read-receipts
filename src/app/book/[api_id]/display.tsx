@@ -8,9 +8,9 @@ import BookHeader from '@/components/books/AddToLibraryDetails/BookHeader';
 import BookDescription from '@/components/books/AddToLibraryDetails/BookDescription';
 import ReadingLogs from '@/components/books/ReadingLogs';
 
-const display = () => {
+const Display = () => {
     const { api_id } = useLocalSearchParams();
-    const { data: book, isLoading: isLoadingBook } = useFetchBookData(api_id as string);
+    const { data: book } = useFetchBookData(api_id as string);
     console.log({ book })
 
     if (!book) {
@@ -117,4 +117,4 @@ const display = () => {
     )
 }
 
-export default display;
+export default Display;

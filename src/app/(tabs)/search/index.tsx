@@ -15,7 +15,7 @@ export default function SearchScreen() {
     const debouncedSearch = useDebounce(searchQuery, 300);
     const router = useRouter();
 
-    const { data: books, isLoading } = useSearchBooksList(debouncedSearch.trim());
+    const { data: books } = useSearchBooksList(debouncedSearch.trim());
 
     const handleBookPress = (bookId: string | null) => {
         if (!bookId) {

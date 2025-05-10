@@ -213,7 +213,7 @@ Deno.serve(async (req: Request) => {
 
 
         // After performing the search and before returning the results
-        const { data, error: saveSearchError } = await supabaseClient
+        const { error: saveSearchError } = await supabaseClient
             .from('user_searches')
             .insert({
                 user_id: user_id,

@@ -1,4 +1,4 @@
-import { Book, BookInsert, BookMetadata, UserBook, AddToLibraryData, Profile, BookStatusHistory, BookStatusResponse } from '@/types/book';
+import { BookInsert, BookMetadata, UserBook, AddToLibraryData, Profile, BookStatusHistory, BookStatusResponse } from '@/types/book';
 import supabase from '@/lib/supabase';
 
 export const getUserBookStatus = async (bookId: string, userId: string): Promise<UserBook> => {
