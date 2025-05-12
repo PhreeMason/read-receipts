@@ -76,7 +76,7 @@ export const useGetBooksByStatus = (status: BookStatusHistory['status']) => {
     });
 };
 
-export const useGetReadingLogs = (bookId: string) => {
+export const useGetReadingLogs = (bookId?: string) => {
     const { profile: user } = useAuth();
     const userId = user?.id;
 
@@ -84,7 +84,7 @@ export const useGetReadingLogs = (bookId: string) => {
         queryKey: ['readingLogss', bookId, userId],
         queryFn: async () => {
             if (bookId === 'last') return ({})
-            if (!userId) return null;
+            if (!bookId || !userId) return null;
             return getReadingLogs(bookId, userId);
         },
         // staleTime: 1000 * 60 * 5,

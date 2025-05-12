@@ -43,7 +43,7 @@ const Display = () => {
             <BookDescription book={book} />
 
             {/* Reading Sessions */}
-            {book.id ? <ReadingLogs bookID={book.id} /> : null}
+            {book.id ? <ReadingLogs bookID={book.id} apiId={api_id as string} /> : null}
 
             {/* Notes & Quotes */}
             <View style={tw`mb-8`}>

@@ -37,10 +37,11 @@ const StarRating: React.FC<StarRatingProps> = ({ rating }) => (
 );
 
 type BookHeaderProps = {
-    book: BookInsert;
+    book?: BookInsert;
 }
 
 const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
+    if (!book) return null;
     const [authorsExpanded, setAuthorsExpanded] = useState(false);
 
     const { title, cover_image_url, rating, metadata, genres, total_pages, publication_date } = book;

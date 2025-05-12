@@ -3,11 +3,13 @@ import tw from 'twrnc';
 import React from 'react'
 import { useGetReadingLogs } from '@/hooks/useBooks';
 import { Link } from 'expo-router';
-import { UserBook } from '@/types/book';
+import BookHeader from '@/components/books/AddToLibraryDetails/BookHeader';
 
 type ReadingLogProps = {
-    bookID: string;
+    bookID?: string;
     hideSeeAll?: boolean;
+    hideTitle?: boolean;
+    apiId: string;
 }
 
 export type ReadingLogItem = {
@@ -18,7 +20,7 @@ export type ReadingLogItem = {
     minutes_listened: string;
 }
 
-const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID, hideSeeAll }) => {
+const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID, hideSeeAll, apiId, hideTitle }) => {
     const { data: readingLogs } = useGetReadingLogs(bookID);
     console.log({ readingLogs })
 
@@ -26,12 +28,12 @@ const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID, hideSeeAll }) => {
     return (
         <View style={tw`mb-8`}>
             <View style={tw`flex-row justify-between mb-2`}>
-                <Text style={tw`text-sm font-semibold text-black`}>Reading Sessions</Text>
-                {hideSeeAll ? <Link href={`/book/${bookID}/reading-log`} asChild>
+                {hideTitle ? null : <Text style={tw`text-sm font-semibold text-black`}>Reading 77 Sessions</Text>}
+                {hideSeeAll ? null : <Link href={`/book/${apiId}/reading-log`} asChild>
                     <TouchableOpacity>
                         <Text style={tw`text-xs text-black underline`}>See All</Text>
                     </TouchableOpacity>
-                </Link> : null}
+                </Link>}
             </View>
             <View style={tw`gap-3`}>
                 <View style={tw`flex bg-white rounded-xl p-3 border border-gray-100 shadow-sm`}>
