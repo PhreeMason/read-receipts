@@ -15,7 +15,7 @@ function isAllNumbers(items: any[]) {
 }
 
 const ReadingProgress: React.FC<ReadingProgressProps> = ({ readingLog, mostRecentStatus }) => {
-    let { current_percentage, created_at, date, updated_at } = readingLog || {};
+    let { current_percentage, created_at, updated_at } = readingLog || {};
     const isComplete = mostRecentStatus && mostRecentStatus.status === 'completed';
     const isReading = mostRecentStatus && mostRecentStatus.status === 'current';
 
@@ -23,7 +23,7 @@ const ReadingProgress: React.FC<ReadingProgressProps> = ({ readingLog, mostRecen
 
     current_percentage = isComplete ? 100 : current_percentage;
     const completetionDate = isComplete ? statusCreatedAt : null;
-    const dateOfLog = completetionDate || created_at;
+    const dateOfLog = completetionDate || updated_at || created_at;
 
     return (
         <View style={tw`mt-auto`}>
