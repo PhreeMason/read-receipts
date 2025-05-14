@@ -84,7 +84,7 @@ const Display = () => {
             {/* Reading Stats */}
             <View style={tw`mb-20`}>
                 <Text style={tw`text-sm font-semibold text-black mb-2`}>Reading Stats</Text>
-                <View style={tw`grid grid-cols-2 gap-3`}>
+                <View style={tw`flex-col gap-3`}>
                     <View style={tw`bg-white rounded-xl p-3 border border-gray-100 shadow-sm`}>
                         <View style={tw`flex-row items-center gap-2 mb-1`}>
                             {/* You'll need to import an icon library or create SVG components */}
