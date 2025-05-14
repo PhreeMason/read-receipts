@@ -7,7 +7,7 @@ import tw from 'twrnc';
 import BookHeader from './BookHeader';
 import BookDescription from './BookDescription';
 import StatusSelector from './StatusSelector';
-import ReadingProgress from './ReadingProgress';
+import ReadingDates from './ReadingDates';
 import Formatelector from './FormatSelector';
 import AudioDuration from './AudioDuration';
 import NoteInput from './NoteInput';
@@ -115,7 +115,7 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
                     />
 
                     {status === 'current' && (
-                        <ReadingProgress
+                        <ReadingDates
                             control={control}
                             errors={errors}
                             setValue={setValue}
