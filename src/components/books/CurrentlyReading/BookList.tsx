@@ -10,9 +10,10 @@ type BookListProps = {
     books: BookStatusResponse[];
     isLoading: boolean;
     onBookPress: (id: string) => void;
+    ignoreProgress?: boolean;
 }
 
-const BookList: React.FC<BookListProps> = ({ books, isLoading, onBookPress }) => {
+const BookList: React.FC<BookListProps> = ({ books, isLoading, onBookPress, ignoreProgress }) => {
     return (
         <ScrollView
             horizontal
@@ -24,7 +25,7 @@ const BookList: React.FC<BookListProps> = ({ books, isLoading, onBookPress }) =>
                 <Loading />
             ) : (
                 books?.map((book) => (
-                    <BookCard key={book.id} book={book} onPress={onBookPress} />
+                    <BookCard key={book.id} book={book} onPress={onBookPress} ignoreProgress={ignoreProgress} />
                 ))
             )}
         </ScrollView>

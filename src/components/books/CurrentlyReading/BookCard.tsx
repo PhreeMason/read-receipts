@@ -10,9 +10,13 @@ import { BookStatusResponse } from '@/types/book'
 type BookCardProps = {
     book: BookStatusResponse;
     onPress: (id: string) => void;
+    ignoreProgress?: boolean;
 }
 
-const BookCard: React.FC<BookCardProps> = ({ book, onPress }) => {
+const BookCard: React.FC<BookCardProps> = ({ book, onPress, ignoreProgress }) => {
+    const { log, status } = book
+    const mostRecentLog = log[0];
+    const mostRecentStatus = status[0];
     return (
         <TouchableOpacity
             key={book.id}
@@ -33,7 +37,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onPress }) => {
                     <Text style={tw`font-medium text-black mb-1`} numberOfLines={1}>{book.title}</Text>
                     <Text style={tw`text-xs text-gray-600 mb-1`}>{book.authors.map(formatAutorName)}</Text>
 
-                    {book.user_book[0] ? <ReadingProgress userBook={book.user_book[0]} /> : null}
+                    <ReadingProgress readingLog={mostRecentLog} mostRecentStatus={mostRecentStatus} />
                 </View>
             </View>
         </TouchableOpacity>

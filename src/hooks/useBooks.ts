@@ -31,27 +31,29 @@ export const useFetchBookData = (bookId: string) => {
 }
 
 export const useFetchBookStatusHistory = (api_id: string) => {
-    const { profile: user } = useAuth();
+    const { profile, session } = useAuth();
+    const userId = profile?.id || session?.user?.id;
     return useQuery({
-        queryKey: ['bookStatusHistory', api_id, user?.id],
+        queryKey: ['bookStatusHistory', api_id, userId],
         queryFn: async () => {
-            if (!user?.id) return null;
-            return getBookStatusHistory(api_id, user.id);
+            if (!userId) return null;
+            return getBookStatusHistory(api_id, userId);
         },
         staleTime: 1000 * 60 * 5,
-        enabled: !!user?.id,
+        enabled: !!userId,
     });
 }
 
 export const useSaveUserBook = () => {
     const queryClient = useQueryClient();
-    const { profile: user } = useAuth();
+    const { profile, session } = useAuth();
+    const userId = profile?.id || session?.user?.id;
 
     return useMutation({
         mutationFn: async (userBookData: BookAndUserBookInsert) => {
-            if (!user?.id) return null;
-            const separatedUserBookInfo = separateBookData(userBookData, user.id);
-            return addBookToLibrary(separatedUserBookInfo, user.id);
+            if (!userId) return null;
+            const separatedUserBookInfo = separateBookData(userBookData, userId);
+            return addBookToLibrary(separatedUserBookInfo, userId);
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['books'] });
@@ -62,9 +64,8 @@ export const useSaveUserBook = () => {
 }
 
 export const useGetBooksByStatus = (status: BookStatusHistory['status']) => {
-    const { profile: user } = useAuth();
-    const userId = user?.id;
-
+    const { profile, session } = useAuth();
+    const userId = profile?.id || session?.user?.id;
     return useQuery({
         queryKey: ['bookStatusHistory', userId, status],
         queryFn: async () => {
@@ -77,8 +78,8 @@ export const useGetBooksByStatus = (status: BookStatusHistory['status']) => {
 };
 
 export const useGetReadingLogs = (bookId?: string) => {
-    const { profile: user } = useAuth();
-    const userId = user?.id;
+    const { profile, session } = useAuth();
+    const userId = profile?.id || session?.user?.id;
 
     return useQuery({
         queryKey: ['readingLogss', bookId, userId],
@@ -93,8 +94,8 @@ export const useGetReadingLogs = (bookId?: string) => {
 }
 
 export const useGetBookReadingProgress = (bookId: string) => {
-    const { profile: user } = useAuth();
-    const userId = user?.id;
+    const { profile, session } = useAuth();
+    const userId = profile?.id || session?.user?.id;
 
     return useQuery({
         queryKey: ['bookReadingProgress', bookId, userId],
@@ -108,8 +109,8 @@ export const useGetBookReadingProgress = (bookId: string) => {
 }
 
 export const useGetUserBookCurrentStateData = (bookId: string) => {
-    const { profile: user } = useAuth();
-    const userId = user?.id;
+    const { profile, session } = useAuth();
+    const userId = profile?.id || session?.user?.id;
 
     return useQuery({
         queryKey: ['userBookCurrentStateData', bookId, userId],

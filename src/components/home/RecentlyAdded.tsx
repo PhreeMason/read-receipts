@@ -1,24 +1,36 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import React from 'react'
 import tw from 'twrnc';
+import SectionHeader from '@/components/shared/SectionHeader';
+import { useGetBooksByStatus } from '@/hooks/useBooks';
+import { router } from 'expo-router';
+import BookList from '@/components/books/CurrentlyReading/BookList';
 
 const RecentlyAdded = () => {
+    const { data: tbrBooks, isLoading } = useGetBooksByStatus('tbr');
+    const { data: completedBooks } = useGetBooksByStatus('completed');
+    const { data: dnfBooks } = useGetBooksByStatus('dnf');
+    const { data: puasedBooks } = useGetBooksByStatus('pause');
+
+    const handleSeeAll = () => {
+        router.push('/(tabs)/library');
+    };
+    const books = [
+        ...(tbrBooks || []),
+        ...(completedBooks || []),
+        ...(dnfBooks || []),
+        ...(puasedBooks || []),
+    ].slice(0, 5);
 
     return (
-        <View style={tw`mt-8 pb-8`}>
-            <View style={tw`px-4 flex-row justify-between items-center`}>
-                <Text style={tw`text-lg font-semibold text-gray-900`}>Recently Added</Text>
-                <TouchableOpacity>
-                    <Text style={tw`text-blue-600`}>See All</Text>
-                </TouchableOpacity>
-            </View>
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={tw`mt-4 pl-4`}
-            >
-                    <Text>hi</Text>
-            </ScrollView>
+        <View style={tw`mb-6 px-4`}>
+            <SectionHeader title="Recently Added" onSeeAllPress={handleSeeAll} />
+            <BookList
+                books={books}
+                isLoading={isLoading}
+                onBookPress={handleSeeAll}
+                ignoreProgress
+            />
         </View>
     )
 }

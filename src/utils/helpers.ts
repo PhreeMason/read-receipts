@@ -5,10 +5,13 @@ import {
 
 
 export const formatAutorName = (author: string | { name: string }) => {
+    let name = '';
     if (typeof author === 'string') {
-        return author
+        name = author
+    } else if (typeof author === 'object' && author.name) {
+        name = author.name;
     }
-    return author.name
+    return name.replace(/\s+/g, ' ').trim();
 }
 
 /**
