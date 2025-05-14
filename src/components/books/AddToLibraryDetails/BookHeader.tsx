@@ -50,7 +50,6 @@ const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
     authors = authors ?? [];
 
     const toggleAuthorsExpanded = () => setAuthorsExpanded(!authorsExpanded);
-
     const displayedAuthors = authorsExpanded ? authors : authors.slice(0, 2);
     const shouldShowToggle = authors.length > 2;
 
