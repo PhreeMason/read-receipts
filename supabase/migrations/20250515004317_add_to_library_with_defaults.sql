@@ -93,7 +93,8 @@ BEGIN
     current_percentage,
     note,
     created_at,
-    date
+    date,
+    format
     )
     VALUES(
     reading_log_id,
@@ -117,7 +118,8 @@ BEGIN
     COALESCE((user_books_data ->> 'current_percentage')::INTEGER, 0),
     user_books_data ->> 'note',
     NOW(),
-    NOW()::DATE
+    NOW()::DATE,
+    ARRAY(SELECT jsonb_array_elements_text(user_books_data -> 'format'))::book_format_enum[]
     );
 
   END IF;
