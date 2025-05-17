@@ -13,8 +13,8 @@
                 "buildType": "apk"
             },
             "env": {
-                "EXPO_PUBLIC_SUPABASE_URL": "https://nevezioullmxffvdlgyq.supabase.co",
-                "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ldmV6aW91bGxteGZmdmRsZ3lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwNTY5MzksImV4cCI6MjA0NTYzMjkzOX0.hsNV3FCBdjdR7ykbykjrurMHRiiTaivxsu6ZhO8PpNQ"
+                "EXPO_PUBLIC_SUPABASE_URL": "https://plftwmxeltvzxtjwdsqo.supabase.co",
+                "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsZnR3bXhlbHR2enh0andkc3FvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc0OTc1NTIsImV4cCI6MjA2MzA3MzU1Mn0.YZRngUOKE1VkzFmHo74-bWpcx_dRaiZCfQNkf01s5Ns"
             }
         },
         "production": {}

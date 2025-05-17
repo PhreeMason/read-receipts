@@ -11,7 +11,7 @@ import ReadingLogs from '@/components/books/ReadingLogs';
 const Display = () => {
     const { api_id } = useLocalSearchParams();
     const { data: book } = useFetchBookData(api_id as string);
-    console.log({ book })
+    // console.log({ book })
 
     if (!book) {
         return <Text>No Book</Text>

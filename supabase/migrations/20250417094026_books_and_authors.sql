@@ -103,6 +103,7 @@ CREATE TABLE book_reading_logs (
   listening_speed NUMERIC,
   duration NUMERIC,
   start_page INTEGER,
+  current_percentage NUMERIC,
   end_page INTEGER,
   pages_read INTEGER,
   rating NUMERIC,

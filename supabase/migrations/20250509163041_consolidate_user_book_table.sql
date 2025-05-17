@@ -1,53 +1,3 @@
--- 1. Create initial reading logs from user_books data
-INSERT INTO book_reading_logs (
-    id,
-    book_id,
-    user_id,
-    audio_end_time,
-    current_percentage,
-    end_page,
-    note,
-    created_at,
-    date
-)
-SELECT 
-    generate_prefixed_id('brl_'),
-    book_id,
-    user_id,
-    current_audio_time,
-    current_percentage,
-    current_page,
-    note,
-    NOW(),
-    COALESCE(start_date, NOW())::DATE
-FROM user_books
-WHERE current_percentage IS NOT NULL 
-   OR current_page IS NOT NULL 
-   OR current_audio_time IS NOT NULL;
-
--- 2. Ensure book_status_history has completion dates
-INSERT INTO book_status_history (
-    id,
-    book_id,
-    user_id,
-    status,
-    created_at
-)
-SELECT 
-    generate_prefixed_id('bsh_'),
-    book_id,
-    user_id,
-    'completed'::book_status_enum,
-    completion_date
-FROM user_books
-WHERE completion_date IS NOT NULL
-AND NOT EXISTS (
-    SELECT 1 FROM book_status_history
-    WHERE book_id = user_books.book_id 
-    AND user_id = user_books.user_id
-    AND status = 'completed'
-);
-
 -- 3. Add indexes to improve query performance
 CREATE INDEX idx_book_reading_logs_user_book 
 ON book_reading_logs(user_id, book_id, created_at DESC);
@@ -59,7 +9,6 @@ ON book_status_history(user_id, book_id, created_at DESC);
 ALTER TABLE user_books
     DROP COLUMN current_audio_time,
     DROP COLUMN current_page,
-    DROP COLUMN current_percentage,
     DROP COLUMN completion_date,
     DROP COLUMN start_date,
     DROP COLUMN note;

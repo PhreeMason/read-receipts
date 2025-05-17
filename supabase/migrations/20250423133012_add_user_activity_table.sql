@@ -2,8 +2,9 @@ CREATE TABLE public.user_activity (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID NOT NULL REFERENCES public.profiles(id),
   table_name TEXT NOT NULL,
-  record_id UUID NOT NULL,
+  record_id TEXT NOT NULL,
   activity_type TEXT NOT NULL,
+  book_id TEXT NOT NULL REFERENCES public.books(id),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   metadata JSONB DEFAULT NULL
 );

@@ -14,10 +14,9 @@
         "lint": "expo lint",
         "lint:fix": "eslint . --fix",
         "supabase:start": "npx supabase start",
-        "supabase:tunnel": "scripts/supabase-tunnel.sh",
         "supabase:cli": "npx supabase",
         "supabase:functions:serve": "npx supabase functions serve",
-        "supabase:genTypes": "npx supabase gen types --lang=typescript --project-id \"nevezioullmxffvdlgyq\" --schema public > src/types/supabase.ts",
+        "supabase:genTypes": "npx supabase gen types --lang=typescript --project-id \"plftwmxeltvzxtjwdsqo\" --schema public > src/types/supabase.ts",
         "supabase:genTypes:local": "npx supabase gen types typescript --local > src/types/supabase.ts"
     },
     "jest": {
@@ -58,6 +57,7 @@
         "react-dom": "18.2.0",
         "react-hook-form": "^7.55.0",
         "react-native": "0.74.5",
+        "react-native-date-picker": "^5.0.12",
         "react-native-fs": "^2.20.0",
         "react-native-get-random-values": "^1.11.0",
         "react-native-paper": "^5.12.5",

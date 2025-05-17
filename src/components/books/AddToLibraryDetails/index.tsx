@@ -15,6 +15,8 @@ import AddToLibraryButton from './AddToLibraryButton';
 import AudioProgress from './AudioProgress';
 import { StatusEnum, BookInsert, BookAndUserBookInsert } from '@/types/book';
 import { useSyncAudioPercentage } from './hooks';
+import PagesProgress from './PagesProgress';
+
 
 type AddToLibraryDetailsProps = {
     book: BookInsert;
@@ -41,7 +43,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddToLibrary }) => {
-    const { control, setValue, handleSubmit, formState: { errors }, watch } = useForm<FormData>({
+    const { control, setValue, handleSubmit, formState, watch } = useForm<FormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             status: 'tbr',
@@ -52,9 +54,12 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
             minutes: 0,
             currentHours: 0,
             currentMinutes: 0,
-            currentPercentage: 0
+            currentPercentage: 0,
+            startDate: new Date(),
+            targetDate: new Date(),
         }
     });
+    const errors = formState.errors;
     useSyncAudioPercentage({ setValue, watch });
     const status = watch('status');
     const format = watch('format');
@@ -69,7 +74,7 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
             ...data,
             // @ts-ignore
             format: data.format,
-            start_date: status === 'current' && data.startDate ? data.startDate.toISOString() : null,
+            start_date: status === 'current' && data.startDate ? data.startDate.toISOString() : '',
             target_completion_date: status === 'current' && data.targetDate ? data.targetDate.toISOString() : null,
 
         });
@@ -124,13 +129,20 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
 
                     )}
 
-                    {status === 'current' && format.includes('audio') && (
+                    {status === 'current' && (format.includes('physical') || format.includes('ebook')) ?
+                        <PagesProgress
+                            control={control}
+                            errors={errors}
+                            setValue={setValue}
+                        /> : null}
+
+                    {status === 'current' && format.includes('audio') ? (
                         <AudioProgress
                             control={control}
                             errors={errors}
                         />
 
-                    )}
+                    ) : null}
 
 
                     {format.includes('audio') && (

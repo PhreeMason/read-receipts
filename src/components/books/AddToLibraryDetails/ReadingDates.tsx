@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Platform, TextInput } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Controller } from 'react-hook-form';
@@ -17,6 +17,10 @@ const ReadingDates: React.FC<ReadingDatesProps> = ({
     setValue,
     formatDate
 }) => {
+
+    const [showStartDate, setShowStartDate] = useState(false);
+    const [showTargetCompletionDate, setShowTargetCompletionDate] = useState(false);
+
     return (
         <View style={tw`gap-4 border-t border-gray-200 pt-4`}>
             <View style={tw`flex flex-row gap-2 justify-between`}>
@@ -29,20 +33,21 @@ const ReadingDates: React.FC<ReadingDatesProps> = ({
                             <>
                                 <TouchableOpacity
                                     style={tw`border border-gray-300 rounded-lg p-3`}
-                                    onPress={() => setValue('showStartDatePicker', true)}
+                                    onPress={() => setShowStartDate(true)}
                                 >
                                     <Text>{formatDate(value)}</Text>
                                 </TouchableOpacity>
 
-                                {control._formValues.showStartDatePicker && (
+                                {showStartDate && (
                                     <DateTimePicker
                                         value={value}
                                         mode="date"
                                         display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                                         onChange={(event, date) => {
+                                            console.log({ event, date });
                                             if (date) {
                                                 setValue('startDate', date);
-                                                setValue('showStartDatePicker', false);
+                                                setShowStartDate(false);
                                             }
                                         }}
                                     />
@@ -67,7 +72,7 @@ const ReadingDates: React.FC<ReadingDatesProps> = ({
                                     <Text>{formatDate(value)}</Text>
                                 </TouchableOpacity>
 
-                                {control._formValues.showTargetDatePicker && (
+                                {showTargetCompletionDate && (
                                     <DateTimePicker
                                         value={value}
                                         mode="date"
@@ -75,7 +80,7 @@ const ReadingDates: React.FC<ReadingDatesProps> = ({
                                         onChange={(event, date) => {
                                             if (date) {
                                                 setValue('targetDate', date);
-                                                setValue('showTargetDatePicker', false);
+                                                setShowTargetCompletionDate(false);
                                             }
                                         }}
                                     />
