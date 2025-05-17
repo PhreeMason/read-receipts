@@ -6,7 +6,4 @@ ALTER TABLE public.book_reading_logs
   ADD COLUMN reading_location text NULL;
 
 ALTER TABLE public.book_reading_logs 
-  ADD COLUMN current_percentage numeric NULL;
-
-ALTER TABLE public.book_reading_logs 
   RENAME COLUMN notes TO note;
