@@ -2,8 +2,8 @@ CREATE OR REPLACE FUNCTION store_book_with_authors(
     book_data JSONB
 ) RETURNS void AS $$
 DECLARE
-    inserted_book_id UUID;
-    author_id UUID;
+    inserted_book_id TEXT;
+    author_id TEXT;
     author_name TEXT;
 BEGIN
     -- Insert book data first

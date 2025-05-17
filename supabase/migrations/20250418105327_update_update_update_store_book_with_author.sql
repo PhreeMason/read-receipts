@@ -54,6 +54,7 @@ BEGIN
             -- Upsert author and get ID
             INSERT INTO authors (name, id)
             VALUES (author_name, generate_prefixed_id('auth'))
+            ON CONFLICT (name) DO NOTHING
             RETURNING id INTO inserted_author_id;
             
             -- If no ID was returned (author already existed), get the existing ID

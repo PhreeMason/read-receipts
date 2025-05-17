@@ -14,44 +14,75 @@ ALTER TABLE user_books
     DROP COLUMN note;
 
 -- 5. Create views for easier access to reading logs and status history
-CREATE OR REPLACE VIEW user_book_current_state AS
-SELECT 
-    b.title,
-    b.description,
-    ub.user_id,
-    ub.book_id,
-    ub.format,
-    ub.rating,
-    ub.target_completion_date,
-    ub.date_added,
-    COALESCE(ub.cover_image_url, b.cover_image_url) AS cover_image_url,
-    COALESCE(ub.total_pages, b.total_pages) AS total_pages,
-    COALESCE(ub.total_duration, b.total_duration) AS total_duration,
-    COALESCE(ub.genres, b.genres) AS genres,
-    latest_status.status AS current_status,
-    latest_status.created_at AS status_changed_at,
-    latest_log.current_percentage,
-    latest_log.audio_end_time AS current_audio_time,
-    latest_log.end_page AS current_page,
-    latest_log.note AS latest_note
-FROM 
-    user_books ub
-JOIN 
-    books b ON ub.book_id = b.id
-LEFT JOIN LATERAL (
-    SELECT status, created_at
-    FROM book_status_history
-    WHERE book_id = ub.book_id AND user_id = ub.user_id
-    ORDER BY created_at DESC
-    LIMIT 1
-) latest_status ON true
-LEFT JOIN LATERAL (
-    SELECT current_percentage, audio_end_time, end_page, note
-    FROM book_reading_logs
-    WHERE book_id = ub.book_id AND user_id = ub.user_id
-    ORDER BY created_at DESC
-    LIMIT 1
-) latest_log ON true;
+CREATE OR REPLACE FUNCTION get_user_book_current_state_fn(
+    p_user_id UUID,
+    p_book_id TEXT
+)
+RETURNS TABLE (
+    title TEXT,
+    description TEXT,
+    user_id UUID,
+    book_id TEXT,
+    format public.book_format_enum[],
+    rating INT,
+    target_completion_date TIMESTAMPTZ,
+    date_added TIMESTAMPTZ,
+    cover_image_url TEXT,
+    total_pages INT,
+    total_duration INT,
+    genres TEXT[],
+    current_status public.book_status_enum,
+    status_changed_at TIMESTAMPTZ,
+    current_percentage NUMERIC, -- Or REAL/FLOAT depending on precision needed
+    current_audio_time INT,
+    current_page INT,
+    latest_note TEXT
+)
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        b.title,
+        b.description,
+        ub.user_id,
+        ub.book_id,
+        ub.format,
+        ub.rating,
+        ub.target_completion_date,
+        ub.date_added,
+        COALESCE(ub.cover_image_url, b.cover_image_url) AS cover_image_url,
+        COALESCE(ub.total_pages, b.total_pages) AS total_pages,
+        COALESCE(ub.total_duration, b.total_duration) AS total_duration,
+        COALESCE(ub.genres, b.genres) AS genres,
+        latest_status.status AS current_status,
+        latest_status.created_at AS status_changed_at,
+        latest_log.current_percentage,
+        latest_log.audio_end_time AS current_audio_time,
+        latest_log.end_page AS current_page,
+        latest_log.note AS latest_note
+    FROM
+        user_books ub
+    JOIN
+        books b ON ub.book_id = b.id
+    LEFT JOIN LATERAL (
+        SELECT bsh.status, bsh.created_at
+        FROM book_status_history bsh
+        WHERE bsh.book_id = ub.book_id AND bsh.user_id = ub.user_id
+        ORDER BY bsh.created_at DESC
+        LIMIT 1
+    ) latest_status ON true
+    LEFT JOIN LATERAL (
+        SELECT brl.current_percentage, brl.audio_end_time, brl.end_page, brl.note
+        FROM book_reading_logs brl
+        WHERE brl.book_id = ub.book_id AND brl.user_id = ub.user_id
+        ORDER BY brl.created_at DESC
+        LIMIT 1
+    ) latest_log ON true
+    WHERE
+        ub.user_id = p_user_id AND ub.book_id = p_book_id::TEXT;
+END;
+$$ LANGUAGE plpgsql;
+
 
 -- 6. Update the add_book_to_library Function
 
