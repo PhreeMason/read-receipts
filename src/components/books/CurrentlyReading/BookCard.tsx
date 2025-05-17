@@ -20,12 +20,12 @@ const BookCard: React.FC<BookCardProps> = ({ book, onPress, ignoreProgress }) =>
     return (
         <TouchableOpacity
             key={book.id}
-            style={tw.style(`w-36 flex-shrink-0`, mediumShadow)}
+            style={tw.style(`w-36`, mediumShadow)}
             onPress={() => onPress(book.api_id)}
         >
-            <View style={tw`h-full flex flex-col rounded-lg shadow-sm bg-white`}>
+            <View style={tw`flex flex-col rounded-lg shadow-sm bg-white`}>
                 <View style={tw`relative`}>
-                    <View style={tw`w-full h-55 overflow-hidden rounded-t-lg`}>
+                    <View style={tw`h-55 overflow-hidden rounded-t-lg`}>
                         <Image
                             source={{ uri: book.cover_image_url || '' }}
                             style={tw`w-full h-full`}

@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, Platform } from 'react-native';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-date-picker'
 import Slider from '@react-native-community/slider';
 import { Controller } from 'react-hook-form';
 import tw from 'twrnc';
@@ -75,13 +75,6 @@ type DateSelectorProps = {
 export const DateSelector: React.FC<DateSelectorProps> = ({ date, onChange, error }) => {
     const [showPicker, setShowPicker] = useState(false);
 
-    const onDateChange = (_: DateTimePickerEvent, selectedDate: Date | undefined) => {
-        setShowPicker(Platform.OS === 'ios');
-        if (selectedDate) {
-            onChange(selectedDate);
-        }
-    };
-
     return (
         <View style={tw`mb-4`}>
             <TouchableOpacity
@@ -92,11 +85,10 @@ export const DateSelector: React.FC<DateSelectorProps> = ({ date, onChange, erro
             </TouchableOpacity>
 
             {showPicker && (
-                <DateTimePicker
-                    value={date}
+                <DatePicker
+                    date={date}
                     mode="date"
-                    display="default"
-                    onChange={onDateChange}
+                    onDateChange={onChange}
                     maximumDate={new Date()}
                 />
             )}

@@ -67,7 +67,7 @@ const ReadingDates: React.FC<ReadingDatesProps> = ({
                             <>
                                 <TouchableOpacity
                                     style={tw`border border-gray-300 rounded-lg p-3`}
-                                    onPress={() => setValue('showTargetDatePicker', true)}
+                                    onPress={() => setShowTargetCompletionDate(true)}
                                 >
                                     <Text>{formatDate(value)}</Text>
                                 </TouchableOpacity>

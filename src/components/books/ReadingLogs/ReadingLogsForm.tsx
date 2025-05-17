@@ -147,9 +147,7 @@ const ReadingLogsForm = () => {
     }, [lastReadingLog, isLoading, reset]);
 
     const onSubmit = (data: FormData) => {
-        console.log('Form Data:', data);
         const transformedData = transformLogFormData(data);
-        console.log('Transformed Data:', transformedData);
         // Handle form submission - e.g., save to database, display success message
         // You could add API calls here
     };

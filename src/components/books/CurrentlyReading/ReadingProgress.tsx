@@ -10,10 +10,6 @@ type ReadingProgressProps = {
     mostRecentStatus?: BookStatusHistory;
 }
 
-function isAllNumbers(items: any[]) {
-    return items.every(item => item !== null && !isNaN(item))
-}
-
 const ReadingProgress: React.FC<ReadingProgressProps> = ({ readingLog, mostRecentStatus }) => {
     let { current_percentage, created_at, updated_at } = readingLog || {};
     const isComplete = mostRecentStatus && mostRecentStatus.status === 'completed';
@@ -21,7 +17,7 @@ const ReadingProgress: React.FC<ReadingProgressProps> = ({ readingLog, mostRecen
 
     const { created_at: statusCreatedAt } = mostRecentStatus || {};
 
-    current_percentage = isComplete ? 100 : current_percentage;
+    current_percentage = isComplete ? 100 : current_percentage ?? 0;
     const completetionDate = isComplete ? statusCreatedAt : null;
     const dateOfLog = completetionDate || updated_at || created_at;
 
