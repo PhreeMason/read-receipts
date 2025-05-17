@@ -24,17 +24,17 @@ RETURNS TABLE (
     user_id UUID,
     book_id TEXT,
     format public.book_format_enum[],
-    rating INT,
+    rating NUMERIC,
     target_completion_date TIMESTAMPTZ,
     date_added TIMESTAMPTZ,
     cover_image_url TEXT,
     total_pages INT,
-    total_duration INT,
+    total_duration NUMERIC,
     genres TEXT[],
     current_status public.book_status_enum,
     status_changed_at TIMESTAMPTZ,
-    current_percentage NUMERIC, -- Or REAL/FLOAT depending on precision needed
-    current_audio_time INT,
+    current_percentage NUMERIC,
+    current_audio_time NUMERIC,
     current_page INT,
     latest_note TEXT
 )
