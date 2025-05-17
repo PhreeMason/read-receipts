@@ -52,23 +52,29 @@ export const separateBookData = (data: BookAndUserBookInsert, userId: string): A
         book_id: data.id
     };
 
-    // Extract user books data
+    // Extract user books data (aligned with current schema)
     const userBooksData = {
         book_id: data.id,
         user_id: userId,
-        completion_date: null,
         cover_image_url: data.cover_image_url,
+        date_added: new Date().toISOString(),
+        format: Array.isArray(data.format) ? data.format : [data.format],
+        genres: data.genres,
+        rating: data.rating,
+        target_completion_date: data.target_completion_date,
+        total_duration: data.format?.includes('audio')
+            ? data.hours * 3600 + data.minutes * 60
+            : null,
+        total_pages: data.format?.includes('physical') || data.format?.includes('ebook')
+            ? null
+            : data.total_pages,
+
+        // Reading log fields (passed through to function)
         current_audio_time: data.currentHours * 3600 + data.currentMinutes * 60,
         current_page: data.currentPage,
-        format: data.format,
-        genres: data.genres,
-        note: data.note,
-        rating: data.rating,
-        start_date: data.start_date,
-        target_completion_date: data.target_completion_date,
-        total_duration: data.hours * 3600 + data.minutes * 60,
-        total_pages: data.total_pages,
         current_percentage: data.currentPercentage,
+        note: data.note,
+        start_date: data.start_date
     };
 
     return {
@@ -76,4 +82,5 @@ export const separateBookData = (data: BookAndUserBookInsert, userId: string): A
         bookStatusHistory: bookStatusHistoryData,
         userBooks: userBooksData
     };
-}
+};
+

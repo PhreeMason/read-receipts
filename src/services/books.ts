@@ -10,6 +10,10 @@ import {
     ReadingProgress
 } from '@/types/book';
 import supabase from '@/lib/supabase';
+import {
+    Database
+} from '@/types/supabase'
+type RPCFunctions = Database['public']['Functions'];
 
 export const getUserBookStatus = async (bookId: string, userId: string): Promise<UserBook> => {
     const { data, error } = await supabase
@@ -72,10 +76,13 @@ export const addBookToLibrary = async (addToLibraryDetails: AddToLibraryData, us
         book,
         bookStatusHistory,
         userBooks
-    } = addToLibraryDetails
+    } = addToLibraryDetails;
 
     const { data, error } = await supabase
-        .rpc('add_book_to_library', {
+        .rpc<
+            RPCFunctions['add_book_to_library']['Returns'],
+            RPCFunctions['add_book_to_library']['Args']
+        >('add_book_to_library', {
             book_data: book,
             book_status_history_data: bookStatusHistory,
             user_books_data: userBooks,
@@ -130,13 +137,12 @@ export const getReadingLogs = async (bookID: string, userId: string): Promise<an
     return ({ userBookData, readingLogsData });
 }
 
-export const getUserBookCurrentStateData = async (userId: string, bookId: string): Promise<UserBookCurrentState | null> => {
+export const getUserBookCurrentStateData = async ({ userId, bookId }: { userId: string, bookId: string }): Promise<UserBookCurrentState | null> => {
     const { data, error } = await supabase
-        .from('user_book_current_state') // This is the name of your SQL view
-        .select('*')
-        .eq('user_id', userId)
-        .eq('book_id', bookId)
-        .single(); // Expects a single row or zero rows
+        .rpc('get_user_book_current_state_fn', {
+            p_user_id: userId,
+            p_book_id: bookId,
+        });
 
     if (error) {
         // 'PGRST116' is the code for "Query returned 0 rows" when .single() is used.

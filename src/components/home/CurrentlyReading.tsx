@@ -22,7 +22,7 @@ const CurrentlyReading = () => {
         <View style={tw`mb-6 px-4`}>
             <SectionHeader title="Currently Reading" onSeeAllPress={handleSeeAll} />
             <BookList
-                books={readingBooks || []}
+                books={(readingBooks || [])}
                 isLoading={isLoading}
                 onBookPress={handleBookPress}
             />

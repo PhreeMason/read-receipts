@@ -108,7 +108,7 @@ export const useGetBookReadingProgress = (bookId: string) => {
     });
 }
 
-export const useGetUserBookCurrentStateData = (bookId: string) => {
+export const useGetUserBookCurrentStateData = (bookId: string | null) => {
     const { profile, session } = useAuth();
     const userId = profile?.id || session?.user?.id;
 
@@ -116,7 +116,8 @@ export const useGetUserBookCurrentStateData = (bookId: string) => {
         queryKey: ['userBookCurrentStateData', bookId, userId],
         queryFn: async () => {
             if (!userId) return null;
-            return getUserBookCurrentStateData(bookId, userId);
+            if (!bookId) return null;
+            return getUserBookCurrentStateData({ bookId, userId });
         },
         // staleTime: 1000 * 60 * 5,
         enabled: !!userId,
