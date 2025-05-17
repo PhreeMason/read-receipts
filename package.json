@@ -16,7 +16,7 @@
         "supabase:start": "npx supabase start",
         "supabase:cli": "npx supabase",
         "supabase:functions:serve": "npx supabase functions serve",
-        "supabase:genTypes": "npx supabase gen types --lang=typescript --project-id \"plftwmxeltvzxtjwdsqo\" --schema public > src/types/supabase.ts",
+        "supabase:genTypes": "npx supabase gen types --lang=typescript --project-id \"azghfvgabktnvdfjtxhl\" --schema public > src/types/supabase.ts",
         "supabase:genTypes:local": "npx supabase gen types typescript --local > src/types/supabase.ts"
     },
     "jest": {
