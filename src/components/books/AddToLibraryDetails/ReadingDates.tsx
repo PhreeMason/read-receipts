@@ -25,7 +25,7 @@ const ReadingDates: React.FC<ReadingDatesProps> = ({
         <View style={tw`gap-4 border-t border-gray-200 pt-4`}>
             <View style={tw`flex flex-row gap-2 justify-between`}>
                 <View style={tw`w-50%`}>
-                    <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Start Date</Text>
+                    <Text style={tw`text-sm font-semibold text-gray-700 mb-1`}>Start Date</Text>
                     <Controller
                         control={control}
                         name="startDate"
@@ -59,7 +59,7 @@ const ReadingDates: React.FC<ReadingDatesProps> = ({
                 </View>
 
                 <View style={tw`w-50%`}>
-                    <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Target Completion Date</Text>
+                    <Text style={tw`text-sm font-semibold text-gray-700 mb-1`}>Target Completion Date</Text>
                     <Controller
                         control={control}
                         name="targetDate"

@@ -111,7 +111,7 @@ export default function ProfileScreen() {
                     {isEditing ? (
                         <View style={tw`w-full gap-4`}>
                             <View style={tw`gap-2`}>
-                                <Text style={tw`text-sm font-medium text-gray-700`}>
+                                <Text style={tw`text-sm font-semibold text-gray-700`}>
                                     Username
                                 </Text>
                                 <TextInput

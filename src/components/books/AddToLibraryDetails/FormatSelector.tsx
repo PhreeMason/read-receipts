@@ -22,7 +22,7 @@ const FormatSelector: React.FC<FormatSelectorProps> = ({ formats, setFormats }) 
     };
     return (
         <View>
-            <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Format *</Text>
+            <Text style={tw`text-sm font-semibold text-gray-700 mb-1`}>Format *</Text>
             <View style={tw`flex flex-row gap-4 mt-1`}>
                 <TouchableOpacity
                     style={tw`${formats.includes('physical') ? 'bg-gray-200 border-gray-400' : 'bg-white border-gray-300'} border rounded-lg py-3 px-2 flex-grow`}
@@ -30,7 +30,7 @@ const FormatSelector: React.FC<FormatSelectorProps> = ({ formats, setFormats }) 
                 >
                     <View style={tw`flex-col items-center`}>
                         <Ionicons name="book-outline" size={16} color="#8C6A5B" style={tw`mb-1`} />
-                        <Text style={tw`text-sm font-medium text-center`}>Physical</Text>
+                        <Text style={tw`text-sm font-semibold text-center`}>Physical</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -40,7 +40,7 @@ const FormatSelector: React.FC<FormatSelectorProps> = ({ formats, setFormats }) 
                 >
                     <View style={tw`flex-col items-center`}>
                         <Ionicons name="tablet-portrait-outline" size={16} color="#8C6A5B" style={tw`mb-1`} />
-                        <Text style={tw`text-sm font-medium text-center`}>E-Book</Text>
+                        <Text style={tw`text-sm font-semibold text-center`}>E-Book</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -50,7 +50,7 @@ const FormatSelector: React.FC<FormatSelectorProps> = ({ formats, setFormats }) 
                 >
                     <View style={tw`flex-col items-center`}>
                         <Ionicons name="headset-outline" size={16} color="#8C6A5B" style={tw`mb-1`} />
-                        <Text style={tw`text-sm font-medium text-center`}>Audio</Text>
+                        <Text style={tw`text-sm font-semibold text-center`}>Audio</Text>
                     </View>
                 </TouchableOpacity>
             </View>

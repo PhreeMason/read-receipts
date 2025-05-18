@@ -38,7 +38,7 @@ export const ScanBarcodeButton: React.FC = () => {
                     <Line x1="12" y1="8" x2="12" y2="16" />
                     <Line x1="16" y1="10" x2="16" y2="16" />
                 </Svg>
-                <Text style={tw`font-medium text-gray-900`}>Scan Barcode</Text>
+                <Text style={tw`font-semibold text-gray-900`}>Scan Barcode</Text>
             </TouchableOpacity>
         </Link>
 

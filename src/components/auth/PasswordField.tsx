@@ -22,7 +22,7 @@ export default function PasswordField({
 
     return (
         <View style={tw`gap-2`}>
-            <Text style={tw`text-sm font-medium text-gray-700`}>{label}</Text>
+            <Text style={tw`text-sm font-semibold text-gray-700`}>{label}</Text>
             <View style={tw`relative`}>
                 <TextInput
                     style={tw`p-4 border rounded-lg bg-white pr-12 ${error ? 'border-red-500' : 'border-gray-300'

@@ -16,7 +16,7 @@ const PagesProgress: React.FC<PagesProgressProps> = ({
 }) => {
     return (
         <View>
-            <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Current Progress</Text>
+            <Text style={tw`text-sm font-semibold text-gray-700 mb-1`}>Current Progress</Text>
             <View style={tw`flex-row items-center`}>
                 <Controller
                     control={control}
@@ -45,7 +45,7 @@ const PagesProgress: React.FC<PagesProgressProps> = ({
                     )}
                 />
 
-                <Text style={tw`text-sm font-medium`}> pages</Text>
+                <Text style={tw`text-sm font-semibold`}> pages</Text>
             </View>
             {errors.currentPage && <Text style={tw`text-red-500 text-xs mt-1`}>{errors.currentPage.message}</Text>}
             {errors.totalPage && <Text style={tw`text-red-500 text-xs mt-1`}>{errors.totalPage.message}</Text>}

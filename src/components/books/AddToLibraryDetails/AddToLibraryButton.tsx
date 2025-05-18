@@ -12,7 +12,7 @@ const AddToLibraryButton: React.FC<AddToLibraryButtonProps> = ({ onPress }) => {
             style={tw`bg-gray-800 rounded-lg py-3 px-4 mt-6`}
             onPress={onPress}
         >
-            <Text style={tw`text-white text-center font-medium`}>Add to Library</Text>
+            <Text style={tw`text-white text-center font-semibold`}>Add to Library</Text>
         </TouchableOpacity>
     );
 };

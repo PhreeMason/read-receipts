@@ -109,32 +109,15 @@ export const getBooksByStatus =
     }
 
 export const getReadingLogs = async (bookID: string, userId: string): Promise<any> => {
-    const userBook = supabase
-        .from('user_books')
-        .select('*')
-        .eq('book_id', bookID)
-        .eq('user_id', userId)
-        .single();
-
-    const readingLogs = supabase
+    const { data } = await supabase
         .from('book_reading_logs')
         .select('*')
         .eq('book_id', bookID)
         .eq('user_id', userId)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .throwOnError();
 
-    const primises = await Promise.allSettled([userBook, readingLogs])
-
-    const userBookData = primises[0].status === 'fulfilled' ? primises[0].value.data : null;
-    const readingLogsData = primises[1].status === 'fulfilled' ? primises[1].value.data : null;
-    if (!userBookData) {
-        throw new Error('User book data not found');
-    }
-    if (!readingLogsData) {
-        throw new Error('Reading logs data not found');
-    }
-
-    return ({ userBookData, readingLogsData });
+    return data;
 }
 
 export const getUserBookCurrentStateData = async ({ userId, bookId }: { userId: string, bookId: string }): Promise<UserBookCurrentState | null> => {
@@ -154,7 +137,7 @@ export const getUserBookCurrentStateData = async ({ userId, bookId }: { userId: 
         console.error('Error fetching user book current state:', error);
         throw error;
     }
-    return data;
+    return data.length > 0 ? data[0] : null;
 };
 
 

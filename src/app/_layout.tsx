@@ -13,6 +13,8 @@ import Toast from 'react-native-toast-message';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
+import { DevToolsBubble } from "react-native-react-query-devtools";
+import * as Clipboard from "expo-clipboard";
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
@@ -25,6 +27,16 @@ export default function RootLayout() {
     const [loaded] = useFonts({
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     });
+
+    // Define your copy function based on your platform
+    const onCopy = async (text: string) => {
+        try {
+            await Clipboard.setStringAsync(text);
+            return true;
+        } catch {
+            return false;
+        }
+    };
 
     useEffect(() => {
         if (loaded) {
@@ -44,6 +56,7 @@ export default function RootLayout() {
                     <Stack.Screen name="(auth)" options={{ headerShown: false }} />
                     <Stack.Screen name="+not-found" />
                 </Stack>
+                <DevToolsBubble onCopy={onCopy} />
             </QueryClientProvider>
             <Toast />
         </AuthProvider>

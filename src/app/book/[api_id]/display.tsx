@@ -1,21 +1,32 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import tw from 'twrnc';
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { useFetchBookData } from '@/hooks/useBooks';
+import { useFetchBookData, useGetUserBookCurrentStateData } from '@/hooks/useBooks';
 import BookHeader from '@/components/books/AddToLibraryDetails/BookHeader';
 import BookDescription from '@/components/books/AddToLibraryDetails/BookDescription';
 import ReadingLogs from '@/components/books/ReadingLogs';
+import FormatDisplay from '@/components/books/shared/FormatDisplay';
+
 
 const Display = () => {
+    const [bookId, setBookId] = useState('');
+
     const { api_id } = useLocalSearchParams();
     const { data: book } = useFetchBookData(api_id as string);
-    // console.log({ book })
+    const { data: userBook } = useGetUserBookCurrentStateData(bookId);
+
+    useEffect(() => {
+        if (book && book.id) {
+            setBookId(book.id);
+        }
+    }, [book]);
 
     if (!book) {
         return <Text>No Book</Text>
     }
+    // console.log({ book, userBook })
     return (
         <SafeAreaView style={tw`flex-1 bg-white p-6`}>
             {/* Header Section */}
@@ -26,19 +37,9 @@ const Display = () => {
             <BookHeader book={book} />
 
             {/* Format Selection */}
-            <View style={tw`mb-8`}>
-                <View style={tw`flex-row gap-3`}>
-                    <TouchableOpacity style={tw`flex-1 py-2 bg-gray-800 text-white text-xs rounded-lg`}>
-                        <Text style={tw`text-center text-white`}>Physical</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={tw`flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg`}>
-                        <Text style={tw`text-center text-black`}>E-book</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={tw`flex-1 py-2 bg-white border border-gray-300 text-black text-xs rounded-lg`}>
-                        <Text style={tw`text-center text-black`}>Audiobook</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            <FormatDisplay userBook={userBook} />
+
+            {/* Book Details */}
 
             <BookDescription book={book} />
 
@@ -55,7 +56,7 @@ const Display = () => {
                 </View>
                 <View style={tw`bg-white rounded-xl p-4 border border-gray-100 shadow-sm mb-3`}>
                     <View style={tw`flex justify-between items-start mb-2`}>
-                        <Text style={tw`text-xs font-medium text-black`}>Quote on p.87</Text>
+                        <Text style={tw`text-xs font-semibold text-black`}>Quote on p.87</Text>
                         <Text style={tw`text-xs text-black`}>3 days ago</Text>
                     </View>
                     <Text style={tw`text-xs text-black italic mb-2`}>
@@ -68,7 +69,7 @@ const Display = () => {
                 </View>
                 <View style={tw`bg-white rounded-xl p-4 border border-gray-100 shadow-sm`}>
                     <View style={tw`flex justify-between items-start mb-2`}>
-                        <Text style={tw`text-xs font-medium text-black`}>Note on Chapter 5</Text>
+                        <Text style={tw`text-xs font-semibold text-black`}>Note on Chapter 5</Text>
                         <Text style={tw`text-xs text-black`}>1 week ago</Text>
                     </View>
                     <Text style={tw`text-xs text-black mb-2`}>
@@ -88,25 +89,25 @@ const Display = () => {
                     <View style={tw`bg-white rounded-xl p-3 border border-gray-100 shadow-sm`}>
                         <View style={tw`flex-row items-center gap-2 mb-1`}>
                             {/* You'll need to import an icon library or create SVG components */}
-                            <Text style={tw`text-xs font-medium text-black`}>Avg. Pages/Day</Text>
+                            <Text style={tw`text-xs font-semibold text-black`}>Avg. Pages/Day</Text>
                         </View>
                         <Text style={tw`text-lg font-bold text-black`}>18</Text>
                     </View>
                     <View style={tw`bg-white rounded-xl p-3 border border-gray-100 shadow-sm`}>
                         <View style={tw`flex-row items-center gap-2 mb-1`}>
-                            <Text style={tw`text-xs font-medium text-black`}>Total Time</Text>
+                            <Text style={tw`text-xs font-semibold text-black`}>Total Time</Text>
                         </View>
                         <Text style={tw`text-lg font-bold text-black`}>7.5 hrs</Text>
                     </View>
                     <View style={tw`bg-white rounded-xl p-3 border border-gray-100 shadow-sm`}>
                         <View style={tw`flex-row items-center gap-2 mb-1`}>
-                            <Text style={tw`text-xs font-medium text-black`}>Reading Streak</Text>
+                            <Text style={tw`text-xs font-semibold text-black`}>Reading Streak</Text>
                         </View>
                         <Text style={tw`text-lg font-bold text-black`}>5 days</Text>
                     </View>
                     <View style={tw`bg-white rounded-xl p-3 border border-gray-100 shadow-sm`}>
                         <View style={tw`flex-row items-center gap-2 mb-1`}>
-                            <Text style={tw`text-xs font-medium text-black`}>Est. Completion</Text>
+                            <Text style={tw`text-xs font-semibold text-black`}>Est. Completion</Text>
                         </View>
                         <Text style={tw`text-lg font-bold text-black`}>6 days</Text>
                     </View>

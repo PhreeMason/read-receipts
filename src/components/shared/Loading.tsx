@@ -31,7 +31,7 @@ export function Loading({
                 color={'#4B5563'} // gray-400 for dark, gray-600 for light
             />
             {message && (
-                <Text style={tw`${textColor} text-sm font-medium text-center px-4`}>
+                <Text style={tw`${textColor} text-sm font-semibold text-center px-4`}>
                     {message}
                 </Text>
             )}

@@ -34,7 +34,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onPress, ignoreProgress }) =>
                     </View>
                 </View>
                 <View style={tw`p-3 flex-1 flex flex-col`}>
-                    <Text style={tw`font-medium text-black mb-1`} numberOfLines={1}>{book.title}</Text>
+                    <Text style={tw`font-semibold text-black mb-1`} numberOfLines={1}>{book.title}</Text>
                     <Text style={tw`text-xs text-gray-600 mb-1`}>{book.authors.map(formatAutorName)}</Text>
 
                     <ReadingProgress readingLog={mostRecentLog} mostRecentStatus={mostRecentStatus} />

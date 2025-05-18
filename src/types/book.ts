@@ -83,7 +83,7 @@ export type BookStatusResponse = Book & {
 export interface UserBookCurrentState {
     user_id: string;
     book_id: string;
-    format: BookFormat;
+    format: BookFormat[];
     genres: string[] | null;
     rating: number | null; // User's overall rating for the book
     target_completion_date: string | null;

@@ -156,7 +156,7 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
                             name="currentPercentage"
                             render={({ field: { onChange, value } }) => (
                                 <View style={tw`gap-4 mt-4`}>
-                                    <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Current Ebook Progress (%)</Text>
+                                    <Text style={tw`text-sm font-semibold text-gray-700 mb-1`}>Current Ebook Progress (%)</Text>
                                     <TextInput
                                         style={tw`border border-gray-300 rounded-lg p-2 w-50px`}
                                         placeholder="0"

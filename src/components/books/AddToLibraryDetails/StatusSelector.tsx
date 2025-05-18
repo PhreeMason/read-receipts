@@ -10,7 +10,7 @@ const StatusSelector = ({ status, setStatus }: {
 }) => {
     return (
         <View>
-            <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Status *</Text>
+            <Text style={tw`text-sm font-semibold text-gray-700 mb-1`}>Status *</Text>
             <View style={tw`border border-gray-300 rounded-lg`}>
                 <Picker
                     selectedValue={status}

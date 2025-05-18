@@ -11,7 +11,7 @@ type AudioDurationProps = {
 const AudioDuration: React.FC<AudioDurationProps> = ({ control, errors }) => {
     return (
         <View style={tw`gap-4 mt-4`}>
-            <Text style={tw`text-sm font-medium text-gray-700 mb-1`}>Audiobook Total Time</Text>
+            <Text style={tw`text-sm font-semibold text-gray-700 mb-1`}>Audiobook Total Time</Text>
             <View style={tw`flex flex-row gap-4`}>
                 <View>
                     <Text style={tw`text-xs text-gray-500 mb-1`}>Hours</Text>

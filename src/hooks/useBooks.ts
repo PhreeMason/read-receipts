@@ -82,7 +82,7 @@ export const useGetReadingLogs = (bookId?: string) => {
     const userId = profile?.id || session?.user?.id;
 
     return useQuery({
-        queryKey: ['readingLogss', bookId, userId],
+        queryKey: ['readingLogs', bookId, userId],
         queryFn: async () => {
             if (bookId === 'last') return ({})
             if (!bookId || !userId) return null;
