@@ -8,16 +8,9 @@ import { BookFormat, BookReadingLog } from '@/types/book';
 import { AntDesign } from '@expo/vector-icons';
 import { Loading } from '@/components/shared/Loading';
 
-type ReadingLogProps = {
-    bookID?: string;
-    hideSeeAll?: boolean;
-    hideTitle?: boolean;
-    apiId: string;
-}
-
 // Format badge component to display reading format(s)
 const FormatBadge = ({ format }: {
-    format: string;
+    format: 'physical' | 'ebook' | 'audio';
 }) => {
     const [isPressed, setIsPressed] = useState(false);
 
@@ -41,7 +34,7 @@ const FormatBadge = ({ format }: {
     );
 };
 
-const renderEmotionalStates = (log) => {
+const renderEmotionalStates = (log: BookReadingLog) => {
     if (!log.emotional_state || log.emotional_state.length === 0) {
         return null;
     }
@@ -63,7 +56,7 @@ const renderEmotionalStates = (log) => {
     );
 };
 
-const renderNotes = (log) => {
+const renderNotes = (log: BookReadingLog) => {
     if (!log.note) {
         return null;
     }
@@ -239,7 +232,7 @@ const ReadingLogsDisplay = ({ bookReadingLogs, onEditLog }: { bookReadingLogs: B
 };
 
 // Component to show statistics summary for reading logs
-const ReadingStatsSummary = ({ logs }) => {
+const ReadingStatsSummary = ({ logs }: { logs: BookReadingLog[] }) => {
     // Calculate stats from logs
     const calculateStats = () => {
         if (!logs || logs.length === 0) {
@@ -278,8 +271,13 @@ const ReadingStatsSummary = ({ logs }) => {
     );
 };
 
-// Component for filter chips in a horizontal scrollable list
-const FilterChip = ({ label, selected, onPress }) => {
+type FilterChipProps = {
+    label: string;
+    selected: boolean;
+    onPress: () => void;
+};
+
+const FilterChip: React.FC<FilterChipProps> = ({ label, selected, onPress }) => {
     return (
         <TouchableOpacity
             style={tw`${selected
@@ -299,19 +297,24 @@ const FilterChip = ({ label, selected, onPress }) => {
     );
 };
 
-// Component for a floating action button
-const FloatingActionButton = ({ icon, onPress, style }) => {
+type FloatingActionButtonProps = {
+    icon: string;
+    onPress: () => void;
+    style?: string;
+};
+
+const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ icon, onPress, style }) => {
     return (
         <TouchableOpacity
-            style={[
-                tw`absolute bottom-6 right-6 w-14 h-14 rounded-full shadow-lg 
+            style={tw.style(
+                `absolute bottom-6 right-6 w-14 h-14 rounded-full shadow-lg 
            justify-center items-center bg-amber-600`,
                 style
-            ]}
+            )}
             onPress={onPress}
             activeOpacity={0.8}
         >
-            {/* If using Expo Vector Icons */}
+            {/* @ts-ignore ype 'string' is not assignable to type '"profile" | "key" | ... */}
             <AntDesign name={icon} size={24} color="white" />
 
             {/* Simple plus icon if not using an icon library */}
@@ -322,16 +325,23 @@ const FloatingActionButton = ({ icon, onPress, style }) => {
 };
 
 
-const ReadingLogs = ({ bookID, hideSeeAll, apiId, hideTitle }) => {
+type ReadingLogProps = {
+    bookID?: string;
+    hideSeeAll?: boolean;
+    hideTitle?: boolean;
+    apiId: string;
+}
+
+const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID, hideSeeAll, apiId, hideTitle }) => {
     const { data: readingLogs, isLoading } = useGetReadingLogs(bookID);
-    const [filterFormat, setFilterFormat] = useState(null);
+    const [filterFormat, setFilterFormat] = useState<string | null>(null);
 
     const handleAddNewLog = () => {
         // Navigate to the log form screen
         console.log('Navigate to log form');
     };
 
-    const handleEditLog = (log) => {
+    const handleEditLog = (log: BookReadingLog) => {
         // Navigate to the edit log screen
         console.log('Navigate to edit log', log);
     };
@@ -352,7 +362,6 @@ const ReadingLogs = ({ bookID, hideSeeAll, apiId, hideTitle }) => {
     return (
         <View style={tw`flex-1 bg-gray-50`}>
             {/* Optional book header if not hidden */}
-            {!hideTitle && <BookHeader apiId={apiId} />}
 
             {/* Reading stats summary */}
             <ReadingStatsSummary logs={readingLogs} />
@@ -373,7 +382,8 @@ const ReadingLogs = ({ bookID, hideSeeAll, apiId, hideTitle }) => {
 
             {/* Reading logs list with improved styling */}
             <ReadingLogsDisplay
-                bookReadingLogs={readingLogs.filter(log =>
+                bookReadingLogs={readingLogs.filter((log: BookReadingLog) =>
+                    // @ts-ignore Argument of type 'string' is not assignable to parameter of type '"physical" | "ebook" | "audio"'.ts(2345)
                     !filterFormat || (log.format && log.format.includes(filterFormat))
                 )}
                 onEditLog={handleEditLog}
@@ -383,7 +393,7 @@ const ReadingLogs = ({ bookID, hideSeeAll, apiId, hideTitle }) => {
             <FloatingActionButton
                 icon="plus"
                 onPress={handleAddNewLog}
-                style={tw`bg-amber-600`}
+                style={`bg-amber-600`}
             />
         </View>
     );
