@@ -1,13 +1,19 @@
-import { View, Text } from 'react-native'
-import { Stack, Link, router } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import ReadingLogsForm from '@/components/books/ReadingLogs/ReadingLogsForm'
 import React from 'react'
 import BookHeader from '@/components/books/AddToLibraryDetails/BookHeader';
+import { useFetchBookData } from '@/hooks/useBooks';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import tw from 'twrnc';
 
 const LogForm = () => {
-    const isPresented = router.canGoBack();
+
+    const { api_id } = useLocalSearchParams();
+    const apiId = api_id as string;
+    const { data: book } = useFetchBookData(api_id as string);
     return (
-        <View>
+        <SafeAreaView style={tw`flex-1 bg-white p-6`}>
+
             <Stack.Screen
                 options={{
                     title: 'Add Reading Session',
@@ -15,10 +21,9 @@ const LogForm = () => {
                     animation: 'slide_from_bottom',
                 }}
             />
-            {isPresented && <Link href="../">Dismiss modal</Link>}
-            {/* <BookHeader /> */}
+            {book ? <BookHeader book={book} /> : null}
             <ReadingLogsForm />
-        </View>
+        </SafeAreaView>
     )
 }
 

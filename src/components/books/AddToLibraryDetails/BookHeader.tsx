@@ -40,6 +40,8 @@ type BookHeaderProps = {
     book?: BookInsert;
 }
 
+// TODO: make all items in book header clickable
+
 const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
     if (!book) return null;
     const [authorsExpanded, setAuthorsExpanded] = useState(false);
