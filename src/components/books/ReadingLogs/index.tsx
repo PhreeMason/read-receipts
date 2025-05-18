@@ -409,7 +409,7 @@ const ReadingLogs = ({ bookID, hideSeeAll, apiId, hideTitle }) => {
             {!hideTitle && <BookHeader apiId={apiId} />}
 
             {/* Reading stats summary */}
-            <ReadingStatsSummary logs={readingLogs} />
+            <ReadingStatsSummary logs={samplelogs} />
 
             {/* Filter options */}
             <View
@@ -427,7 +427,7 @@ const ReadingLogs = ({ bookID, hideSeeAll, apiId, hideTitle }) => {
 
             {/* Reading logs list with improved styling */}
             <ReadingLogsDisplay
-                bookReadingLogs={readingLogs.filter(log =>
+                bookReadingLogs={samplelogs.filter(log =>
                     !filterFormat || (log.format && log.format.includes(filterFormat))
                 )}
                 onEditLog={handleEditLog}

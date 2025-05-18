@@ -2,7 +2,6 @@ import { View, Text } from 'react-native'
 import { Stack, Link, router } from 'expo-router';
 import ReadingLogsForm from '@/components/books/ReadingLogs/ReadingLogsForm'
 import React from 'react'
-import { Book } from 'lucide-react-native';
 import BookHeader from '@/components/books/AddToLibraryDetails/BookHeader';
 
 const LogForm = () => {
