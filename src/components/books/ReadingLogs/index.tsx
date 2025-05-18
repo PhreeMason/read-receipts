@@ -1,11 +1,8 @@
-import { View, Text, FlatList, TouchableOpacity, Animated, ScrollView } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Animated } from 'react-native';
 import tw from 'twrnc';
 import React, { useState } from 'react'
 import { useGetReadingLogs } from '@/hooks/useBooks';
-import { Link } from 'expo-router';
-import BookHeader from '@/components/books/AddToLibraryDetails/BookHeader';
-import { BookFormat, BookReadingLog } from '@/types/book';
-import { AntDesign } from '@expo/vector-icons';
+import { BookReadingLog } from '@/types/book';
 import { Loading } from '@/components/shared/Loading';
 
 // Format badge component to display reading format(s)
@@ -296,32 +293,7 @@ const FilterChip: React.FC<FilterChipProps> = ({ label, selected, onPress }) => 
     );
 };
 
-type FloatingActionButtonProps = {
-    icon: string;
-    onPress: () => void;
-    style?: string;
-};
 
-const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ icon, onPress, style }) => {
-    return (
-        <TouchableOpacity
-            style={tw.style(
-                `absolute bottom-6 right-6 w-14 h-14 rounded-full shadow-lg 
-           justify-center items-center bg-amber-600`,
-                style
-            )}
-            onPress={onPress}
-            activeOpacity={0.8}
-        >
-            {/* @ts-ignore ype 'string' is not assignable to type '"profile" | "key" | ... */}
-            <AntDesign name={icon} size={24} color="white" />
-
-            {/* Simple plus icon if not using an icon library */}
-            <View style={tw`w-6 h-0.5 bg-white absolute`} />
-            <View style={tw`h-6 w-0.5 bg-white absolute`} />
-        </TouchableOpacity>
-    );
-};
 
 
 type ReadingLogProps = {
@@ -334,11 +306,6 @@ type ReadingLogProps = {
 const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID, hideSeeAll, apiId, hideTitle }) => {
     const { data: readingLogs, isLoading } = useGetReadingLogs(bookID);
     const [filterFormat, setFilterFormat] = useState<string | null>(null);
-
-    const handleAddNewLog = () => {
-        // Navigate to the log form screen
-        console.log('Navigate to log form');
-    };
 
     const handleEditLog = (log: BookReadingLog) => {
         // Navigate to the edit log screen
@@ -385,13 +352,6 @@ const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID, hideSeeAll, apiId, hid
                     !filterFormat || (log.format && log.format.includes(filterFormat))
                 )}
                 onEditLog={handleEditLog}
-            />
-
-            {/* Floating action button for adding new log */}
-            <FloatingActionButton
-                icon="plus"
-                onPress={handleAddNewLog}
-                style={`bg-amber-600`}
             />
         </View>
     );
