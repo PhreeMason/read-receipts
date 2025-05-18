@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Platform, TextInput } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { View, Text, TouchableOpacity } from 'react-native';
+import DatePicker from 'react-native-date-picker'
 import { Controller } from 'react-hook-form';
 import tw from 'twrnc';
 
@@ -29,31 +29,37 @@ const ReadingDates: React.FC<ReadingDatesProps> = ({
                     <Controller
                         control={control}
                         name="startDate"
-                        render={({ field: { value } }) => (
-                            <>
-                                <TouchableOpacity
-                                    style={tw`border border-gray-300 rounded-lg p-3`}
-                                    onPress={() => setShowStartDate(true)}
-                                >
-                                    <Text>{formatDate(value)}</Text>
-                                </TouchableOpacity>
+                        render={({ field }) => {
+                            const { value } = field;
+                            console.log({ field });
+                            return (
+                                <>
+                                    <TouchableOpacity
+                                        style={tw`border border-gray-300 rounded-lg p-3`}
+                                        onPress={() => setShowStartDate(true)}
+                                    >
+                                        <Text>{formatDate(value)}</Text>
+                                    </TouchableOpacity>
 
-                                {showStartDate && (
-                                    <DateTimePicker
-                                        value={value}
-                                        mode="date"
-                                        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                                        onChange={(event, date) => {
-                                            console.log({ event, date });
-                                            if (date) {
-                                                setValue('startDate', date);
-                                                setShowStartDate(false);
-                                            }
-                                        }}
-                                    />
-                                )}
-                            </>
-                        )}
+                                    {showStartDate && (
+                                        <DatePicker
+                                            modal
+                                            open={showStartDate}
+                                            date={value || new Date()}
+                                            onConfirm={(date) => {
+                                                if (date) {
+                                                    setValue(date)
+                                                }
+                                                setShowStartDate(false)
+                                            }}
+                                            onCancel={() => {
+                                                setShowStartDate(false)
+                                            }}
+                                        />
+                                    )}
+                                </>
+                            )
+                        }}
                     />
                     {errors.startDate && <Text style={tw`text-red-500 text-xs mt-1`}>{errors.startDate.message}</Text>}
                 </View>
@@ -65,26 +71,7 @@ const ReadingDates: React.FC<ReadingDatesProps> = ({
                         name="targetDate"
                         render={({ field: { value } }) => (
                             <>
-                                <TouchableOpacity
-                                    style={tw`border border-gray-300 rounded-lg p-3`}
-                                    onPress={() => setShowTargetCompletionDate(true)}
-                                >
-                                    <Text>{formatDate(value)}</Text>
-                                </TouchableOpacity>
-
-                                {showTargetCompletionDate && (
-                                    <DateTimePicker
-                                        value={value}
-                                        mode="date"
-                                        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                                        onChange={(event, date) => {
-                                            if (date) {
-                                                setValue('targetDate', date);
-                                                setShowTargetCompletionDate(false);
-                                            }
-                                        }}
-                                    />
-                                )}
+                                <Text>{formatDate(value)}</Text>
                             </>
                         )}
                     />

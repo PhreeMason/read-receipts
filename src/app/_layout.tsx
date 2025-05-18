@@ -13,7 +13,6 @@ import Toast from 'react-native-toast-message';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import utc from 'dayjs/plugin/utc';
 import dayjs from 'dayjs';
-import { DevToolsBubble } from "react-native-react-query-devtools";
 import * as Clipboard from "expo-clipboard";
 
 dayjs.extend(relativeTime);
@@ -56,7 +55,6 @@ export default function RootLayout() {
                     <Stack.Screen name="(auth)" options={{ headerShown: false }} />
                     <Stack.Screen name="+not-found" />
                 </Stack>
-                <DevToolsBubble onCopy={onCopy} />
             </QueryClientProvider>
             <Toast />
         </AuthProvider>

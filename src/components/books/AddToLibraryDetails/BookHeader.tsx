@@ -69,18 +69,18 @@ const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
                         <Text style={tw`text-gray-600 text-sm`} key={name}>{name}</Text>
                     ))}
 
-                    {shouldShowToggle && (
+                    {shouldShowToggle ? (
                         <Text
                             style={tw`text-gray-300 text-xs`}
                             onPress={toggleAuthorsExpanded}
                         >
                             {authorsExpanded ? 'Show less' : 'Show more'}
                         </Text>
-                    )}
+                    ) : null}
                 </View>
 
                 <View style={tw`flex-row items-center mb-1`}>
-                    {rating && <StarRating rating={rating} />}
+                    {rating ? <StarRating rating={rating} /> : null}
                     <Text style={tw`text-xs text-gray-500 ml-1`}>
                         {rating} ({rating_count?.toLocaleString()} ratings)
                     </Text>
@@ -90,11 +90,11 @@ const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
                     {genres?.slice(0, 2).join(' • ')} • {total_pages} pages
                 </Text>
 
-                {publication_date && <Text style={tw`text-xs text-gray-500`}>
+                {publication_date ? <Text style={tw`text-xs text-gray-500`}>
                     Published {new Date(publication_date).toLocaleDateString('en-US', {
                         year: 'numeric', month: 'long', day: 'numeric'
                     })}
-                </Text>}
+                </Text> : null}
             </View>
         </View>
     );

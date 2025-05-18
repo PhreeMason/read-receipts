@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, useWindowDimensions } from 'react-native';
 import HTML from 'react-native-render-html';
 import tw from 'twrnc';
@@ -11,7 +11,7 @@ const BookDescription = ({ book }: { book: BookInsert }) => {
 
     const text = book.description
     // Memoize the HTML component to prevent re-renders when other state changes
-    const htmlContent = useMemo(() => {
+    const htmlContent = () => {
         if (!text) {
             return null;
         }
@@ -27,7 +27,7 @@ const BookDescription = ({ book }: { book: BookInsert }) => {
                 }}
             />
         );
-    }, [expanded, width, text]);
+    };
 
     if (!book.description) {
         return null;
@@ -36,7 +36,7 @@ const BookDescription = ({ book }: { book: BookInsert }) => {
 
     return (
         <View style={tw`mb-6`}>
-            {htmlContent}
+            {htmlContent()}
             <TouchableOpacity onPress={() => setExpanded(!expanded)}>
                 <Text style={tw`text-sm font-semibold underline text-gray-800 mt-1`}>
                     {expanded ? 'Read less' : 'Read more'}
