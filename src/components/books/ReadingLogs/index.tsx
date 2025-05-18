@@ -225,7 +225,6 @@ const ReadingLogsDisplay = ({ bookReadingLogs, onEditLog }: { bookReadingLogs: B
                 renderItem={({ item }) => (
                     <ReadingLogItem log={item} onPress={onEditLog} />
                 )}
-                contentContainerStyle={tw`px-4`}
             />
         </View>
     );
@@ -358,7 +357,6 @@ const ReadingLogs: React.FC<ReadingLogProps> = ({ bookID, hideSeeAll, apiId, hid
         return <Text style={tw`text-center text-gray-500`}>No reading logs available.</Text>;
     }
 
-    console.log({ readingLogs });
     return (
         <View style={tw`flex-1 bg-gray-50`}>
             {/* Optional book header if not hidden */}
