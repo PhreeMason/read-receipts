@@ -178,7 +178,7 @@ const ReadingLogItem = ({ log, onPress }: { log: BookReadingLog; onPress: (log: 
 
     return (
         <TouchableOpacity
-            style={tw`bg-white rounded-xl my-2 shadow-sm border border-gray-100 overflow-hidden`}
+            style={tw`bg-white rounded-xl my-2 shadow-sm border border-gray-200 overflow-hidden`}
             onPress={() => onPress(log)}
             activeOpacity={0.9} // Micro-interaction feedback
         >
