@@ -57,7 +57,7 @@ BEGIN
     );
 
     --Add initial status history
-    status_history_id:= generate_prefixed_id('bsh_');
+    status_history_id:= generate_prefixed_id('bsh');
     
     INSERT INTO book_status_history(
     id,
@@ -79,7 +79,7 @@ BEGIN
      (user_books_data->>'current_page') IS NOT NULL OR 
      (user_books_data->>'current_percentage') IS NOT NULL THEN
     
-    reading_log_id := generate_prefixed_id('brl_');
+    reading_log_id := generate_prefixed_id('brl');
     
     -- Updated book_reading_logs insertion with format-based logic
     INSERT INTO book_reading_logs(
