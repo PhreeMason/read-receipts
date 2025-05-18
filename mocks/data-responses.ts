@@ -353,3 +353,57 @@ export const mockReadingLogFormData = {
     "rating": 4,
     "currentPercentage": 89
 }
+
+export const samplelogs = [
+    {
+        id: '1',
+        book_id: 'book.id',
+        date: new Date().toISOString(),
+        start_page: 176,
+        end_page: 196,
+        pages_read: 20,
+        duration: 45,
+        format: ['physical'],
+        reading_location: 'home',
+        user_id: 'user123'
+    },
+    {
+        id: '2',
+        book_id: 'book.id',
+        date: '2025-05-17T10:00:00Z',
+        start_page: 150,
+        end_page: 175,
+        pages_read: 25,
+        duration: 30,
+        format: ['ebook'],
+        emotional_state: ['intrigued', 'thoughtful'],
+        user_id: 'user123'
+    },
+    {
+        id: '3',
+        book_id: 'book.id',
+        date: '2025-05-15T15:30:00Z',
+        audio_start_time: 1800,
+        audio_end_time: 3600,
+        current_percentage: 15,
+        duration: 30,
+        format: ['audio'],
+        listening_speed: 1.5,
+        note: "The narrator does a great job with the business terms",
+        user_id: 'user123'
+    },
+    {
+        id: '4',
+        book_id: 'book.id',
+        date: '2025-05-14T20:00:00Z',
+        format: ['physical', 'audio'],
+        start_page: 120,
+        end_page: 149,
+        pages_read: 29,
+        audio_start_time: 900,
+        audio_end_time: 1800,
+        note: "Reading along with the audio helps me focus better",
+        duration: 60,
+        user_id: 'user123'
+    }
+];
