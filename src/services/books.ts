@@ -7,7 +7,8 @@ import {
     BookStatusHistory,
     BookStatusResponse,
     UserBookCurrentState,
-    ReadingProgress
+    ReadingProgress,
+    BookReadingLogInsert
 } from '@/types/book';
 import supabase from '@/lib/supabase';
 import {
@@ -114,6 +115,8 @@ export const getReadingLogs = async (bookID: string, userId: string): Promise<an
         .select('*')
         .eq('book_id', bookID)
         .eq('user_id', userId)
+        /// sort by row date and then by created_at
+        .order('date', { ascending: false })
         .order('created_at', { ascending: false })
         .throwOnError();
 
@@ -152,7 +155,29 @@ export const getBookReadingProgress = async (userId: string, bookId: string): Pr
         throw error;
     }
 
-    // The RPC function `get_reading_progress` returns TABLE(...), which results in an array.
-    // Since it has a LIMIT 1, it will be an array of 0 or 1 elements.
     return data && data.length > 0 ? data[0] : null;
 };
+
+
+export const createBookReadingLog = async ({
+    bookId,
+    userId,
+    readingLog
+}: { bookId: string, userId: string, readingLog: BookReadingLogInsert }): Promise<any> => {
+    const { data, error } = await supabase
+        .from('book_reading_logs')
+        .insert({
+            ...readingLog,
+            book_id: bookId,
+            user_id: userId
+        })
+        .select()
+        .single();
+
+    if (error) {
+        console.error('Error creating book reading log:', error);
+        throw error;
+    }
+
+    return data;
+}

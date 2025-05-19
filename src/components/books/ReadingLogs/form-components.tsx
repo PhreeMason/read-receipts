@@ -106,6 +106,7 @@ type PhysicalBookProgressProps = {
     };
     startPage?: number;
     endPage?: number;
+    handlePageUpdate: (page: number) => void;
 };
 
 export const PhysicalBookProgress: React.FC<PhysicalBookProgressProps> = ({ control, errors, startPage, endPage }) => (
@@ -186,8 +187,7 @@ export const AudiobookProgress: React.FC<AudiobookProgressProps> = ({ control, e
                 <Text style={tw`mb-2`}>Previous hours</Text>
                 <Text>{prevHours}</Text>
             </View> : null}
-
-            {prevMinutes ? <View style={tw.style(`flex-1 ${prevHours && 'ml-2'}`)}>
+            {prevMinutes ? <View style={tw.style('flex-1', { 'ml-2': !!prevHours })}>
                 <Text style={tw`mb-2`}>Previous Minutes</Text>
                 <Text>{prevMinutes}</Text>
             </View> : null}

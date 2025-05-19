@@ -9,6 +9,7 @@ import {
     getReadingLogs,
     getBookReadingProgress,
     getUserBookCurrentStateData,
+    createBookReadingLog,
 } from '@/services/books';
 import { BookAndUserBookInsert, BookStatusHistory } from '@/types/book';
 import { useAuth } from '@/providers/AuthProvider';
@@ -108,7 +109,7 @@ export const useGetBookReadingProgress = (bookId: string) => {
     });
 }
 
-export const useGetUserBookCurrentStateData = (bookId: string | null) => {
+export const useGetUserBookCurrentStateData = (bookId?: string | null) => {
     const { profile, session } = useAuth();
     const userId = profile?.id || session?.user?.id;
 
@@ -122,4 +123,29 @@ export const useGetUserBookCurrentStateData = (bookId: string | null) => {
         // staleTime: 1000 * 60 * 5,
         enabled: !!userId,
     });
+}
+
+export const useCreateReadingLog = () => {
+    const queryClient = useQueryClient();
+    const { profile, session } = useAuth();
+    const userId = profile?.id || session?.user?.id;
+
+    return useMutation({
+        mutationFn: async ({
+            readingLog,
+            bookId
+        }: { readingLog: BookStatusHistory, bookId?: string }) => {
+            if (!userId || !bookId) {
+                throw new Error('No userId or bookId')
+            };
+            return createBookReadingLog({
+                bookId,
+                readingLog,
+                userId
+            });
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['readingLogs'] });
+        }
+    })
 }
