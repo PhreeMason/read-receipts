@@ -213,7 +213,10 @@ const ReadingLogItem = ({ log, onPress }: { log: BookReadingLog; onPress: (log: 
 };
 
 // Main component
-const ReadingLogsDisplay = ({ bookReadingLogs, onEditLog }: { bookReadingLogs: BookReadingLog[]; onEditLog: (log: BookReadingLog) => void }) => {
+export const ReadingLogsDisplay = (
+    { bookReadingLogs, onEditLog }:
+        { bookReadingLogs: BookReadingLog[]; onEditLog: (log: BookReadingLog) => void }
+) => {
     return (
         <View style={tw`flex-1 bg-white`}>
             <FlatList

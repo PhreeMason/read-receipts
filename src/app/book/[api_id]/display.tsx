@@ -3,12 +3,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useEffect, useState } from 'react'
 import tw from 'twrnc';
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { useFetchBookData, useGetUserBookCurrentStateData } from '@/hooks/useBooks';
+import { useFetchBookData, useGetReadingLogs, useGetUserBookCurrentStateData } from '@/hooks/useBooks';
 import BookHeader from '@/components/books/AddToLibraryDetails/BookHeader';
 import BookDescription from '@/components/books/AddToLibraryDetails/BookDescription';
-import ReadingLogs from '@/components/books/ReadingLogs';
+import { ReadingLogsDisplay } from '@/components/books/ReadingLogs';
 import FormatDisplay from '@/components/books/shared/FormatDisplay';
-
+import { Link } from 'expo-router';
 
 const Display = () => {
     const [bookId, setBookId] = useState('');
@@ -16,6 +16,7 @@ const Display = () => {
     const { api_id } = useLocalSearchParams();
     const { data: book } = useFetchBookData(api_id as string);
     const { data: userBook } = useGetUserBookCurrentStateData(bookId);
+    const { data: readingLogs, isLoading } = useGetReadingLogs(bookId);
 
     useEffect(() => {
         if (book && book.id) {
@@ -44,7 +45,21 @@ const Display = () => {
             <BookDescription book={book} />
 
             {/* Reading Sessions */}
-            {book.id ? <ReadingLogs bookID={book.id} apiId={api_id as string} /> : null}
+            <View style={tw`mb-8`}>
+                <View style={tw`flex-row justify-between items-center mb-2`}>
+                    <Text style={tw`text-md font-semibold text-black`}>Reading Sessions</Text>
+                    <Link href={`/book/${api_id}/reading-log`}>
+                        <TouchableOpacity>
+                            <Text style={tw`text-xs font-semibold text-blue-600 underline`}>See all</Text>
+                        </TouchableOpacity>
+                    </Link>
+                </View>
+                {readingLogs && readingLogs.length ? <ReadingLogsDisplay
+                    bookReadingLogs={readingLogs}
+                    onEditLog={(log) => { }}
+
+                /> : null}
+            </View>
 
             {/* Notes & Quotes */}
             <View style={tw`mb-8`}>
