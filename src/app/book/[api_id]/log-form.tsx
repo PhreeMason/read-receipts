@@ -2,7 +2,7 @@ import { Stack, useLocalSearchParams } from 'expo-router';
 import ReadingLogsForm from '@/components/books/ReadingLogs/ReadingLogsForm'
 import React from 'react'
 import BookHeader from '@/components/books/AddToLibraryDetails/BookHeader';
-import { useFetchBookData } from '@/hooks/useBooks';
+import { useFetchBookData, useGetReadingLogs, useGetUserBookCurrentStateData } from '@/hooks/useBooks';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import tw from 'twrnc';
 
@@ -10,7 +10,10 @@ const LogForm = () => {
 
     const { api_id } = useLocalSearchParams();
     const apiId = api_id as string;
-    const { data: book } = useFetchBookData(api_id as string);
+    const { data: book } = useFetchBookData(apiId);
+    const { data: userBook } = useGetUserBookCurrentStateData(book?.id);
+    const { data: readingLogs } = useGetReadingLogs(book?.id);
+
     return (
         <SafeAreaView style={tw`flex-1 bg-white p-6`}>
 
@@ -22,7 +25,7 @@ const LogForm = () => {
                 }}
             />
             {book ? <BookHeader book={book} /> : null}
-            <ReadingLogsForm />
+            <ReadingLogsForm userBook={userBook} readingLogs={readingLogs} />
         </SafeAreaView>
     )
 }
