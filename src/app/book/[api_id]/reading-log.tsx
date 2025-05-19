@@ -1,4 +1,3 @@
-import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useLocalSearchParams, Stack, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -23,7 +22,7 @@ const log = () => {
                 title: "Reading Sessions",
             }} />
             {book ? <BookHeader book={book} /> : null}
-            <ReadingLogs apiId={apiId} bookID={book?.id} hideSeeAll hideTitle />
+            <ReadingLogs apiId={apiId} bookID={book?.id} />
             <FloatingActionButton
                 icon="plus"
                 onPress={handleAddNewLog}

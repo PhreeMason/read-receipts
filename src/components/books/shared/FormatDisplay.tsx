@@ -24,7 +24,6 @@ const FormatDisplay: React.FC<FormatDisplayProps> = ({ userBook }) => {
     }
 
     const { format } = userBook;
-    console.log({ format });
 
     return (
         <View style={tw`mb-8`}>
