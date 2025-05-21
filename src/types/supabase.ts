@@ -416,7 +416,7 @@ export type Database = {
                     book_id: string
                     cover_image_url: string | null
                     date_added: string | null
-                    format: Database["public"]["Enums"]["book_format_enum"][] | null
+                    format: Database["public"]["Enums"]["book_format_enum"][]
                     genres: string[] | null
                     rating: number | null
                     target_completion_date: string | null
@@ -428,7 +428,7 @@ export type Database = {
                     book_id: string
                     cover_image_url?: string | null
                     date_added?: string | null
-                    format?: Database["public"]["Enums"]["book_format_enum"][] | null
+                    format: Database["public"]["Enums"]["book_format_enum"][]
                     genres?: string[] | null
                     rating?: number | null
                     target_completion_date?: string | null
@@ -440,7 +440,7 @@ export type Database = {
                     book_id?: string
                     cover_image_url?: string | null
                     date_added?: string | null
-                    format?: Database["public"]["Enums"]["book_format_enum"][] | null
+                    format?: Database["public"]["Enums"]["book_format_enum"][]
                     genres?: string[] | null
                     rating?: number | null
                     target_completion_date?: string | null
@@ -505,6 +505,10 @@ export type Database = {
             [_ in never]: never
         }
         Functions: {
+            add_book_reading_log: {
+                Args: { reading_log_data: Json; user_id: string; book_id: string }
+                Returns: string
+            }
             add_book_to_library: {
                 Args: {
                     book_data: Json

@@ -27,7 +27,7 @@ export type BookNoteInsert = TablesInsert<'book_notes'>
 export type BookReadingLog = Tables<'book_reading_logs'>
 export type BookReadingLogInsert = TablesInsert<'book_reading_logs'>
 
-export type BookFormat = Book['format']
+export type BookFormat = UserBook['format']
 
 export type BookMetadata = {
     api_id: string;
@@ -67,8 +67,8 @@ export type Profile = Tables<'profiles'>
 
 export type AddToLibraryData = {
     book: BookInsert,
-    bookStatusHistory: Omit<BookStatusHistory, 'id' | 'created_at'>,
-    userBooks: UserBookInsert & BookReadingLogInsert,
+    bookStatusHistory: Omit<BookStatusHistory, 'id' | 'created_at' | 'updated_at'>,
+    userBooks: Omit<UserBookInsert, 'id'> & Omit<BookReadingLogInsert, 'id'>,
 }
 
 export type BookStatusResponse = Book & {
@@ -83,7 +83,7 @@ export type BookStatusResponse = Book & {
 export interface UserBookCurrentState {
     user_id: string;
     book_id: string;
-    format: BookFormat[];
+    format: BookFormat;
     genres: string[] | null;
     rating: number | null; // User's overall rating for the book
     target_completion_date: string | null;

@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 import tw from 'twrnc';
 import { SearchBar } from '@/components/search/SearchBar';
 import { SearchResults } from '@/components/search/SearchResults';
-import { useDebounce } from '@/hooks/useDebounce';
+import { useDebounce } from '@/hooks/useUtils';
 import Header from '@/components/shared/Header';
 import { ScanBarcodeButton } from '@/components/search/ScanBarcodeButton';
 import { useSearchBooksList } from '@/hooks/useBooks';

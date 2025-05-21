@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import tw from 'twrnc';
 import { BookInsert } from '@/types/book';
 import { mediumShadow } from '@/utils/constants';
 import { formatAutorName } from '@/utils/helpers';
+import { router } from 'expo-router';
 
 type BookCoverProps = {
     imageUrl: string;
@@ -22,16 +23,17 @@ const BookCover: React.FC<BookCoverProps> = ({ imageUrl }) => (
 
 type StarRatingProps = {
     rating: number
+    sizeMultiplier?: number
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ rating }) => (
+export const StarRating: React.FC<StarRatingProps> = ({ rating, sizeMultiplier = 1 }) => (
     <View style={tw`flex-row`}>
         {[...Array(Math.floor(rating))].map((_, i) => (
-            <Ionicons key={i} name="star" size={14} color="#8C6A5B" />
+            <Ionicons key={i} name="star" size={14 * sizeMultiplier} color="#8C6A5B" />
         ))}
-        {rating % 1 > 0 && <Ionicons name="star-half" size={14} color="#8C6A5B" />}
+        {rating % 1 > 0 && <Ionicons name="star-half" size={14 * sizeMultiplier} color="#8C6A5B" />}
         {[...Array(5 - Math.ceil(rating))].map((_, i) => (
-            <Ionicons key={i + Math.ceil(rating)} name="star-outline" size={14} color="#8C6A5B" />
+            <Ionicons key={i + Math.ceil(rating)} name="star-outline" size={14 * sizeMultiplier} color="#8C6A5B" />
         ))}
     </View>
 );
@@ -57,9 +59,9 @@ const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
 
     return (
         <View style={tw`flex-row gap-4 mb-6`}>
-            <View style={tw`flex-shrink-0`}>
+            <TouchableOpacity style={tw`flex-shrink-0`} onPress={() => router.push(`/book/${book.api_id}/display`)}>
                 <BookCover imageUrl={cover_image_url || ''} />
-            </View>
+            </TouchableOpacity>
 
             <View style={tw`flex-grow pl-2`}>
                 <Text style={tw`font-bold text-lg text-black mb-1`}>{title}</Text>

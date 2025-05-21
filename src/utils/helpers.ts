@@ -58,19 +58,23 @@ export const separateBookData = (data: BookAndUserBookInsert, userId: string): A
         user_id: userId,
         cover_image_url: data.cover_image_url,
         date_added: new Date().toISOString(),
-        format: Array.isArray(data.format) ? data.format : [data.format],
+        format: Array.isArray(data.format)
+            ? data.format.filter(Boolean) as ("physical" | "ebook" | "audio")[]
+            : typeof data.format === 'string'
+                ? [data.format as "physical" | "ebook" | "audio"]
+                : null,
         genres: data.genres,
         rating: data.rating,
         target_completion_date: data.target_completion_date,
         total_duration: data.format?.includes('audio')
-            ? data.hours * 3600 + data.minutes * 60
+            ? data.hours * 60 + data.minutes
             : null,
         total_pages: data.format?.includes('physical') || data.format?.includes('ebook')
             ? null
             : data.total_pages,
 
         // Reading log fields (passed through to function)
-        current_audio_time: data.currentHours * 3600 + data.currentMinutes * 60,
+        current_audio_time: data.currentHours * 60 + data.currentMinutes,
         current_page: data.currentPage,
         current_percentage: data.currentPercentage,
         note: data.note,

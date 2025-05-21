@@ -20,6 +20,7 @@ export const useSearchBooksList = (query: string) => {
         queryKey: ['books', 'search', query],
         queryFn: async () => searchBookList(query),
         staleTime: 1000 * 60 * 5,
+        enabled: !!query && query.length > 2,
     });
 };
 

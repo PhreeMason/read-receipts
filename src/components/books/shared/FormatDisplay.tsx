@@ -1,14 +1,14 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import tw from 'twrnc'
-import { UserBookCurrentState } from '@/types/book'
 import { Entypo, MaterialIcons } from '@expo/vector-icons'
+import { UserBook } from '@/types/book';
 
 
 export type BookFormat = 'ebook' | 'audio' | 'physical';
 
 type FormatDisplayProps = {
-    userBook?: UserBookCurrentState | null;
+    format: UserBook['format'];
 }
 
 const formatTypeIcons: Record<BookFormat, JSX.Element> = {
@@ -18,22 +18,20 @@ const formatTypeIcons: Record<BookFormat, JSX.Element> = {
 }
 
 
-const FormatDisplay: React.FC<FormatDisplayProps> = ({ userBook }) => {
-    if (!userBook || !userBook.format) {
+const FormatDisplay: React.FC<FormatDisplayProps> = ({ format }) => {
+    if (!format || !format.length) {
         return null;
     }
 
-    const { format } = userBook;
-
     return (
-        <View style={tw`mb-8`}>
+        <View>
             <View style={tw`flex-row gap-3`}>
                 {format.map((formatType) => {
                     if (!formatType) return null; // Ensure formatType is not null or undefined
 
                     return (
                         <View
-                            style={tw`py-2 text-white text-xs rounded-lg`}
+                            style={tw`text-white text-xs rounded-lg`}
                             key={formatType}
                         >
                             {formatTypeIcons[formatType] ? (

@@ -76,7 +76,6 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
             format: data.format,
             start_date: status === 'current' && data.startDate ? data.startDate.toISOString() : '',
             target_completion_date: status === 'current' && data.targetDate ? data.targetDate.toISOString() : null,
-
         });
     };
     return (
@@ -156,7 +155,7 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
                             name="currentPercentage"
                             render={({ field: { onChange, value } }) => (
                                 <View style={tw`gap-4 mt-4`}>
-                                    <Text style={tw`text-sm font-semibold text-gray-700 mb-1`}>Current Ebook Progress (%)</Text>
+                                    <Text style={tw`text-sm font-semibold text-gray-700 mb-1`}>Percentage complete (%)</Text>
                                     <TextInput
                                         style={tw`border border-gray-300 rounded-lg p-2 w-50px`}
                                         placeholder="0"

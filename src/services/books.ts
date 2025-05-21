@@ -32,13 +32,14 @@ export const getBookStatusHistory = async (api_id: string, userId: string): Prom
     const { data, error } = await supabase
         .from('book_status_history')
         .select(`
-      id,
-      user_id,
-      status,
-      created_at,
-      book_id,
-      books!inner(api_id)
-    `)
+            id,
+            user_id,
+            status,
+            created_at,
+            updated_at,
+            book_id,
+            books!inner(api_id)
+        `)
         .eq('books.api_id', api_id)
         .eq('user_id', userId)
         .order('created_at', { ascending: false })
@@ -165,14 +166,11 @@ export const createBookReadingLog = async ({
     readingLog
 }: { bookId: string, userId: string, readingLog: BookReadingLogInsert }): Promise<any> => {
     const { data, error } = await supabase
-        .from('book_reading_logs')
-        .insert({
-            ...readingLog,
-            book_id: bookId,
-            user_id: userId
+        .rpc('add_book_reading_log', {
+            reading_log_data: readingLog,
+            user_id: userId,
+            book_id: bookId
         })
-        .select()
-        .single();
 
     if (error) {
         console.error('Error creating book reading log:', error);

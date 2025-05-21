@@ -4,32 +4,23 @@ import React, { useState } from 'react'
 import { useGetReadingLogs } from '@/hooks/useBooks';
 import { BookReadingLog } from '@/types/book';
 import { Loading } from '@/components/shared/Loading';
+import { StarRating } from '@/components/books/AddToLibraryDetails/BookHeader';
+import FormatDisplay from '@/components/books/shared/FormatDisplay';
 
-// Format badge component to display reading format(s)
-const FormatBadge = ({ format }: {
-    format: 'physical' | 'ebook' | 'audio';
-}) => {
-    const [isPressed, setIsPressed] = useState(false);
-
-    const formatStyles = {
-        physical: 'bg-blue-50 border-blue-200 text-blue-800',
-        ebook: 'bg-green-50 border-green-200 text-green-800',
-        audio: 'bg-amber-50 border-amber-200 text-amber-800',
-    };
-
-    return (
-        <Animated.View
-            style={[
-                tw`rounded-full px-3 py-1 mr-2 mb-1 border ${formatStyles[format] || 'bg-gray-50 border-gray-200 text-gray-800'}`,
-                {
-                    transform: [{ scale: isPressed ? 0.95 : 1 }],
-                }
-            ]}
-        >
-            <Text style={tw`text-xs font-semibold`}>{format}</Text>
-        </Animated.View>
-    );
-};
+const feelsWithEmoji = {
+    'swooning': '😍',
+    'butterflies': '🦋',
+    'hot & bothered': '🔥',
+    'intrigued': '🤔',
+    'mind-blown': '🤯',
+    'tense': '😬',
+    'teary-eyed': '😢',
+    'worried': '😟',
+    'reflective': '🤔',
+    'bored': '😴',
+    'thrilled': '😃',
+    'irritated': '😠',
+}
 
 const renderEmotionalStates = (log: BookReadingLog) => {
     if (!log.emotional_state || log.emotional_state.length === 0) {
@@ -37,17 +28,23 @@ const renderEmotionalStates = (log: BookReadingLog) => {
     }
 
     return (
-        <View style={tw`mt-3`}>
-            <Text style={tw`text-sm font-semibold text-gray-700 mb-1.5`}>How you felt:</Text>
-            <View style={tw`flex-row flex-wrap`}>
-                {log.emotional_state.map((emotion, index) => (
-                    <View
-                        key={index}
-                        style={tw`bg-gray-50 border border-gray-200 rounded-full px-3 py-1 mr-2 mb-1`}
-                    >
-                        <Text style={tw`text-xs text-gray-700`}>{emotion}</Text>
-                    </View>
-                ))}
+        <View style={tw`my-1 flex-row flex-wrap`}>
+            <Text style={tw`pt-2 text-sm font-semibold text-gray-700 mr-2`}>How you felt:</Text>
+            <View style={tw`flex-row flex-wrap `}>
+                {log.emotional_state.map((emotion, index) => {
+                    // @ts-ignore
+                    const emotionObj = feelsWithEmoji[emotion];
+                    return (
+                        <View
+                            key={index}
+                            style={tw`bg-gray-50 mr-2`}
+                        >
+                            <Text style={tw`text-xl text-gray-700`}>
+                                {emotionObj ? emotionObj : emotion}
+                            </Text>
+                        </View>
+                    )
+                })}
             </View>
         </View>
     );
@@ -86,10 +83,27 @@ const renderNotes = (log: BookReadingLog) => {
     );
 };
 
+const calculateMinsListened = (
+    { audio_start_time, audio_end_time }:
+        Pick<BookReadingLog, 'audio_start_time' | 'audio_end_time'>
+) => {
+    // start time can be 0 same for end time in addition to being null
+    if (audio_start_time === null || audio_end_time === null) {
+        return 0;
+    }
+
+    const durationInMins = audio_end_time - audio_start_time;
+    const hours = Math.floor(durationInMins / 60)
+    const hoursFormat = hours ? `${hours} hrs` : '';
+    const mins = durationInMins % 60
+    const minsFormat = mins ? `${mins} mins` : '';
+    const formatDuration = `${hoursFormat} ${minsFormat}`.trim();
+    return formatDuration
+}
 
 
 const renderProgressSection = (log: BookReadingLog) => {
-    const { start_page, end_page, audio_start_time, audio_end_time, current_percentage, pages_read } = log;
+    const { start_page, end_page, audio_start_time, audio_end_time, current_percentage } = log;
 
     if (start_page && end_page) {
         // Calculate percentage for progress bar
@@ -103,7 +117,12 @@ const renderProgressSection = (log: BookReadingLog) => {
                         Pages {start_page}-{end_page}
                     </Text>
                     <Text style={tw`text-green-600 font-semibold`}>
-                        +{pages_read} pages
+                        +{end_page - start_page} pages
+                    </Text>
+                </View>
+                <View style={tw`flex-row justify-end mb-1`}>
+                    <Text style={tw`text-green-600 font-semibold`}>
+                        + {calculateMinsListened({ audio_end_time, audio_start_time })}
                     </Text>
                 </View>
 
@@ -182,9 +201,20 @@ const ReadingLogItem = ({ log, onPress }: { log: BookReadingLog; onPress: (log: 
             <View style={tw`p-4`}>
                 {/* Header with date and duration */}
                 <View style={tw`flex-row justify-between items-center mb-3`}>
-                    <Text style={tw`text-lg font-semibold text-gray-800`}>
-                        {log.date && formatDate(log.date)}
-                    </Text>
+                    <View style={tw`flex-1 flex-row justify-between`}>
+                        <Text style={tw`text-lg font-semibold text-gray-800`}>
+                            {log.date && formatDate(log.date)}
+                        </Text>
+                        <View style={tw`flex-row items-center gap-3`}>
+                            {log.format && log.format.length ?
+                                <FormatDisplay format={log.format} />
+                                : null
+                            }
+                            <Text style={tw`text-lg font-semibold text-gray-800`}>
+                                {log.rating ? <StarRating rating={log.rating} sizeMultiplier={1.2} /> : null}
+                            </Text>
+                        </View>
+                    </View>
                     {log.duration ? (
                         <View style={tw`bg-gray-50 px-3 py-1 rounded-full`}>
                             <Text style={tw`text-gray-600 font-semibold`}>{log.duration} min</Text>
@@ -195,13 +225,6 @@ const ReadingLogItem = ({ log, onPress }: { log: BookReadingLog; onPress: (log: 
                 {/* Progress section with visual progress indicator */}
                 <View style={tw`mb-3`}>
                     {renderProgressSection(log)}
-                </View>
-
-                {/* Format badges in a more refined style */}
-                <View style={tw`flex-row flex-wrap mb-2`}>
-                    {log.format && log.format.map((fmt, index) => (
-                        <FormatBadge key={index} format={fmt} />
-                    ))}
                 </View>
 
                 {/* Collapsible sections for emotional states and notes */}
@@ -239,13 +262,22 @@ const ReadingStatsSummary = ({ logs }: { logs: BookReadingLog[] }) => {
         }
 
         return logs.reduce((stats, log) => {
+            // Calculate minutes from audio timestamps
+            const timeListened = log.audio_end_time && log.audio_start_time ?
+                log.audio_end_time - log.audio_start_time : 0;
+
+            // Calculate pages read from page values
+            const pagesRead = log.end_page && log.start_page ?
+                log.end_page - log.start_page : 0;
+
             return {
                 totalSessions: stats.totalSessions + 1,
-                totalTime: stats.totalTime + (log.duration || 0),
-                totalPages: stats.totalPages + (log.pages_read || 0)
+                totalTime: stats.totalTime + timeListened,
+                totalPages: stats.totalPages + pagesRead
             };
         }, { totalSessions: 0, totalTime: 0, totalPages: 0 });
     };
+
 
     const stats = calculateStats();
 

@@ -106,7 +106,6 @@ type PhysicalBookProgressProps = {
     };
     startPage?: number;
     endPage?: number;
-    handlePageUpdate: (page: number) => void;
 };
 
 export const PhysicalBookProgress: React.FC<PhysicalBookProgressProps> = ({ control, errors, startPage, endPage }) => (
@@ -154,7 +153,7 @@ export const PhysicalBookProgress: React.FC<PhysicalBookProgressProps> = ({ cont
         {(startPage && endPage && endPage >= startPage) ? (
             <View style={tw`p-3 bg-gray-100 rounded-lg mb-4`}>
                 <Text style={tw`text-center`}>
-                    You read {endPage - startPage} pages in this session
+                    You read {endPage - startPage + 1} pages in this session
                 </Text>
             </View>
         ) : null}
@@ -183,13 +182,12 @@ export const AudiobookProgress: React.FC<AudiobookProgressProps> = ({ control, e
         <Text style={tw`text-lg font-semibold mb-4`}>Track Listening Time</Text>
 
         {prevHours || prevMinutes ? <View style={tw`flex-row mb-4`}>
+            <Text style={tw`text-sm font-semibold text-gray-500 mb-2 mr-2`}>Previous Session</Text>
             {prevHours ? <View style={tw`flex-1 mr-2`}>
-                <Text style={tw`mb-2`}>Previous hours</Text>
-                <Text>{prevHours}</Text>
+                <Text>{prevHours} {` Hr${prevHours > 1 ? 's' : ''}`} </Text>
             </View> : null}
-            {prevMinutes ? <View style={tw.style('flex-1', { 'ml-2': !!prevHours })}>
-                <Text style={tw`mb-2`}>Previous Minutes</Text>
-                <Text>{prevMinutes}</Text>
+            {prevMinutes ? <View style={tw.style('flex-1 ', { 'ml-2': !!prevHours })}>
+                <Text>{prevMinutes} {` min${prevMinutes > 1 ? 's' : ''}`}</Text>
             </View> : null}
         </View> : null}
 

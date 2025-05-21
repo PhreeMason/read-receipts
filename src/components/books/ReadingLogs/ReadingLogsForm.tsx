@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Button, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { z } from 'zod';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,7 +19,7 @@ import {
     ReadingLocation,
 } from './form-components';
 import type { BookFormat, BookReadingLogInsert, UserBook } from '@/types/book';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useCreateReadingLog } from '@/hooks/useBooks';
 
 const feelsWithEmoji = [
@@ -86,7 +86,9 @@ const formSchema = z.object({
             });
         }
 
-        if (typeof data.endPage !== 'undefined' && data.endPage < data.startPage) {
+        if (typeof data.startPage !== 'undefined' &&
+            typeof data.endPage !== 'undefined' &&
+            data.endPage < data.startPage) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
                 message: "End page cannot be before start page",
@@ -162,6 +164,7 @@ const ReadingLogsForm = ({
 }) => {
     const { api_id } = useLocalSearchParams();
     const [lastReadingLog, setlastReadingLog] = useState<BookReadingLogInsert | null>(null);
+    // @ts-ignore
     const [availableFormats, setAvailableFormats] = useState<BookFormat[]>(['physical', 'ebook', 'audio']);
     const { mutate: createReadingLog } = useCreateReadingLog();
 
@@ -179,11 +182,12 @@ const ReadingLogsForm = ({
         formState: { errors },
         watch,
         reset,
+        setValue,
         trigger
     } = useForm<FormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            format: ['physical'],
+            format: [],
             date: new Date(),
             startPage: 0,
             endPage: 0,
@@ -206,7 +210,6 @@ const ReadingLogsForm = ({
             const logData = extractFormDataFromLog(lastLog);
             reset({
                 ...logData,
-                startPage: logData.endPage || 0,
                 date: new Date(),
                 note: '',
                 rating: 0,
@@ -215,16 +218,13 @@ const ReadingLogsForm = ({
         }
         if (userBook && userBook.format) {
             const formats = userBook.format
+            // @ts-ignore
             setAvailableFormats(formats);
         }
     }, [userBook, readingLogs, reset]);
 
     const onSubmit = (data: FormData) => {
         const transformedData = transformLogFormData(data, lastReadingLog);
-        console.log({
-            data,
-            transformedData,
-        });
         createReadingLog({
             // @ts-ignore
             readingLog: transformedData,
@@ -247,6 +247,7 @@ const ReadingLogsForm = ({
                     currentPercentage: 0
                 });
                 setCurrentStep(0);
+                router.push(`/book/${api_id}/reading-log`);
             },
             onError: (error) => {
                 console.error('Error creating reading log:', error);
@@ -307,86 +308,25 @@ const ReadingLogsForm = ({
     // Add these inside your component
     const totalPages = userBook?.total_pages || 0;
     const totalDuration = userBook?.total_duration || 0; // In minutes
-    const [updateSource, setUpdateSource] = useState<'percentage' | 'page' | 'time'>();
-
-    // Main synchronization useEffect
-    // useEffect(() => {
-    //     const subscription = watch((value, { name }) => {
-    //         if (!name) return;
-
-    //         // Prevent infinite loops
-    //         if (name === 'currentPercentage' && updateSource !== 'percentage') {
-    //             handlePercentageUpdate(value.currentPercentage || 0);
-    //         }
-    //         if (name === 'startPage' && updateSource !== 'page') {
-    //             handlePageUpdate(value.startPage || 0);
-    //         }
-    //         if ((name === 'currentHours' || name === 'currentMinutes') && updateSource !== 'time') {
-    //             handleTimeUpdate(value.currentHours || 0, value.currentMinutes || 0);
-    //         }
-    //     });
-
-    //     return () => subscription.unsubscribe();
-    // }, [watch, updateSource, totalPages, totalDuration]);
 
     // Helper functions
-    const handlePercentageUpdate = (percentage: number) => {
-        setUpdateSource('percentage');
-
+    const handlePercentageUpdate = (percentage: string) => {
+        const numberPercentage = parseInt(percentage)
         // Physical book calculation
         if (isPhysicalOrEbook && totalPages > 0) {
-            const newPage = Math.round((percentage / 100) * totalPages);
-            // setValue('startPage', newPage, { shouldValidate: true });
+            const newPage = Math.round((numberPercentage / 100) * totalPages);
+            setValue('endPage', newPage, { shouldValidate: true });
         }
 
         // Audiobook calculation
         if (isAudiobook && totalDuration > 0) {
-            const totalMinutes = (percentage / 100) * totalDuration;
+            const totalMinutes = (numberPercentage / 100) * totalDuration;
             const hours = Math.floor(totalMinutes / 60);
             const minutes = Math.round(totalMinutes % 60);
-            // setValue('currentHours', hours);
-            // setValue('currentMinutes', minutes);
+            setValue('currentHours', hours);
+            setValue('currentMinutes', minutes);
         }
-
-        setTimeout(() => setUpdateSource(undefined), 100);
     };
-
-    const handlePageUpdate = (page: number) => {
-        setUpdateSource('page');
-
-        if (totalPages > 0) {
-            const newPercentage = Math.round((page / totalPages) * 100);
-            // setValue('currentPercentage', newPercentage);
-
-            if (isAudiobook && totalDuration > 0) {
-                const totalMinutes = (newPercentage / 100) * totalDuration;
-                const hours = Math.floor(totalMinutes / 60);
-                const minutes = Math.round(totalMinutes % 60);
-                // setValue('currentHours', hours);
-                // setValue('currentMinutes', minutes);
-            }
-        }
-
-        setTimeout(() => setUpdateSource(undefined), 100);
-    };
-
-    const handleTimeUpdate = (hours: number, minutes: number) => {
-        setUpdateSource('time');
-
-        if (totalDuration > 0) {
-            const totalMinutes = hours * 60 + minutes;
-            const newPercentage = Math.round((totalMinutes / totalDuration) * 100);
-            // setValue('currentPercentage', newPercentage);
-
-            if (isPhysicalOrEbook && totalPages > 0) {
-                const newPage = Math.round((newPercentage / 100) * totalPages);
-                // setValue('startPage', newPage);
-            }
-        }
-
-        setTimeout(() => setUpdateSource(undefined), 100);
-    };
-
 
     // Render different form sections based on current step
     const renderCurrentStep = () => {
@@ -403,10 +343,13 @@ const ReadingLogsForm = ({
                                 <View style={tw`mb-4`}>
                                     {(availableFormats).map((format) => (
                                         <FormatSelector
+                                            // @ts-ignore 
                                             key={format}
+                                            // @ts-ignore 
                                             format={format}
                                             // @ts-ignore 
                                             selected={(value || []).includes(format)}
+                                            // @ts-ignore 
                                             onToggle={() => toggleFormat(format, value, onChange)}
                                         />
                                     ))}
@@ -433,14 +376,7 @@ const ReadingLogsForm = ({
             case 1:
                 return (
                     <View style={tw`px-4`}>
-                        {isPhysicalOrEbook && (
-                            <PhysicalBookProgress
-                                control={control}
-                                errors={errors}
-                                startPage={watch('startPage')}
-                                endPage={watch('endPage')}
-                            />
-                        )}
+
 
                         <View style={tw`mb-4`}>
                             <Text style={tw`mb-2`}>Current Percentage</Text>
@@ -453,7 +389,11 @@ const ReadingLogsForm = ({
                                             style={tw`p-3 border border-gray-300 rounded-lg w-25`}
                                             keyboardType="numeric"
                                             value={value?.toString() || ''}
-                                            onChangeText={(text) => onChange(text)}
+                                            onChangeText={(text) => {
+                                                onChange(text)
+                                                handlePercentageUpdate(text)
+                                            }
+                                            }
                                             placeholder="0"
                                         />
                                         <Text style={tw`text-gray-500 text-lg ml-1`}>%</Text>
@@ -462,6 +402,15 @@ const ReadingLogsForm = ({
                             />
                             <FormError error={errors.currentPercentage} />
                         </View>
+
+                        {isPhysicalOrEbook && (
+                            <PhysicalBookProgress
+                                control={control}
+                                errors={errors}
+                                startPage={watch('startPage')}
+                                endPage={watch('endPage')}
+                            />
+                        )}
 
                         {isAudiobook && (
                             <AudiobookProgress
@@ -600,3 +549,23 @@ export default ReadingLogsForm;
 // ★★★★★
 // Notes:
 // Mostly listening and thinking about what goes into buying a business.The biggest shocker is that it is not recommended that I do this on the side.It should be my full time 40hrs per week day job.Also this will take anywhere from a few months to 2 years if done diligently.So far the biggest cost seems to be the salary that I give up if I decide to do it full time.
+
+
+// Format:
+// ebook, audio
+// Date:
+// 5 / 20 / 2025
+// Listening time:
+// 2h 24m
+// Speed:
+// 1x
+// Pages:
+// 1 - 112(111 pages)
+// Location:
+// Kitchen
+// Feelings:
+// 😟 worried, 😬 tense
+// Rating:
+// ★★★★★
+// Notes:
+// This way more expensive in both time and money than I originally anticipated.Also this is much more difficult that I originally thought it would be.
