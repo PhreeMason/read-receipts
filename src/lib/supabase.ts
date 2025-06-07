@@ -67,8 +67,8 @@ const supabaseUrl = EXPO_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
 const supabase = createClient(
-    supabaseUrl || '',
-    supabaseAnonKey || '',
+    supabaseUrl!,
+    supabaseAnonKey!,
     {
         auth: {
             ...(Platform.OS !== 'web'

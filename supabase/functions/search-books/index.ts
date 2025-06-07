@@ -4,7 +4,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 import { createClerkClient } from 'npm:@clerk/backend';
 import { corsHeaders, generateUrl, userAgent } from '../_shared/utils.ts';
  
-async function verifyClerkToken(req) {
+async function verifyRequestWithClerk(req) {
   try {
     const clerkSecretKey = Deno.env.get('CLERK_SECRET_KEY');
     const clerkPublishableKey = Deno.env.get('CLERK_PUBLISHABLE_KEY');
@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const clerkUser = await verifyClerkToken(req);
+    const clerkUser = await verifyRequestWithClerk(req);
     if (!clerkUser) {
       return new Response(JSON.stringify({
         error: 'Invalid or expired token'
