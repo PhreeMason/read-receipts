@@ -21,5 +21,9 @@
         "fs",
         "http",
         "net"
+    ],
+    "cSpell.words": [
+        "axiod",
+        "SUPABASE"
     ]
 }
