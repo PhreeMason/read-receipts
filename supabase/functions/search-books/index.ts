@@ -3,8 +3,6 @@ import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 import { verifyToken } from 'npm:@clerk/backend';
 import { corsHeaders, generateUrl, userAgent, authenticateRequest } from '../_shared/utils.ts';
-const AUTHENTICATED = 'authenticated';
-
 
 Deno.serve(async (req) => {
     if (req.method === 'OPTIONS') {
