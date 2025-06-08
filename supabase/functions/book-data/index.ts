@@ -1,7 +1,7 @@
 import { createClient, type SupabaseClient } from 'jsr:@supabase/supabase-js@2';
 import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 import axiod from "https://deno.land/x/axiod/mod.ts";
-import { userAgent, corsHeaders } from '../_shared/utils.ts';
+import { corsHeaders, generateUrl, userAgent, authenticateRequest } from '../_shared/utils.ts';
 import { type Book } from '../_shared/types.ts';
 
 Deno.serve(async (req) => {
@@ -26,15 +26,22 @@ Deno.serve(async (req) => {
             }
         });
     }
-    const supabaseClient = createClient(Deno.env.get('SUPABASE_URL'), Deno.env.get('SUPABASE_ANON_KEY'), {
-        global: {
-            headers: {
-                Authorization: req.headers.get('Authorization')
-            }
-        }
-    });
+    const supabaseClient = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '');
+
     try {
         // Race between database lookup and fresh fetch
+        const clerkUser = await authenticateRequest(token);
+        console.log('verifying user end time ', performance.now());
+        if (!clerkUser) {
+            return new Response(JSON.stringify({
+                error: 'Invalid or expired token'
+            }), {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                status: 401
+            });
+        }
         const bookData = await Promise.any([
             fetchFromDatabase(supabaseClient, api_id),
             fetchFromGoodreads(api_id, supabaseClient)

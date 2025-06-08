@@ -2,38 +2,10 @@ import axiod from "https://deno.land/x/axiod/mod.ts";
 import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 import { verifyToken } from 'npm:@clerk/backend';
-import { corsHeaders, generateUrl, userAgent } from '../_shared/utils.ts';
+import { corsHeaders, generateUrl, userAgent, authenticateRequest } from '../_shared/utils.ts';
 const AUTHENTICATED = 'authenticated';
-/**
- * Verifies a Clerk token and returns user information.
- * @param {string} token - The Clerk JWT token to verify.
- * @returns {Promise<{ role: string, sid: string, sub: string } | null>} - Returns user info if valid, otherwise null.
- */ async function verifyClerkToken(token) {
-    try {
-        const clerkSecretKey = Deno.env.get('CLERK_SECRET_KEY');
-        if (!clerkSecretKey) {
-            throw new Error('CLERK_SECRET_KEY not found in environment variables');
-        }
-        const { role, sid, sub } = await verifyToken(token, {
-            secretKey: clerkSecretKey
-        });
-        if (!sub) {
-            return null;
-        }
-        if (role !== AUTHENTICATED) {
-            console.warn(`User role is not authenticated: ${role}`);
-            return null;
-        }
-        return {
-            role,
-            sid,
-            sub
-        };
-    } catch (error) {
-        console.error('Error verifying Clerk token:', error);
-        return null;
-    }
-}
+
+
 Deno.serve(async (req) => {
     if (req.method === 'OPTIONS') {
         return new Response('ok', {
@@ -45,20 +17,8 @@ Deno.serve(async (req) => {
     // Create Supabase client with service role key for database operations
     const supabaseClient = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '');
     try {
-        // Verify Clerk authentication
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return new Response(JSON.stringify({
-                error: 'Authorization header required'
-            }), {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                status: 401
-            });
-        }
-        const token = authHeader.replace('Bearer ', '');
-        console.log('verifying user start time ', performance.now());
-        const clerkUser = await verifyClerkToken(token);
+
+        const clerkUser = await authenticateRequest(token);
         console.log('verifying user end time ', performance.now());
         if (!clerkUser) {
             return new Response(JSON.stringify({
