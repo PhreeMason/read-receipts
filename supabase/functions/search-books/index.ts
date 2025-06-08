@@ -15,8 +15,7 @@ Deno.serve(async (req) => {
     // Create Supabase client with service role key for database operations
     const supabaseClient = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '');
     try {
-
-        const clerkUser = await authenticateRequest(token);
+        const clerkUser = await authenticateRequest(req);
         console.log('verifying user end time ', performance.now());
         if (!clerkUser) {
             return new Response(JSON.stringify({
@@ -123,78 +122,78 @@ Deno.serve(async (req) => {
  * @returns {Array} - An array of book objects containing relevant metadata.
  */
 function extractBookListData($) {
-  const bookList = [];
-  // Select book entries
-  $('tr[itemscope][itemtype="http://schema.org/Book"]').each((i, element)=>{
-    const $el = $(element);
-    // Extract book ID
-    const idDiv = $el.find('div.u-anchorTarget');
-    const goodreadsId = idDiv.attr('id');
-    // Extract title and series info
-    const bookUrl = $el.find('a.bookTitle').attr('href')?.split('?')[0].replace('/book/show/', '');
-    const titleElement = $el.find('.bookTitle span[itemprop="name"]');
-    const fullTitle = titleElement.text().trim();
-    // Handle series information if present
-    const seriesMatch = fullTitle.match(/^(.*?)\s*\(([^#]+?)\s*#([\d.]+)(?:,.*)?\)$/);
-    let title, series, seriesNumber;
-    if (seriesMatch) {
-      title = seriesMatch[1].trim();
-      series = seriesMatch[2].trim();
-      seriesNumber = parseFloat(seriesMatch[3]);
-    } else {
-      title = fullTitle.trim();
-      series = null;
-      seriesNumber = null;
-    }
-    // Extract authors
-    const authors = [];
-    $el.find('.authorName span[itemprop="name"]').each((i, auth)=>{
-      authors.push($(auth).text().trim());
+    const bookList = [];
+    // Select book entries
+    $('tr[itemscope][itemtype="http://schema.org/Book"]').each((i, element) => {
+        const $el = $(element);
+        // Extract book ID
+        const idDiv = $el.find('div.u-anchorTarget');
+        const goodreadsId = idDiv.attr('id');
+        // Extract title and series info
+        const bookUrl = $el.find('a.bookTitle').attr('href')?.split('?')[0].replace('/book/show/', '');
+        const titleElement = $el.find('.bookTitle span[itemprop="name"]');
+        const fullTitle = titleElement.text().trim();
+        // Handle series information if present
+        const seriesMatch = fullTitle.match(/^(.*?)\s*\(([^#]+?)\s*#([\d.]+)(?:,.*)?\)$/);
+        let title, series, seriesNumber;
+        if (seriesMatch) {
+            title = seriesMatch[1].trim();
+            series = seriesMatch[2].trim();
+            seriesNumber = parseFloat(seriesMatch[3]);
+        } else {
+            title = fullTitle.trim();
+            series = null;
+            seriesNumber = null;
+        }
+        // Extract authors
+        const authors = [];
+        $el.find('.authorName span[itemprop="name"]').each((i, auth) => {
+            authors.push($(auth).text().trim());
+        });
+        // Extract cover image
+        let coverImage = $el.find('img.bookCover').attr('src');
+        if (coverImage.includes("nophoto")) {
+            coverImage = null;
+        }
+        // Extract rating
+        const ratingText = $el.find('span.minirating').text().trim();
+        const ratingMatch = ratingText.match(/(\d+\.\d+) avg rating/);
+        const rating = ratingMatch ? parseFloat(ratingMatch[1]) : null;
+        // Extract ratings count
+        const ratingsCountMatch = ratingText.match(/—\s+([\d,]+) ratings/);
+        const ratingsCount = ratingsCountMatch ? parseInt(ratingsCountMatch[1].replace(/,/g, ''), 10) : null;
+        // Extract publication year
+        const publicationText = $el.find('.greyText.smallText.uitext').text();
+        const publicationYearMatch = publicationText.match(/published\s+(\d{4})/);
+        const publicationYear = publicationYearMatch ? publicationYearMatch[1] : null;
+        // Format the publication date
+        const publicationDate = publicationYear ? `${publicationYear}-01-01` : null;
+        // Extract edition info if available
+        const editionText = $el.find('a.greyText[rel="nofollow"]').text();
+        const editionMatch = editionText.match(/(\d+) editions/);
+        const editionCount = editionMatch ? parseInt(editionMatch[1], 10) : null;
+        // Format the book for our database schema
+        bookList.push({
+            api_id: goodreadsId,
+            api_source: 'goodreads',
+            bookUrl,
+            cover_image_url: coverImage,
+            title,
+            publication_date: publicationDate,
+            rating,
+            source: 'api',
+            // Required field in your schema
+            epub_url: "",
+            // Extra metadata
+            metadata: {
+                goodreads_id: goodreadsId,
+                edition_count: editionCount,
+                ratings_count: ratingsCount,
+                series,
+                series_number: seriesNumber,
+                authors: authors // Store authors in metadata for now
+            }
+        });
     });
-    // Extract cover image
-    let coverImage = $el.find('img.bookCover').attr('src');
-    if (coverImage.includes("nophoto")) {
-      coverImage = null;
-    }
-    // Extract rating
-    const ratingText = $el.find('span.minirating').text().trim();
-    const ratingMatch = ratingText.match(/(\d+\.\d+) avg rating/);
-    const rating = ratingMatch ? parseFloat(ratingMatch[1]) : null;
-    // Extract ratings count
-    const ratingsCountMatch = ratingText.match(/—\s+([\d,]+) ratings/);
-    const ratingsCount = ratingsCountMatch ? parseInt(ratingsCountMatch[1].replace(/,/g, ''), 10) : null;
-    // Extract publication year
-    const publicationText = $el.find('.greyText.smallText.uitext').text();
-    const publicationYearMatch = publicationText.match(/published\s+(\d{4})/);
-    const publicationYear = publicationYearMatch ? publicationYearMatch[1] : null;
-    // Format the publication date
-    const publicationDate = publicationYear ? `${publicationYear}-01-01` : null;
-    // Extract edition info if available
-    const editionText = $el.find('a.greyText[rel="nofollow"]').text();
-    const editionMatch = editionText.match(/(\d+) editions/);
-    const editionCount = editionMatch ? parseInt(editionMatch[1], 10) : null;
-    // Format the book for our database schema
-    bookList.push({
-      api_id: goodreadsId,
-      api_source: 'goodreads',
-      bookUrl,
-      cover_image_url: coverImage,
-      title,
-      publication_date: publicationDate,
-      rating,
-      source: 'api',
-      // Required field in your schema
-      epub_url: "",
-      // Extra metadata
-      metadata: {
-        goodreads_id: goodreadsId,
-        edition_count: editionCount,
-        ratings_count: ratingsCount,
-        series,
-        series_number: seriesNumber,
-        authors: authors // Store authors in metadata for now
-      }
-    });
-  });
-  return bookList;
+    return bookList;
 }

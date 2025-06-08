@@ -16,7 +16,17 @@ export const corsHeaders = {
  * @returns {Promise<{ role: string, sid: string, sub: string } | null>} - Returns user info if valid, otherwise null.
  */
 
-async function verifyClerkToken(token) {
+async function verifyClerkToken(req) {
+
+    const authHeader = req.headers.get('Authorization');
+
+    if (!authHeader?.startsWith('Bearer ')) {
+        console.log('Authorization header required')
+        return null;
+    }
+
+    const token = authHeader.slice(7);
+
     try {
         const clerkSecretKey = Deno.env.get('CLERK_SECRET_KEY');
         if (!clerkSecretKey) {
