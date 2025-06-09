@@ -162,8 +162,6 @@ function extractBookListData($: cheerio.CheerioAPI): Array<{
         try {
             // Extract basic info with null checks
             const idDiv = $el.find('div.u-anchorTarget');
-            const goodreadsId = idDiv.attr('id');
-            if (!goodreadsId) return;
 
             const bookUrl = $el.find('a.bookTitle').attr('href')?.split('?')[0].replace('/book/show/', '') || '';
             const titleElement = $el.find('.bookTitle span[itemprop="name"]');
@@ -209,7 +207,7 @@ function extractBookListData($: cheerio.CheerioAPI): Array<{
             const editionCount = editionMatch ? parseInt(editionMatch[1], 10) : null;
 
             bookList.push({
-                api_id: goodreadsId,
+                api_id: bookUrl,
                 api_source: 'goodreads',
                 bookUrl,
                 cover_image_url: coverImage,
@@ -219,7 +217,7 @@ function extractBookListData($: cheerio.CheerioAPI): Array<{
                 source: 'api',
                 epub_url: "",
                 metadata: {
-                    goodreads_id: goodreadsId,
+                    goodreads_id: bookUrl,
                     edition_count: editionCount,
                     ratings_count: ratingsCount,
                     series,
