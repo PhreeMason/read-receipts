@@ -1,7 +1,6 @@
 import axiod from "https://deno.land/x/axiod/mod.ts";
 import * as cheerio from "https://esm.sh/cheerio@1.0.0-rc.12";
 import { createClient } from 'jsr:@supabase/supabase-js@2';
-import { verifyToken } from 'npm:@clerk/backend';
 import { corsHeaders, generateUrl, userAgent, Logger, authenticateUser } from '../_shared/utils.ts';
 
 // Main handler with improved structure

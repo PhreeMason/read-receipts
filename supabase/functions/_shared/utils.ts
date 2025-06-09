@@ -1,3 +1,5 @@
+import { verifyToken } from 'npm:@clerk/backend';
+
 export function generateUrl(query: string) {
     return `https://www.goodreads.com/search?q=${encodeURIComponent(query)}`;
 }
@@ -10,60 +12,46 @@ export const corsHeaders = {
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
 };
 
-/**
- * Verifies a Clerk token and returns user information.
- * @param {string} token - The Clerk JWT token to verify.
- * @returns {Promise<{ role: string, sid: string, sub: string } | null>} - Returns user info if valid, otherwise null.
- */
+// Consolidated logging utility
+export class Logger {
+    private logs: Array<{ type: string; message: string; timestamp: number }> = [];
 
-async function verifyClerkToken(req) {
-
-    const authHeader = req.headers.get('Authorization');
-
-    if (!authHeader?.startsWith('Bearer ')) {
-        console.log('Authorization header required')
-        return null;
+    log(...args: unknown[]): void {
+        const message = args.map(String).join(' ');
+        this.logs.push({ type: 'log', message, timestamp: Date.now() });
+        console.log(...args);
     }
 
-    const token = authHeader.slice(7);
+    error(...args: unknown[]): void {
+        const message = args.map(String).join(' ');
+        this.logs.push({ type: 'error', message, timestamp: Date.now() });
+        console.error(...args);
+    }
+
+    getLogs(): Array<{ type: string; message: string; timestamp: number }> {
+        return this.logs;
+    }
+}
+
+// Authentication utility with better error handling
+export async function authenticateUser(req: Request): Promise<string | null> {
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+        return null;
+    }
 
     try {
         const clerkSecretKey = Deno.env.get('CLERK_SECRET_KEY');
         if (!clerkSecretKey) {
-            throw new Error('CLERK_SECRET_KEY not found in environment variables');
+            throw new Error('CLERK_SECRET_KEY not configured');
         }
-        const { role, sid, sub } = await verifyToken(token, {
-            secretKey: clerkSecretKey
-        });
-        if (!sub) {
-            return null;
-        }
-        if (role !== AUTHENTICATED) {
-            console.warn(`User role is not authenticated: ${role}`);
-            return null;
-        }
-        return {
-            role,
-            sid,
-            sub
-        };
+
+        const token = authHeader.replace('Bearer ', '');
+        const verifiedToken = await verifyToken(token, { secretKey: clerkSecretKey });
+
+        return verifiedToken?.sub || null;
     } catch (error) {
-        console.error('Error verifying Clerk token:', error);
+        console.error('Authentication failed:', error);
         return null;
     }
-}
-
-export async function authenticateRequest(req) {
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        throw new Error('Authorization header required');
-    }
-
-    const token = authHeader.replace('Bearer ', '');
-    const clerkUser = await verifyClerkToken(token);
-    if (!clerkUser) {
-        throw new Error('Invalid or expired token');
-    }
-
-    return clerkUser.sub;
 }
