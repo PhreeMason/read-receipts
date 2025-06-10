@@ -8,7 +8,7 @@ import BookHeader from './BookHeader';
 import BookDescription from './BookDescription';
 import StatusSelector from './StatusSelector';
 import ReadingDates from './ReadingDates';
-import Formatelector from './FormatSelector';
+import FormatSelector from './FormatSelector';
 import AudioDuration from './AudioDuration';
 import NoteInput from './NoteInput';
 import AddToLibraryButton from './AddToLibraryButton';
@@ -111,7 +111,7 @@ const AddToLibraryDetails: React.FC<AddToLibraryDetailsProps> = ({ book, onAddTo
                                 value: string[];
                             };
                         }) => (
-                            <Formatelector
+                            <FormatSelector
                                 formats={value}
                                 setFormats={onChange}
                             />

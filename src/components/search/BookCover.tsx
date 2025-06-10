@@ -6,7 +6,7 @@ import { BookMetadata } from '@/types/book';
 import Rating from '@/components/shared/Rating';
 import { BookStatusActionButton } from '@/components/shared/BookStatusActionButton'
 import { mediumShadow } from '@/utils/constants';
-import { formatAutorName } from '@/utils/helpers';
+import { formatAuthorName } from '@/utils/helpers';
 
 type BookCoverProps = {
     book: BookMetadata;
@@ -16,7 +16,7 @@ type BookCoverProps = {
 
 export const BookCover: React.FC<BookCoverProps> = ({ book, onAddToLibrary, onTextClick }) => {
     // @ts-ignore  Property 'name' does not exist on type 'string'
-    const authorNames = book.metadata.authors.map(formatAutorName);
+    const authorNames = book.metadata.authors.map(formatAuthorName);
     const publicationYear = book.publication_date
         ? new Date(book.publication_date).getFullYear()
         : null;

@@ -2,7 +2,7 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import React from 'react';
 import tw from 'twrnc';
-import { formatAutorName } from '@/utils/helpers';
+import { formatAuthorName } from '@/utils/helpers';
 import { mediumShadow } from '@/utils/constants';
 import ReadingProgress from '@/components/books/CurrentlyReading/ReadingProgress';
 import { BookStatusResponse } from '@/types/book'
@@ -35,7 +35,7 @@ const BookCard: React.FC<BookCardProps> = ({ book, onPress, ignoreProgress }) =>
                 </View>
                 <View style={tw`p-3 flex-1 flex flex-col`}>
                     <Text style={tw`font-semibold text-black mb-1`} numberOfLines={1}>{book.title}</Text>
-                    <Text style={tw`text-xs text-gray-600 mb-1`}>{book.authors.map(formatAutorName)}</Text>
+                    <Text style={tw`text-xs text-gray-600 mb-1`}>{book.authors.map(formatAuthorName)}</Text>
 
                     <ReadingProgress readingLog={mostRecentLog} mostRecentStatus={mostRecentStatus} />
                 </View>

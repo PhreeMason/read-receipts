@@ -4,7 +4,7 @@ import {
 } from '@/types/book';
 
 
-export const formatAutorName = (author: string | { name: string }) => {
+export const formatAuthorName = (author: string | { name: string }) => {
     let name = '';
     if (typeof author === 'string') {
         name = author

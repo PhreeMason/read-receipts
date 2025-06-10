@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import tw from 'twrnc';
 import { BookInsert } from '@/types/book';
 import { mediumShadow } from '@/utils/constants';
-import { formatAutorName } from '@/utils/helpers';
+import { formatAuthorName } from '@/utils/helpers';
 import { router } from 'expo-router';
 
 type BookCoverProps = {
@@ -67,7 +67,7 @@ const BookHeader: React.FC<BookHeaderProps> = ({ book }) => {
                 <Text style={tw`font-bold text-lg text-black mb-1`}>{title}</Text>
 
                 <View style={tw`flex-col mb-2`}>
-                    {displayedAuthors.map(formatAutorName).map((name: string) => (
+                    {displayedAuthors.map(formatAuthorName).map((name: string) => (
                         <Text style={tw`text-gray-600 text-sm`} key={name}>{name}</Text>
                     ))}
 
