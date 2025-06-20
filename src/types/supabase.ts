@@ -9,6 +9,96 @@ export type Json =
 export type Database = {
     public: {
         Tables: {
+            arc_book_status_history: {
+                Row: {
+                    book_id: string
+                    created_at: string | null
+                    id: string
+                    status: Database["public"]["Enums"]["arc_book_status_enum"] | null
+                    user_id: string
+                }
+                Insert: {
+                    book_id: string
+                    created_at?: string | null
+                    id: string
+                    status?: Database["public"]["Enums"]["arc_book_status_enum"] | null
+                    user_id: string
+                }
+                Update: {
+                    book_id?: string
+                    created_at?: string | null
+                    id?: string
+                    status?: Database["public"]["Enums"]["arc_book_status_enum"] | null
+                    user_id?: string
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: "arc_book_status_history_book_id_fkey"
+                        columns: ["book_id"]
+                        isOneToOne: false
+                        referencedRelation: "books"
+                        referencedColumns: ["id"]
+                    },
+                    {
+                        foreignKeyName: "arc_book_status_history_user_id_fkey"
+                        columns: ["user_id"]
+                        isOneToOne: false
+                        referencedRelation: "profiles"
+                        referencedColumns: ["id"]
+                    },
+                ]
+            }
+            arc_user_books: {
+                Row: {
+                    book_id: string
+                    completion_date: string | null
+                    genres: string[] | null
+                    notes: string | null
+                    rating: number | null
+                    review_due_date: string | null
+                    source_platform: string
+                    total_pages: number | null
+                    user_id: string
+                }
+                Insert: {
+                    book_id: string
+                    completion_date?: string | null
+                    genres?: string[] | null
+                    notes?: string | null
+                    rating?: number | null
+                    review_due_date?: string | null
+                    source_platform: string
+                    total_pages?: number | null
+                    user_id: string
+                }
+                Update: {
+                    book_id?: string
+                    completion_date?: string | null
+                    genres?: string[] | null
+                    notes?: string | null
+                    rating?: number | null
+                    review_due_date?: string | null
+                    source_platform?: string
+                    total_pages?: number | null
+                    user_id?: string
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: "arc_user_books_book_id_fkey"
+                        columns: ["book_id"]
+                        isOneToOne: false
+                        referencedRelation: "books"
+                        referencedColumns: ["id"]
+                    },
+                    {
+                        foreignKeyName: "arc_user_books_user_id_fkey"
+                        columns: ["user_id"]
+                        isOneToOne: false
+                        referencedRelation: "profiles"
+                        referencedColumns: ["id"]
+                    },
+                ]
+            }
             authors: {
                 Row: {
                     id: string
@@ -87,13 +177,6 @@ export type Database = {
                         referencedRelation: "books"
                         referencedColumns: ["id"]
                     },
-                    {
-                        foreignKeyName: "book_notes_user_id_fkey"
-                        columns: ["user_id"]
-                        isOneToOne: false
-                        referencedRelation: "profiles"
-                        referencedColumns: ["id"]
-                    },
                 ]
             }
             book_reading_logs: {
@@ -168,13 +251,6 @@ export type Database = {
                         referencedRelation: "books"
                         referencedColumns: ["id"]
                     },
-                    {
-                        foreignKeyName: "book_reading_logs_user_id_fkey"
-                        columns: ["user_id"]
-                        isOneToOne: false
-                        referencedRelation: "profiles"
-                        referencedColumns: ["id"]
-                    },
                 ]
             }
             book_reviews: {
@@ -213,13 +289,6 @@ export type Database = {
                         referencedRelation: "books"
                         referencedColumns: ["id"]
                     },
-                    {
-                        foreignKeyName: "book_reviews_user_id_fkey"
-                        columns: ["user_id"]
-                        isOneToOne: false
-                        referencedRelation: "profiles"
-                        referencedColumns: ["id"]
-                    },
                 ]
             }
             book_status_history: {
@@ -253,13 +322,6 @@ export type Database = {
                         columns: ["book_id"]
                         isOneToOne: false
                         referencedRelation: "books"
-                        referencedColumns: ["id"]
-                    },
-                    {
-                        foreignKeyName: "book_status_history_user_id_fkey"
-                        columns: ["user_id"]
-                        isOneToOne: false
-                        referencedRelation: "profiles"
                         referencedColumns: ["id"]
                     },
                 ]
@@ -339,29 +401,111 @@ export type Database = {
             profiles: {
                 Row: {
                     avatar_url: string | null
-                    full_name: string | null
+                    email: string | null
+                    first_name: string | null
                     id: string
+                    last_name: string | null
                     updated_at: string | null
                     username: string | null
                     website: string | null
                 }
                 Insert: {
                     avatar_url?: string | null
-                    full_name?: string | null
+                    email?: string | null
+                    first_name?: string | null
                     id: string
+                    last_name?: string | null
                     updated_at?: string | null
                     username?: string | null
                     website?: string | null
                 }
                 Update: {
                     avatar_url?: string | null
-                    full_name?: string | null
+                    email?: string | null
+                    first_name?: string | null
                     id?: string
+                    last_name?: string | null
                     updated_at?: string | null
                     username?: string | null
                     website?: string | null
                 }
                 Relationships: []
+            }
+            reading_deadline_progress: {
+                Row: {
+                    current_progress: number | null
+                    id: string
+                    reading_deadline_id: string
+                }
+                Insert: {
+                    current_progress?: number | null
+                    id: string
+                    reading_deadline_id: string
+                }
+                Update: {
+                    current_progress?: number | null
+                    id?: string
+                    reading_deadline_id?: string
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: "reading_deadline_progress_reading_deadline_id_fkey"
+                        columns: ["reading_deadline_id"]
+                        isOneToOne: false
+                        referencedRelation: "reading_deadlines"
+                        referencedColumns: ["id"]
+                    },
+                ]
+            }
+            reading_deadlines: {
+                Row: {
+                    author: string | null
+                    book_title: string
+                    deadline_date: string | null
+                    flexibility:
+                    | Database["public"]["Enums"]["deadline_flexibility"]
+                    | null
+                    format: Database["public"]["Enums"]["book_format_enum"] | null
+                    id: string
+                    page_count: number | null
+                    source: string | null
+                    user_id: string | null
+                }
+                Insert: {
+                    author?: string | null
+                    book_title: string
+                    deadline_date?: string | null
+                    flexibility?:
+                    | Database["public"]["Enums"]["deadline_flexibility"]
+                    | null
+                    format?: Database["public"]["Enums"]["book_format_enum"] | null
+                    id: string
+                    page_count?: number | null
+                    source?: string | null
+                    user_id?: string | null
+                }
+                Update: {
+                    author?: string | null
+                    book_title?: string
+                    deadline_date?: string | null
+                    flexibility?:
+                    | Database["public"]["Enums"]["deadline_flexibility"]
+                    | null
+                    format?: Database["public"]["Enums"]["book_format_enum"] | null
+                    id?: string
+                    page_count?: number | null
+                    source?: string | null
+                    user_id?: string | null
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: "reading_deadlines_user_id_fkey"
+                        columns: ["user_id"]
+                        isOneToOne: false
+                        referencedRelation: "profiles"
+                        referencedColumns: ["id"]
+                    },
+                ]
             }
             user_activity: {
                 Row: {
@@ -400,13 +544,6 @@ export type Database = {
                         columns: ["book_id"]
                         isOneToOne: false
                         referencedRelation: "books"
-                        referencedColumns: ["id"]
-                    },
-                    {
-                        foreignKeyName: "user_activity_user_id_fkey"
-                        columns: ["user_id"]
-                        isOneToOne: false
-                        referencedRelation: "profiles"
                         referencedColumns: ["id"]
                     },
                 ]
@@ -456,119 +593,44 @@ export type Database = {
                         referencedRelation: "books"
                         referencedColumns: ["id"]
                     },
-                    {
-                        foreignKeyName: "user_books_user_id_fkey"
-                        columns: ["user_id"]
-                        isOneToOne: false
-                        referencedRelation: "profiles"
-                        referencedColumns: ["id"]
-                    },
                 ]
             }
             user_searches: {
                 Row: {
-                    created_at: string | null
+                    created_at: string
                     id: string
                     query: string
                     result_count: number
-                    updated_at: string | null
                     user_id: string
                 }
                 Insert: {
-                    created_at?: string | null
+                    created_at?: string
                     id: string
                     query: string
                     result_count: number
-                    updated_at?: string | null
                     user_id: string
                 }
                 Update: {
-                    created_at?: string | null
+                    created_at?: string
                     id?: string
                     query?: string
                     result_count?: number
-                    updated_at?: string | null
                     user_id?: string
                 }
-                Relationships: [
-                    {
-                        foreignKeyName: "user_searches_user_id_fkey"
-                        columns: ["user_id"]
-                        isOneToOne: false
-                        referencedRelation: "profiles"
-                        referencedColumns: ["id"]
-                    },
-                ]
+                Relationships: []
             }
         }
         Views: {
             [_ in never]: never
         }
         Functions: {
-            add_book_reading_log: {
-                Args: { reading_log_data: Json; user_id: string; book_id: string }
-                Returns: string
-            }
-            add_book_to_library: {
-                Args: {
-                    book_data: Json
-                    book_status_history_data: Json
-                    user_books_data: Json
-                    user_id: string
-                }
-                Returns: string
-            }
             generate_prefixed_id: {
                 Args: { prefix: string }
                 Returns: string
             }
-            get_books_by_status: {
-                Args: {
-                    p_status: Database["public"]["Enums"]["book_status_enum"]
-                    p_user_id: string
-                }
-                Returns: Json
-            }
-            get_reading_progress: {
-                Args: { p_user_id: string; p_book_id: string }
-                Returns: {
-                    current_percentage: number
-                    current_page: number
-                    current_audio_time: number
-                    last_updated: string
-                }[]
-            }
-            get_user_book_activity: {
-                Args: { user_id: string }
-                Returns: {
-                    activity_id: string
-                    activity_created_at: string
-                    status_history: Json
-                    book_details: Json
-                }[]
-            }
-            get_user_book_current_state_fn: {
-                Args: { p_user_id: string; p_book_id: string }
-                Returns: {
-                    title: string
-                    description: string
-                    user_id: string
-                    book_id: string
-                    format: Database["public"]["Enums"]["book_format_enum"][]
-                    rating: number
-                    target_completion_date: string
-                    date_added: string
-                    cover_image_url: string
-                    total_pages: number
-                    total_duration: number
-                    genres: string[]
-                    current_status: Database["public"]["Enums"]["book_status_enum"]
-                    status_changed_at: string
-                    current_percentage: number
-                    current_audio_time: number
-                    current_page: number
-                    latest_note: string
-                }[]
+            requesting_user_id: {
+                Args: Record<PropertyKey, never>
+                Returns: string
             }
             store_book_with_authors: {
                 Args: { book_data: Json }
@@ -576,8 +638,16 @@ export type Database = {
             }
         }
         Enums: {
+            arc_book_status_enum:
+            | "requested"
+            | "approved"
+            | "reading"
+            | "done"
+            | "rejected"
+            | "withdrew"
             book_format_enum: "physical" | "ebook" | "audio"
             book_status_enum: "tbr" | "current" | "completed" | "dnf" | "pause"
+            deadline_flexibility: "flexibile" | "strict"
         }
         CompositeTypes: {
             [_ in never]: never
@@ -693,8 +763,17 @@ export type CompositeTypes<
 export const Constants = {
     public: {
         Enums: {
+            arc_book_status_enum: [
+                "requested",
+                "approved",
+                "reading",
+                "done",
+                "rejected",
+                "withdrew",
+            ],
             book_format_enum: ["physical", "ebook", "audio"],
             book_status_enum: ["tbr", "current", "completed", "dnf", "pause"],
+            deadline_flexibility: ["flexibile", "strict"],
         },
     },
 } as const
